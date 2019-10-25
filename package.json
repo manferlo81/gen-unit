@@ -19,6 +19,7 @@
     "dev": "bundlib -dw",
     "build": "bundlib",
     "test": "jest --color -w 3",
+    "prerelease": "npm test",
     "release": "standard-version"
   },
   "bundlib": {
