@@ -1,5 +1,10 @@
 {
+  "changelogHeader": "# gen-unit changelog\n\n## Changes\n",
+  "header": "# gen-unit changelog\n\n## Changes\n",
   "types": [
+    {
+      "type": "chore"
+    },
     {
       "type": "feat",
       "section": "Features"
@@ -9,20 +14,8 @@
       "section": "Bug Fixes"
     },
     {
-      "type": "chore",
-      "hidden": false
-    },
-    {
       "type": "docs",
       "section": "Documentation"
-    },
-    {
-      "type": "refactor",
-      "section": "Refactoring"
-    },
-    {
-      "type": "refactoring",
-      "section": "Refactoring"
     },
     {
       "type": "test",
