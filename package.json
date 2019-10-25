@@ -18,7 +18,8 @@
   "scripts": {
     "dev": "bundlib -dw",
     "build": "bundlib",
-    "test": "jest --color -w 3"
+    "test": "jest --color -w 3",
+    "release": "standard-version"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
