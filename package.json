@@ -27,6 +27,7 @@
     "chokidar": "^3.2.2",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
+    "standard-version": "^7.0.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4"
