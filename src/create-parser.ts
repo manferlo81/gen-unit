@@ -1,70 +1,55 @@
-const table = [
-  { pre: "f", power: -15 },
-  { pre: "p", power: -12 },
-  { pre: "n", power: -9 },
-  { pre: "u", power: -6 },
-  { pre: "m", power: -3 },
-  { pre: "k", power: 3 },
-  { pre: "K", power: 3 },
-  { pre: "M", power: 6 },
-  { pre: "meg", power: 6 },
-  { pre: "G", power: 9 },
-  { pre: "T", power: 12 },
-].sort((a, b) => b.pre.length - a.pre.length);
+import { CreateParserOptions, TableItem } from "./types";
 
-// const table2 = {
-//   f: -15,
-//   p: -12,
-//   n: -9,
-//   u: -6,
-//   m: -3,
-//   k: 3,
-//   K: 3,
-//   M: 6,
-//   meg: 6,
-//   G: 9,
-//   T: 12,
-// };
-
-function jjj(val: number, unit: string, base?: string) {
-
-  if (base && unit === base) {
-    return val;
-  }
-
-  for (const { pre, power } of table) {
-    if (unit === pre || (base && unit === (pre + base))) {
-      return val * 10 ** power;
-    }
-  }
-
-  return null;
-
+function sortByPreLength(a: TableItem, b: TableItem): number {
+  return b.pre.length - a.pre.length;
 }
 
-interface CreateParserOptions {
-  unit?: string;
-}
+const defaultTable = "f:-15;p:-12;n:-9;u:-6;m:-3;k:3;K:3;M:6;meg:6;G:9;T:12"
+  .split(";")
+  .map<TableItem>((s) => {
+    const [pre, pow] = s.split(":");
+    return { pre, power: +pow };
+  })
+  .sort(sortByPreLength);
 
-export function createParser({ unit: base }: CreateParserOptions) {
+export function createParser(options?: CreateParserOptions) {
 
-  return (input: string | number) => {
+  const {
+    unit: unitOp,
+    table: tableOp,
+  } = options || {} as CreateParserOptions;
 
-    const asNum = +input;
+  const table = tableOp || defaultTable;
+
+  return (input: string | number | object) => {
+
+    const asString = `${input}`;
+    const asNum = +asString;
 
     if (!isNaN(asNum)) {
       return asNum;
     }
 
-    const result = /^\s*(\-?\d+\.?\d*)\s*(\w*)\s*$/.exec(`${input}`);
+    const result = /^\s*(\-?\d+\.?\d*)\s*(\w*)\s*$/.exec(asString);
 
     if (!result) {
       return null;
     }
 
-    const [, value, unit] = result;
+    const [, valueStr, unit] = result;
+    const val = +valueStr;
 
-    return jjj(+value, unit, base);
+    if (unitOp && unit === unitOp) {
+      return val;
+    }
+
+    for (const { pre, power } of table) {
+      if (unit === pre || (unitOp && unit === (pre + unitOp))) {
+        return val * 10 ** power;
+      }
+    }
+
+    return null;
 
   };
 

@@ -1,31 +1,40 @@
-interface CreateFormatterOptions {
-  unit?: string;
-  dec?: number;
-  fixed?: boolean;
+import { CreateFormatterOptions, TableItem } from "./types";
+
+function sortByPower(a: TableItem, b: TableItem) {
+  return b.power - a.power;
 }
 
-const table = [
-  { power: 12, pre: "T" },
-  { power: 9, pre: "G" },
-  { power: 6, pre: "M" },
-  { power: 3, pre: "K" },
-  { power: 0, pre: "" },
-  // { power: -2, pre: "c" },
-  { power: -3, pre: "m" },
-  { power: -6, pre: "\u00b5" },
-  { power: -9, pre: "n" },
-  { power: -12, pre: "p" },
-  { power: -15, pre: "f" },
-].sort((a, b) => b.power - a.power);
+const defaultTable = "T:12;G:9;M:6;K:3;:0;m:-3;\u00b5:-6;n:-9;p:-12;f:-15"
+  .split(";")
+  .map<TableItem>((s) => {
+    const [pre, pow] = s.split(":");
+    return { power: +pow, pre };
+  })
+  .sort(sortByPower);
 
-function findUnit(pow: number) {
+function findUnit(pow: number, table: TableItem[]) {
   return table.find(({ power }) => power <= pow) || table[table.length - 1];
 }
 
-export function createFormatter({ unit = "", dec = 4, fixed }: CreateFormatterOptions = {}) {
+export function createFormatter(options?: CreateFormatterOptions) {
+
+  const {
+    unit: unitOp,
+    table: tableOp,
+    dec: decOp,
+    fixed,
+  } = options || {} as CreateFormatterOptions;
+
+  if (decOp != null && typeof decOp !== "number") {
+    throw new TypeError("invalid \"dec\" option.");
+  }
+
+  const unit = unitOp || "";
+  const table = tableOp || defaultTable;
+  const dec = (decOp != null) ? decOp : 4;
 
   return (value: number): string => {
-    const unitObj = findUnit(value ? Math.floor(Math.log10(Math.abs(value))) : 0);
+    const unitObj = findUnit(value ? Math.floor(Math.log10(Math.abs(value))) : 0, table);
     const val = value / 10 ** unitObj.power;
     const mul = 10 ** dec;
     const rounded = fixed ? val.toFixed(dec) : (Math.round(val * mul) / mul);
