@@ -9,15 +9,15 @@ executors:
       - image: circleci/node:10
     working_directory: &working_directory ~/gen-unit
 
-# commands:
-#   npm_publish:
-#     steps:
-#       - run:
-#           name: Login to npm
-#           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-#       - run:
-#           name: Publish to npm
-#           command: npm publish
+commands:
+  npm_publish:
+    steps:
+      - run:
+          name: Login to npm
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: Publish to npm
+          command: npm publish
 
 jobs:
   install_and_test:
@@ -50,15 +50,15 @@ jobs:
           at: *working_directory
       - codecov/upload:
           file: coverage/*.json
-  #
-  # build_and_publish:
-  #   executor: node
-  #   steps:
-  #     - attach_workspace: *attach_workspace
-  #     - run:
-  #         name: Build
-  #         command: npm run build
-  #     - npm_publish
+
+  build_and_publish:
+    executor: node
+    steps:
+      - attach_workspace: *attach_workspace
+      - run:
+          name: Build
+          command: npm run build
+      - npm_publish
 
 workflows:
   version: 2
@@ -78,13 +78,13 @@ workflows:
           filters:
             branches:
               only: /master/
-      #
-      # - build_and_publish:
-      #     context: npm
-      #     requires:
-      #       - install_and_test
-      #     filters:
-      #       tags:
-      #         only: /^v\d+\.\d+\.\d+$/
-      #       branches:
-      #         ignore: /.*/
+
+      - build_and_publish:
+          context: npm
+          requires:
+            - install_and_test
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
