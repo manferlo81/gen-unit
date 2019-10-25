@@ -1,3 +1,3 @@
 # gen-unit
 
-Generic units parser/formatter
+A generic units parser/formatter
