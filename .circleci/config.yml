@@ -38,6 +38,8 @@ jobs:
       - run:
           name: Test
           command: npm test
+      - store_test_results:
+          path: coverage/clover.xml
       - persist_to_workspace:
           root: *working_directory
           paths:
