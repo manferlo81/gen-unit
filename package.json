@@ -21,6 +21,9 @@
     "test": "jest --color -w 3",
     "release": "standard-version"
   },
+  "bundlib": {
+    "min": "browser"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.19",
     "@types/node": "^12.11.7",
