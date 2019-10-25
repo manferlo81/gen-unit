@@ -10,8 +10,9 @@ const table = [
   { power: 6, pre: "M" },
   { power: 3, pre: "K" },
   { power: 0, pre: "" },
+  // { power: -2, pre: "c" },
   { power: -3, pre: "m" },
-  { power: -6, pre: "u" },
+  { power: -6, pre: "\u00b5" },
   { power: -9, pre: "n" },
   { power: -12, pre: "p" },
   { power: -15, pre: "f" },
@@ -24,7 +25,7 @@ function findUnit(pow: number) {
 export function createFormatter({ unit = "", dec = 4, fixed }: CreateFormatterOptions = {}) {
 
   return (value: number): string => {
-    const unitObj = findUnit(Math.floor(Math.log10(value)));
+    const unitObj = findUnit(value ? Math.floor(Math.log10(Math.abs(value))) : 0);
     const val = value / 10 ** unitObj.power;
     const mul = 10 ** dec;
     const rounded = fixed ? val.toFixed(dec) : (Math.round(val * mul) / mul);
