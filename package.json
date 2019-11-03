@@ -19,6 +19,7 @@
     "dev": "bundlib -dw",
     "build": "bundlib",
     "test": "jest --color -w 3",
+    "test:watch": "npm test -- --watch-all",
     "clean": "rm -rf dist types coverage node_modules/.cache/bundlib node_modules/.cache/jest",
     "pre": "npm run clean && npm test",
     "prerelease": "npm run pre",
