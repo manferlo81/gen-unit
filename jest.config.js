@@ -4,6 +4,7 @@ module.exports = {
   browser: false,
 
   preset: "ts-jest",
+  cacheDirectory: "node_modules/.cache/jest",
 
   collectCoverage: true,
   collectCoverageFrom: [
