@@ -1,6 +1,10 @@
-import { createParser } from "../src";
+import { createParser } from "../../src";
 
-describe("", () => {
+describe("generic parse", () => {
+
+  test("should not throw if no option passed", () => {
+    expect(() => createParser()).not.toThrow();
+  });
 
   const parse = createParser({});
 
@@ -25,8 +29,8 @@ describe("", () => {
   });
 
   test("should parse unit prefixed string", () => {
-    const result = parse("10K");
-    expect(result).toBe(10000);
+    const result = parse("10u");
+    expect(result).toBeCloseTo(10e-6);
   });
 
 });
