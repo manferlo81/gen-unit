@@ -38,7 +38,8 @@ export function createFormatter(options?: CreateFormatterOptions) {
     const val = value / 10 ** unitObj.power;
     const mul = 10 ** dec;
     const rounded = fixed ? val.toFixed(dec) : (Math.round(val * mul) / mul);
-    return `${rounded} ${unitObj.pre + unit}`;
+    const wholeUnit = unitObj.pre + unit;
+    return `${rounded}${wholeUnit ? ` ${wholeUnit}` : ""}`;
   };
 
 }
