@@ -7,8 +7,13 @@ describe("format dec option", () => {
   });
 
   test(`should throw if "dec" option is not a number (even if it\'s numeric)`, () => {
-    // will be fixed soon, this is a known issue
-    expect(() => createFormatter({ dec: "2" as any })).toThrow();
+    expect(() => createFormatter({ dec: "2" })).not.toThrow();
+  });
+
+  test("should format with given number of decimal points", () => {
+    const format = createFormatter({ dec: "3" });
+    const result = format(10.111111);
+    expect(result).toBe("10.111");
   });
 
   test("should format with given number of decimal points", () => {

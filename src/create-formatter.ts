@@ -25,13 +25,15 @@ export function createFormatter(options?: CreateFormatterOptions) {
     fixed,
   } = options || {} as CreateFormatterOptions;
 
-  if (decOp != null && typeof decOp !== "number") {
+  const decimals = decOp != null ? +decOp : 4;
+
+  if (isNaN(decimals) || !isFinite(decimals)) {
     throw new TypeError("invalid \"dec\" option.");
   }
 
   const unit = unitOp || "";
   const table = tableOp || defaultTable;
-  const dec = (decOp != null) ? decOp : 4;
+  const dec = decimals;
 
   return (value: number): string => {
     const unitObj = findUnit(value ? Math.floor(Math.log10(Math.abs(value))) : 0, table);

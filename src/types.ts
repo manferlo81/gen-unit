@@ -9,6 +9,6 @@ export interface CreateParserOptions {
 }
 
 export interface CreateFormatterOptions extends CreateParserOptions {
-  dec?: number;
+  dec?: number | string;
   fixed?: boolean;
 }
