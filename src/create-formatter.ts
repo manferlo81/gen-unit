@@ -1,6 +1,6 @@
 import { CreateFormatterOptions, TableItem } from './types'
 
-function sortByPower(a: TableItem, b: TableItem) {
+function sortByPower(a: TableItem, b: TableItem): number {
   return b.power - a.power
 }
 
@@ -12,11 +12,11 @@ const defaultTable = 'T:12;G:9;M:6;K:3;:0;m:-3;\u00b5:-6;n:-9;p:-12;f:-15'
   })
   .sort(sortByPower)
 
-function findUnit(pow: number, table: TableItem[]) {
+function findUnit(pow: number, table: TableItem[]): TableItem {
   return table.find(({ power }) => power <= pow) || table[table.length - 1]
 }
 
-export function createFormatter(options?: CreateFormatterOptions) {
+export function createFormatter(options?: CreateFormatterOptions): (value: number) => string {
 
   const {
     unit: unitOp,

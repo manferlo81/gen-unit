@@ -12,7 +12,7 @@ const defaultTable = 'f:-15;p:-12;n:-9;u:-6;m:-3;k:3;K:3;M:6;meg:6;G:9;T:12'
   })
   .sort(sortByPreLength)
 
-export function createParser(options?: CreateParserOptions) {
+export function createParser(options?: CreateParserOptions): (input: string | number | object) => (number | null) {
 
   const {
     unit: unitOp,
@@ -21,7 +21,7 @@ export function createParser(options?: CreateParserOptions) {
 
   const table = tableOp || defaultTable
 
-  return (input: string | number | object) => {
+  return (input: string | number | object): (number | null) => {
 
     const asString = `${input}`
     const asNum = +asString
@@ -30,7 +30,7 @@ export function createParser(options?: CreateParserOptions) {
       return asNum
     }
 
-    const result = /^\s*(\-?\d+\.?\d*)\s*(\w*)\s*$/.exec(asString)
+    const result = /^\s*(-?\d+\.?\d*)\s*(\w*)\s*$/.exec(asString)
 
     if (!result) {
       return null
