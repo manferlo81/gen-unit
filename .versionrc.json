@@ -20,6 +20,10 @@
     {
       "type": "test",
       "section": "Tests"
+    },
+    {
+      "type": "BREAKING CHANGE",
+      "section": "Breaking Changes"
     }
   ]
 }
