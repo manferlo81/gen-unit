@@ -31,13 +31,14 @@
   "devDependencies": {
     "@types/jest": "^24.0.21",
     "@types/node": "^12.12.5",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
     "bundlib": "^0.13.0",
     "chokidar": "^3.3.0",
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
     "standard-version": "^7.0.0",
     "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
     "typescript": "^3.6.4"
   },
   "files": [
