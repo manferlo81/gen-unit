@@ -34,7 +34,7 @@
     "@types/node": "^12.12.5",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
-    "bundlib": "^0.13.0",
+    "bundlib": "^0.13.1",
     "chokidar": "^3.3.0",
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
