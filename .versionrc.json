@@ -1,6 +1,6 @@
 {
-  "changelogHeader": "# gen-unit changelog\n\n## Changes\n",
-  "header": "# gen-unit changelog\n\n## Changes\n",
+  "changelogHeader": "# gen-unit changelog\n\n## Version History\n",
+  "header": "# gen-unit changelog\n\n## Version History\n",
   "types": [
     {
       "type": "chore",
