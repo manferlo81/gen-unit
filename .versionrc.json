@@ -3,7 +3,8 @@
   "header": "# gen-unit changelog\n\n## Changes\n",
   "types": [
     {
-      "type": "chore"
+      "type": "chore",
+      "section": "Other Changes"
     },
     {
       "type": "feat",
