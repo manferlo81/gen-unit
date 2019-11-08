@@ -22,7 +22,7 @@
     "test:watch": "npm test -- --watch-all",
     "clean": "rm -rf dist types coverage node_modules/.cache/bundlib node_modules/.cache/jest",
     "lint": "eslint src/**",
-    "pre": "npm run clean && npm run lint && npm test",
+    "pre": "npm run clean && npm run lint && npm test && npm run build",
     "prerelease": "npm run pre",
     "release": "standard-version"
   },
