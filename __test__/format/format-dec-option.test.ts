@@ -3,7 +3,7 @@ import { createFormatter } from '../../src'
 describe('format dec option', () => {
 
   test('should throw if "dec" option is not a number', () => {
-    expect(() => createFormatter({ dec: 'not-a-number' as any })).toThrow()
+    expect(() => createFormatter({ dec: 'not-a-number' })).toThrow()
   })
 
   test('should throw if "dec" option is not a number (even if it\'s numeric)', () => {
