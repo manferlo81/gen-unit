@@ -4,7 +4,7 @@ orbs:
   codecov: codecov/codecov@1.0.5
 
 executors:
-  node:
+  node_10:
     docker:
       - image: circleci/node:10
     working_directory: &working_directory ~/gen-unit
@@ -20,8 +20,8 @@ commands:
           command: npm publish
 
 jobs:
-  install_and_test:
-    executor: node
+  test_and_build:
+    executor: node_10
     steps:
       - checkout
       - restore_cache:
@@ -38,26 +38,26 @@ jobs:
       - run:
           name: Test
           command: npm test
+      - run:
+          name: Build
+          command: npm run build
       - persist_to_workspace:
           root: *working_directory
           paths:
             - .
 
   upload_coverage:
-    executor: node
+    executor: node_10
     steps:
       - attach_workspace: &attach_workspace
           at: *working_directory
       - codecov/upload:
           file: coverage/*.json
 
-  build_and_publish:
-    executor: node
+  publish_to_npm:
+    executor: node_10
     steps:
       - attach_workspace: *attach_workspace
-      - run:
-          name: Build
-          command: npm run build
       - npm_publish
 
 workflows:
@@ -65,7 +65,7 @@ workflows:
 
   workflow:
     jobs:
-      - install_and_test:
+      - test_and_build:
           filters:
             tags:
               only: /.*/
@@ -74,15 +74,15 @@ workflows:
 
       - upload_coverage:
           requires:
-            - install_and_test
+            - test_and_build
           filters:
             branches:
               only: /master/
 
-      - build_and_publish:
+      - publish_to_npm:
           context: npm
           requires:
-            - install_and_test
+            - test_and_build
           filters:
             tags:
               only: /^v\d+\.\d+\.\d+$/
