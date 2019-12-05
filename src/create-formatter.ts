@@ -3,16 +3,16 @@ import { ln } from './math'
 import createRounder from './create-rounder'
 
 const defaultTable: TableItem[] = [
-  { pre: 'T', power: 4 },
-  { pre: 'G', power: 3 },
-  { pre: 'M', power: 2 },
-  { pre: 'K', power: 1 },
+  { pre: 'T', power: 12 },
+  { pre: 'G', power: 9 },
+  { pre: 'M', power: 6 },
+  { pre: 'K', power: 3 },
   { pre: '', power: 0 },
-  { pre: 'm', power: -1 },
-  { pre: '\u00b5', power: -2 },
-  { pre: 'n', power: -3 },
-  { pre: 'p', power: -4 },
-  { pre: 'f', power: -5 },
+  { pre: 'm', power: -3 },
+  { pre: '\u00b5', power: -6 },
+  { pre: 'n', power: -9 },
+  { pre: 'p', power: -12 },
+  { pre: 'f', power: -15 },
 ]
 
 function findUnit(pow: number, table: TableItem[]): TableItem {
@@ -38,7 +38,7 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
 
   const unit = unitOp || ''
   const table = tableOp || defaultTable
-  const base = 1000
+  const base = 10
 
   const format = (value: string, unit: string): string => {
     return `${value}${unit ? ` ${unit}` : ''}`

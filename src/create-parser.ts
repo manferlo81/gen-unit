@@ -1,25 +1,49 @@
 import { CreateParserOptions, TableItem } from './types'
 
-function sortByPreLength(a: TableItem, b: TableItem): number {
-  return b.pre.length - a.pre.length
-}
+const defaultTable: TableItem[] = [
+  { pre: 'meg', power: 6 },
+  { pre: 'f', power: -15 },
+  { pre: 'p', power: -12 },
+  { pre: 'n', power: -9 },
+  { pre: 'u', power: -6 },
+  { pre: 'm', power: -3 },
+  { pre: 'k', power: 3 },
+  { pre: 'K', power: 3 },
+  { pre: 'M', power: 6 },
+  { pre: 'G', power: 9 },
+  { pre: 'T', power: 12 },
+]
 
-const defaultTable = 'f:-15;p:-12;n:-9;u:-6;m:-3;k:3;K:3;M:6;meg:6;G:9;T:12'
-  .split(';')
-  .map<TableItem>((s) => {
-    const [pre, pow] = s.split(':')
-    return { pre, power: +pow }
-  })
-  .sort(sortByPreLength)
+function createTransformer(base: number, table: TableItem[], unitOp?: string): (val: number, unit: string) => (number | null) {
+
+  return (val: number, unit: string): (number | null) => {
+
+    if (unitOp && unit === unitOp) {
+      return val
+    }
+
+    for (const { pre, power } of table) {
+      if (unit === pre || (unitOp && unit === (pre + unitOp))) {
+        return val * base ** power
+      }
+    }
+
+    return null
+
+  }
+
+}
 
 export function createParser(options?: CreateParserOptions): (input: string | number | object) => (number | null) {
 
   const {
     unit: unitOp,
-    table: tableOp,
+    table: deprecatedTableOptions,
   } = options || {} as CreateParserOptions
 
-  const table = tableOp || defaultTable
+  const table = deprecatedTableOptions || defaultTable
+  const base = 10
+  const transform = createTransformer(base, table, unitOp)
 
   return (input: string | number | object): (number | null) => {
 
@@ -37,19 +61,7 @@ export function createParser(options?: CreateParserOptions): (input: string | nu
     }
 
     const [, valueStr, unit] = result
-    const val = +valueStr
-
-    if (unitOp && unit === unitOp) {
-      return val
-    }
-
-    for (const { pre, power } of table) {
-      if (unit === pre || (unitOp && unit === (pre + unitOp))) {
-        return val * 10 ** power
-      }
-    }
-
-    return null
+    return transform(+valueStr, unit)
 
   }
 
