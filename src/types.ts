@@ -12,3 +12,5 @@ export interface CreateFormatterOptions extends CreateParserOptions {
   dec?: number | string;
   fixed?: boolean;
 }
+
+export type NumberRounderFunction = (num: number) => string;
