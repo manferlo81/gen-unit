@@ -15,13 +15,32 @@ const defaultTable: TableItem[] = [
   { pre: 'f', power: -15 },
 ]
 
-function findUnit(pow: number, table: TableItem[]): TableItem {
-  return table.find(({ power }) => power <= pow) || table[table.length - 1]
+function baseLog(value: number, base: number): number {
+  return value ? Math.floor(ln(Math.abs(value)) / ln(base)) : 0
 }
 
-function baseLog(value: number, base: number): number {
-  const n = Math.abs(value)
-  return value ? Math.floor(ln(n) / ln(base)) : 0
+function createFindUnit(base: number, table: TableItem[]): (value: number) => TableItem {
+
+  return (value: number): TableItem => {
+
+    const pow = baseLog(value, base)
+    const len = table.length - 1
+
+    for (let i = 0; i < len; i++) {
+      const obj = table[i]
+      if (obj.power <= pow) {
+        return obj
+      }
+    }
+
+    return table[len]
+
+  }
+
+}
+
+function format(value: string, unit: string): string {
+  return `${value}${unit ? ` ${unit}` : ''}`
 }
 
 export function createFormatter(options?: CreateFormatterOptions): (value: number) => string {
@@ -40,12 +59,10 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
   const table = deprecatedTable || defaultTable
   const base = 10
 
-  const format = (value: string, unit: string): string => {
-    return `${value}${unit ? ` ${unit}` : ''}`
-  }
+  const findUnit = createFindUnit(base, table)
 
   return (value: number): string => {
-    const unitObj = findUnit(baseLog(value, base), table)
+    const unitObj = findUnit(value)
     return format(
       round(value / pow(base, unitObj.power)),
       unitObj.pre + unit,
