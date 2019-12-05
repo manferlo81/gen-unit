@@ -1,1 +1,1 @@
-export const { log: ln } = Math
+export const { log: ln, pow } = Math

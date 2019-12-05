@@ -1,4 +1,5 @@
 import { CreateParserOptions, TableItem } from './types'
+import { pow } from './math'
 
 const defaultTable: TableItem[] = [
   { pre: 'meg', power: 6 },
@@ -20,9 +21,10 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
 
     return (val: number, unit: string): (number | null) => {
 
-      for (const obj of table) {
+      for (let i = 0, len = table.length; i < len; i++) {
+        const obj = table[i]
         if (unit === obj.pre) {
-          return val * base ** obj.power
+          return val * pow(base, obj.power)
         }
       }
 
@@ -38,9 +40,10 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
       return val
     }
 
-    for (const obj of table) {
+    for (let i = 0, len = table.length; i < len; i++) {
+      const obj = table[i]
       if (unit === obj.pre || unit === (obj.pre + unitOp)) {
-        return val * base ** obj.power
+        return val * pow(base, obj.power)
       }
     }
 

@@ -1,5 +1,5 @@
 import { CreateFormatterOptions, TableItem } from './types'
-import { ln } from './math'
+import { ln, pow } from './math'
 import createRounder from './create-rounder'
 
 const defaultTable: TableItem[] = [
@@ -47,7 +47,7 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
   return (value: number): string => {
     const unitObj = findUnit(baseLog(value, base), table)
     return format(
-      round(value / base ** unitObj.power),
+      round(value / pow(base, unitObj.power)),
       unitObj.pre + unit,
     )
   }
