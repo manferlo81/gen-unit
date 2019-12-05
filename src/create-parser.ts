@@ -16,15 +16,31 @@ const defaultTable: TableItem[] = [
 
 function createTransformer(base: number, table: TableItem[], unitOp?: string): (val: number, unit: string) => (number | null) {
 
+  if (!unitOp) {
+
+    return (val: number, unit: string): (number | null) => {
+
+      for (const obj of table) {
+        if (unit === obj.pre) {
+          return val * base ** obj.power
+        }
+      }
+
+      return null
+
+    }
+
+  }
+
   return (val: number, unit: string): (number | null) => {
 
-    if (unitOp && unit === unitOp) {
+    if (unit === unitOp) {
       return val
     }
 
-    for (const { pre, power } of table) {
-      if (unit === pre || (unitOp && unit === (pre + unitOp))) {
-        return val * base ** power
+    for (const obj of table) {
+      if (unit === obj.pre || unit === (obj.pre + unitOp)) {
+        return val * base ** obj.power
       }
     }
 
@@ -38,10 +54,10 @@ export function createParser(options?: CreateParserOptions): (input: string | nu
 
   const {
     unit: unitOp,
-    table: deprecatedTableOptions,
+    table: deprecatedTable,
   } = options || {} as CreateParserOptions
 
-  const table = deprecatedTableOptions || defaultTable
+  const table = deprecatedTable || defaultTable
   const base = 10
   const transform = createTransformer(base, table, unitOp)
 

@@ -28,16 +28,16 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
 
   const {
     unit: unitOp,
-    table: tableOp,
-    dec: decOp,
-    fixed,
     round: roundOp,
+    table: deprecatedTable,
+    dec: deprecatedDec,
+    fixed: deprecatedFixed,
   } = options || {} as CreateFormatterOptions
 
-  const round = createRounder(roundOp || { dec: decOp, fixed })
+  const round = createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
 
   const unit = unitOp || ''
-  const table = tableOp || defaultTable
+  const table = deprecatedTable || defaultTable
   const base = 10
 
   const format = (value: string, unit: string): string => {
