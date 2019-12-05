@@ -2,17 +2,18 @@ import { CreateFormatterOptions, TableItem } from './types'
 import { ln } from './math'
 import createRounder from './create-rounder'
 
-function sortByPower(a: TableItem, b: TableItem): number {
-  return b.power - a.power
-}
-
-const defaultTable = 'T:12;G:9;M:6;K:3;:0;m:-3;\u00b5:-6;n:-9;p:-12;f:-15'
-  .split(';')
-  .map<TableItem>((s) => {
-    const [pre, pow] = s.split(':')
-    return { power: +pow, pre }
-  })
-  .sort(sortByPower)
+const defaultTable: TableItem[] = [
+  { pre: 'T', power: 4 },
+  { pre: 'G', power: 3 },
+  { pre: 'M', power: 2 },
+  { pre: 'K', power: 1 },
+  { pre: '', power: 0 },
+  { pre: 'm', power: -1 },
+  { pre: '\u00b5', power: -2 },
+  { pre: 'n', power: -3 },
+  { pre: 'p', power: -4 },
+  { pre: 'f', power: -5 },
+]
 
 function findUnit(pow: number, table: TableItem[]): TableItem {
   return table.find(({ power }) => power <= pow) || table[table.length - 1]
@@ -30,27 +31,25 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
     table: tableOp,
     dec: decOp,
     fixed,
+    round: roundOp,
   } = options || {} as CreateFormatterOptions
 
-  const decimals = decOp != null ? +decOp : 4
-
-  if (isNaN(decimals) || !isFinite(decimals)) {
-    throw new TypeError('invalid "dec" option.')
-  }
+  const round = createRounder(roundOp || { dec: decOp, fixed })
 
   const unit = unitOp || ''
   const table = tableOp || defaultTable
-  const dec = decimals
-  const base = 10
+  const base = 1000
 
-  const round = createRounder(dec, fixed)
+  const format = (value: string, unit: string): string => {
+    return `${value}${unit ? ` ${unit}` : ''}`
+  }
 
   return (value: number): string => {
     const unitObj = findUnit(baseLog(value, base), table)
-    const val = value / 10 ** unitObj.power
-    const rounded = round(val)
-    const wholeUnit = unitObj.pre + unit
-    return `${rounded}${wholeUnit ? ` ${wholeUnit}` : ''}`
+    return format(
+      round(value / base ** unitObj.power),
+      unitObj.pre + unit,
+    )
   }
 
 }

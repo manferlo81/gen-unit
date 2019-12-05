@@ -8,9 +8,17 @@ export interface CreateParserOptions {
   table?: TableItem[];
 }
 
-export interface CreateFormatterOptions extends CreateParserOptions {
+export interface RoundOptions {
   dec?: number | string;
   fixed?: boolean;
 }
 
-export type NumberRounderFunction = (num: number) => string;
+export type RoundNumberFunction = (num: number) => string;
+
+export interface CreateFormatterOptions {
+  unit?: string;
+  table?: TableItem[];
+  dec?: number | string;
+  fixed?: boolean;
+  round?: RoundOptions | RoundNumberFunction;
+}
