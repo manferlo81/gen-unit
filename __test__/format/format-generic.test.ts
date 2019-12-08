@@ -13,4 +13,9 @@ describe('format', () => {
     expect(result).toBe('10 K')
   })
 
+  test('should format zero', () => {
+    const result = format(0)
+    expect(result).toBe('0')
+  })
+
 })
