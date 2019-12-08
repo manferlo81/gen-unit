@@ -1,6 +1,6 @@
-import { CreateFormatterOptions, TableItem } from './types'
-import { ln, pow } from './math'
 import createRounder from './create-rounder'
+import { log, pow } from './math'
+import { CreateFormatterOptions, Formatter, TableItem } from './types'
 
 const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
@@ -15,25 +15,25 @@ const defaultTable: TableItem[] = [
   { pre: 'f', power: -15 },
 ]
 
-function baseLog(value: number, base: number): number {
-  return value ? Math.floor(ln(Math.abs(value)) / ln(base)) : 0
-}
+type UnitFinder = (value: number) => TableItem
 
-function createFindUnit(base: number, table: TableItem[]): (value: number) => TableItem {
+function createUnitFinder(base: number, table?: TableItem[]): UnitFinder {
+
+  const table2 = table || defaultTable
 
   return (value: number): TableItem => {
 
-    const pow = baseLog(value, base)
-    const len = table.length - 1
+    const pow = log(value, base)
+    const len = table2.length - 1
 
     for (let i = 0; i < len; i++) {
-      const obj = table[i]
+      const obj = table2[i]
       if (obj.power <= pow) {
         return obj
       }
     }
 
-    return table[len]
+    return table2[len]
 
   }
 
@@ -43,7 +43,7 @@ function format(value: string, unit: string): string {
   return `${value}${unit ? ` ${unit}` : ''}`
 }
 
-export function createFormatter(options?: CreateFormatterOptions): (value: number) => string {
+export function createFormatter(options?: CreateFormatterOptions): Formatter {
 
   const {
     unit: unitOp,
@@ -53,13 +53,10 @@ export function createFormatter(options?: CreateFormatterOptions): (value: numbe
     fixed: deprecatedFixed,
   } = options || {} as CreateFormatterOptions
 
-  const round = createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
-
   const unit = unitOp || ''
-  const table = deprecatedTable || defaultTable
   const base = 10
-
-  const findUnit = createFindUnit(base, table)
+  const findUnit = createUnitFinder(base, deprecatedTable)
+  const round = createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
 
   return (value: number): string => {
     const unitObj = findUnit(value)

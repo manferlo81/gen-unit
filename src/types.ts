@@ -22,3 +22,6 @@ export interface CreateFormatterOptions {
   fixed?: boolean;
   round?: RoundOptions | RoundNumberFunction;
 }
+
+export type Parser = (input: string | number | object) => (number | null)
+export type Formatter = (value: number) => string
