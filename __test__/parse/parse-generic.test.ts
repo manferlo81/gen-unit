@@ -28,9 +28,19 @@ describe('generic parse', () => {
     expect(result).toBe(10)
   })
 
-  test('should parse unit prefixed string', () => {
+  test('should parse exponential numeric string', () => {
+    const result = parse('10e-3')
+    expect(result).toBe(10e-3)
+  })
+
+  test('should parse string with unit', () => {
     const result = parse('10u')
     expect(result).toBeCloseTo(10e-6)
+  })
+
+  test('should parse exponential numeric string with unit', () => {
+    const result = parse('100e-3 m')
+    expect(result).toBe(100e-6)
   })
 
 })
