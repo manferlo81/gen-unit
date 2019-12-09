@@ -17,23 +17,23 @@ const defaultTable: TableItem[] = [
 
 type UnitFinder = (value: number) => TableItem
 
-function createUnitFinder(base: number, table?: TableItem[]): UnitFinder {
+function createUnitFinder(base: number, table?: TableItem[]): (value: number) => { mul: number; pre: string } {
 
   const table2 = table || defaultTable
 
-  return (value: number): TableItem => {
+  return (value: number): { mul: number; pre: string } => {
 
-    const pow = log(value, base)
+    const pp = log(value, base)
     const len = table2.length - 1
 
     for (let i = 0; i < len; i++) {
       const obj = table2[i]
-      if (obj.power <= pow) {
-        return obj
+      if (obj.power <= pp) {
+        return { mul: pow(base, obj.power), pre: obj.pre }
       }
     }
 
-    return table2[len]
+    return { mul: pow(base, table2[len].power), pre: table2[len].pre }
 
   }
 
@@ -61,7 +61,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   return (value: number): string => {
     const unitObj = findUnit(value)
     return format(
-      round(value / pow(base, unitObj.power)),
+      round(value / unitObj.mul),
       unitObj.pre + unit,
     )
   }
