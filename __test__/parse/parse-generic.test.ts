@@ -30,7 +30,7 @@ describe('generic parse', () => {
 
   test('should parse exponential numeric string', () => {
     const result = parse('10e-3')
-    expect(result).toBe(10e-3)
+    expect(result).toBeCloseTo(10e-3)
   })
 
   test('should parse string with unit', () => {
@@ -40,7 +40,7 @@ describe('generic parse', () => {
 
   test('should parse exponential numeric string with unit', () => {
     const result = parse('100e-3 m')
-    expect(result).toBe(100e-6)
+    expect(result).toBeCloseTo(100e-6)
   })
 
 })

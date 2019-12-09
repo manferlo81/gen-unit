@@ -6,7 +6,7 @@ describe('format round option', () => {
     expect(() => createFormatter({ round: { dec: 'not-a-number' } })).toThrow()
   })
 
-  test('should not throw if "dec" sub-option is not a numeric string', () => {
+  test('should not throw if "dec" sub-option is a numeric string', () => {
     expect(() => createFormatter({ round: { dec: '2' } })).not.toThrow()
   })
 
@@ -16,13 +16,13 @@ describe('format round option', () => {
     expect(result).toBe('10.1111')
   })
 
-  test('should format with given number of decimal points using number', () => {
-    const format = createFormatter({ dec: 2 })
+  test('should format with given number of decimal points (using number)', () => {
+    const format = createFormatter({ dec: 3 })
     const result = format(10.111111)
-    expect(result).toBe('10.11')
+    expect(result).toBe('10.111')
   })
 
-  test('should format with given number of decimal points using numeric string', () => {
+  test('should format with given number of decimal points (using numeric string)', () => {
     const format = createFormatter({ round: { dec: '3' } })
     const result = format(10.111111)
     expect(result).toBe('10.111')
@@ -47,7 +47,7 @@ describe('format round option', () => {
   })
 
   test('should use custom rounder', () => {
-    const round = (num: number): string => `${Math.round(num)}`
+    const round = (num: number): number => Math.round(num)
     const format = createFormatter({ unit: 'g', round })
     const result = format(123.7e-3)
     expect(result).toBe('124 mg')
