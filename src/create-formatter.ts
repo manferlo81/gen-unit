@@ -1,6 +1,6 @@
 import createRounder from './create-rounder'
 import { log, pow } from './math'
-import { CreateFormatterOptions, Formatter, TableItem } from './types'
+import { CreateFormatterOptions, FormatFunction, TableItem } from './types'
 
 const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
@@ -39,11 +39,11 @@ function createUnitFinder(base: number, table?: TableItem[]): UnitFinder {
 
 }
 
-function format(value: string, unit: string): string {
+function format(value: string | number, unit: string): string {
   return `${value}${unit ? ` ${unit}` : ''}`
 }
 
-export function createFormatter(options?: CreateFormatterOptions): Formatter {
+export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
 
   const {
     unit: unitOp,

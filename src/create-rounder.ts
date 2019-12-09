@@ -1,5 +1,5 @@
-import { RoundNumberFunction, RoundOptions } from './types'
 import { pow } from './math'
+import { RoundNumberFunction, RoundOptions } from './types'
 
 function createRounder(options?: RoundOptions | RoundNumberFunction): RoundNumberFunction {
 
@@ -19,7 +19,7 @@ function createRounder(options?: RoundOptions | RoundNumberFunction): RoundNumbe
   }
 
   const mul = pow(10, dec)
-  return (num: number): string => `${Math.round(num * mul) / mul}`
+  return (num: number): number => Math.round(num * mul) / mul
 
 }
 

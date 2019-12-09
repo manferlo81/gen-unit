@@ -1,5 +1,5 @@
 import { pow } from './math'
-import { CreateParserOptions, Parser, TableItem } from './types'
+import { CreateParserOptions, ParseFunction, TableItem } from './types'
 
 const defaultTable: TableItem[] = [
   { pre: 'meg', power: 6 },
@@ -53,7 +53,7 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
 
 }
 
-export function createParser(options?: CreateParserOptions): Parser {
+export function createParser(options?: CreateParserOptions): ParseFunction {
 
   const {
     unit: unitOp,

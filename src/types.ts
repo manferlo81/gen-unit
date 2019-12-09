@@ -3,17 +3,17 @@ export interface TableItem {
   power: number;
 }
 
-export interface CreateParserOptions {
-  unit?: string;
-  table?: TableItem[];
-}
-
 export interface RoundOptions {
   dec?: number | string;
   fixed?: boolean;
 }
 
-export type RoundNumberFunction = (num: number) => string;
+export type RoundNumberFunction = (num: number) => string | number;
+
+export interface CreateParserOptions {
+  unit?: string;
+  table?: TableItem[];
+}
 
 export interface CreateFormatterOptions {
   unit?: string;
@@ -23,5 +23,5 @@ export interface CreateFormatterOptions {
   round?: RoundOptions | RoundNumberFunction;
 }
 
-export type Parser = (input: string | number | object) => (number | null)
-export type Formatter = (value: number) => string
+export type ParseFunction = (input: string | number | object) => (number | null)
+export type FormatFunction = (value: number) => string
