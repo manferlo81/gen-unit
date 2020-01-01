@@ -10,16 +10,22 @@ export interface RoundOptions {
 
 export type RoundNumberFunction = (num: number) => string | number;
 
-export interface CreateParserOptions {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface DeprecatedCreateParserOptions { }
+
+export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;
   table?: TableItem[];
 }
 
-export interface CreateFormatterOptions {
-  unit?: string;
-  table?: TableItem[];
+interface DeprecatedCreateFormatterOptions {
   dec?: number | string;
   fixed?: boolean;
+}
+
+export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
+  unit?: string;
+  table?: TableItem[];
   round?: RoundOptions | RoundNumberFunction;
 }
 
