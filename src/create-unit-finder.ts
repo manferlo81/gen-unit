@@ -1,5 +1,5 @@
 import { log, pow } from './math'
-import { TableItem } from './types'
+import { FindUnitFunction, TableItem } from './types'
 
 export const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
@@ -14,10 +14,7 @@ export const defaultTable: TableItem[] = [
   { pre: 'f', power: -15 },
 ]
 
-function createUnitFinder(base: number, table?: TableItem[]): (value: number) => {
-  div: number;
-  pre: string;
-} {
+function createUnitFinder(base: number, table?: TableItem[]): FindUnitFunction {
 
   const table2 = table || defaultTable
   const find = (value: number): TableItem => {

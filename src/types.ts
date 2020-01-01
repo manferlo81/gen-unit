@@ -29,5 +29,7 @@ export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions
   round?: RoundOptions | RoundNumberFunction;
 }
 
+export type FindUnitFunction = (value: number) => ({ div: number; pre: string })
+
 export type ParseFunction = (input: string | number | object) => (number | null)
 export type FormatFunction = (value: number) => string
