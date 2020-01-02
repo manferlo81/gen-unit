@@ -3,11 +3,6 @@ export interface TableItem {
   power: number;
 }
 
-export interface RoundOptions {
-  dec?: number | string;
-  fixed?: boolean;
-}
-
 interface DeprecatedCreateParserOptions {
   table?: TableItem[];
 }
@@ -16,10 +11,17 @@ export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;
 }
 
+export type ParseFunction = (input: string | number | object) => (number | null)
+
 interface DeprecatedCreateFormatterOptions {
   dec?: number | string;
   fixed?: boolean;
   table?: TableItem[];
+}
+
+export interface RoundOptions {
+  dec?: number | string;
+  fixed?: boolean;
 }
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
@@ -30,5 +32,4 @@ export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions
 export type FindUnitFunction = (value: number) => ({ div: number; pre: string })
 export type RoundNumberFunction = (num: number) => (string | number);
 
-export type ParseFunction = (input: string | number | object) => (number | null)
 export type FormatFunction = (value: number) => string
