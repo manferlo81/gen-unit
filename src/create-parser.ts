@@ -66,6 +66,10 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
 
   return (input: string | number | object): (number | null) => {
 
+    if (typeof input === 'number') {
+      return input
+    }
+
     const asString = `${input}`
     const asNum = +asString
 
