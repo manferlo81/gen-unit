@@ -8,7 +8,7 @@ module.exports = {
 
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/**/*.ts'
+    'src/**/*.ts',
   ],
   coverageDirectory: 'coverage',
   coverageReporters: process.env.CI
