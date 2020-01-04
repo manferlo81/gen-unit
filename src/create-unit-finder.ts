@@ -1,4 +1,5 @@
-import { log, pow } from './math'
+import createLog from './create-log'
+import { pow } from './math'
 import { FindUnitFunction, TableItem } from './types'
 
 export const defaultTable: TableItem[] = [
@@ -16,9 +17,11 @@ export const defaultTable: TableItem[] = [
 
 function createUnitFinder(base: number, table?: TableItem[]): FindUnitFunction {
 
+  const log = createLog(base)
+
   const table2 = table || defaultTable
   const find = (value: number): TableItem => {
-    const pp = log(value, base)
+    const pp = value ? Math.floor(log(value)) : 0
     const last = table2.length - 1
     for (let i = 0; i < last; i++) {
       const obj = table2[i]

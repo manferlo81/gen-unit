@@ -8,19 +8,18 @@ describe('format', () => {
 
   const format = createFormatter({})
 
+  const values = [
+    { value: 0, expected: '0' },
+    { value: 0.123, expected: '123 m' },
+    { value: 123, expected: '123' },
+    { value: 1230, expected: '1.23 K' },
+  ]
+
   test('should format number', () => {
-    const result = format(100)
-    expect(result).toBe('100')
-  })
-
-  test('should format number with unit', () => {
-    const result = format(10000)
-    expect(result).toBe('10 K')
-  })
-
-  test('should format zero', () => {
-    const result = format(0)
-    expect(result).toBe('0')
+    values.forEach(({ value, expected }) => {
+      const result = format(value)
+      expect(result).toBe(expected)
+    })
   })
 
 })
