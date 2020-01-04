@@ -15,11 +15,11 @@ const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
 ]
 
-function createTransformer(base: number, table: TableItem[], unitOp?: string): (val: number, unit: string) => (number | null) {
+function createTransformer(base: number, table: TableItem[], unitOp?: string): (val: number, unit: string) => number {
 
   if (!unitOp) {
 
-    return (val: number, unit: string): (number | null) => {
+    return (val: number, unit: string): number => {
 
       for (let i = 0, len = table.length; i < len; i++) {
         const obj = table[i]
@@ -28,13 +28,13 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
         }
       }
 
-      return null
+      return NaN
 
     }
 
   }
 
-  return (val: number, unit: string): (number | null) => {
+  return (val: number, unit: string): number => {
 
     if (unit === unitOp) {
       return val
@@ -47,7 +47,7 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
       }
     }
 
-    return null
+    return NaN
 
   }
 
@@ -64,7 +64,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
   const base = 10
   const transform = createTransformer(base, table, unitOp)
 
-  return (input: string | number | object): (number | null) => {
+  return (input: string | number | object): number => {
 
     if (typeof input === 'number') {
       return input
@@ -80,14 +80,14 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
     const result = /^\s*(-?[0-9e\-.]+)\s*(\w*)\s*$/.exec(asString)
 
     if (!result) {
-      return null
+      return NaN
     }
 
     const [, valueStr, unit] = result
     const asNum2 = +valueStr
 
     if (isNaN(asNum2)) {
-      return null
+      return asNum2
     }
 
     return transform(asNum2, unit)

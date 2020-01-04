@@ -10,12 +10,12 @@ describe('generic parse', () => {
 
   test('should return null on invalid numeric input', () => {
     const result = parse('10.3.4')
-    expect(result).toBeNull()
+    expect(isNaN(result)).toBe(true)
   })
 
   test('should return null on non numeric input', () => {
     const result = parse('non-numeric')
-    expect(result).toBeNull()
+    expect(isNaN(result)).toBe(true)
   })
 
   test('should parse number', () => {

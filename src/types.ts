@@ -11,7 +11,7 @@ export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;
 }
 
-export type ParseFunction = (input: string | number | object) => (number | null)
+export type ParseFunction = (input: string | number | object) => number
 
 interface DeprecatedCreateFormatterOptions {
   dec?: number | string;

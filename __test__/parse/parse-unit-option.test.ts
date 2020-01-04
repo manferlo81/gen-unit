@@ -5,7 +5,7 @@ describe('parse unit option', () => {
   test('should return null with incorrect unit', () => {
     const parse = createParser({ unit: 'g' })
     const result = parse('10 x')
-    expect(result).toBeNull()
+    expect(isNaN(result)).toBe(true)
   })
 
   test('should parse with correct unit', () => {
