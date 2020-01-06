@@ -6,7 +6,7 @@ function createRounder(options?: RoundOptions): RoundNumberFunction {
   const { dec: decOp, fixed } = options || {} as RoundOptions
   const dec = decOp != null ? +decOp : 4
 
-  if (isNaN(dec) || !isFinite(dec)) {
+  if (isNaN(dec) || !isFinite(dec) || dec < 0) {
     throw new TypeError('invalid "dec" option.')
   }
 
