@@ -1,13 +1,9 @@
 import { pow } from './math'
 import { RoundNumberFunction, RoundOptions } from './types'
 
-function createRounder(options?: RoundOptions | RoundNumberFunction): RoundNumberFunction {
+function createRounder(options?: RoundOptions): RoundNumberFunction {
 
-  if (typeof options === 'function') {
-    return options
-  }
-
-  const { dec: decOp, fixed } = options || {}
+  const { dec: decOp, fixed } = options || {} as RoundOptions
   const dec = decOp != null ? +decOp : 4
 
   if (isNaN(dec) || !isFinite(dec)) {
