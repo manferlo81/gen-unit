@@ -26,7 +26,7 @@ export interface RoundOptions {
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
   unit?: string;
-  round?: RoundOptions | RoundNumberFunction;
+  round?: number | RoundOptions | RoundNumberFunction;
 }
 
 export type FindUnitFunction = (value: number) => ({ div: number; pre: string })

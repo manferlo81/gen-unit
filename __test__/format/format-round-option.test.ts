@@ -10,6 +10,12 @@ describe('format round option', () => {
     expect(() => createFormatter({ round: { dec: '2' } })).not.toThrow()
   })
 
+  test('should accept number as round option', () => {
+    const format = createFormatter({ round: 3 })
+    const result = format(10.111111)
+    expect(result).toBe('10.111')
+  })
+
   test('should default to 4 decimal', () => {
     const format = createFormatter({})
     const result = format(10.111111)

@@ -20,7 +20,11 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   const unit = unitOp || ''
   const base = 10
   const findUnit = createUnitFinder(base, deprecatedTable)
-  const round = isFunction<RoundNumberFunction>(roundOp) ? roundOp : createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
+  const round = isFunction<RoundNumberFunction>(roundOp)
+    ? roundOp
+    : typeof roundOp === 'number'
+      ? createRounder({ dec: roundOp })
+      : createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
 
   return (value: number): string => {
     const unitObj = findUnit(value)
