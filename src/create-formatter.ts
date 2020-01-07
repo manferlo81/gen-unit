@@ -3,8 +3,9 @@ import createUnitFinder from './create-unit-finder'
 import isFunction from './is-function'
 import { CreateFormatterOptions, FormatFunction, RoundNumberFunction } from './types'
 
-function format(value: string | number, unit: string): string {
-  return `${value}${unit ? ` ${unit}` : ''}`
+function format(value: string | number, pre: string, unit: string): string {
+  const wholeUnit = `${pre}${unit}`
+  return `${value}${wholeUnit ? ` ${wholeUnit}` : ''}`
 }
 
 export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
@@ -22,15 +23,18 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   const findUnit = createUnitFinder(base, deprecatedTable)
   const round = isFunction<RoundNumberFunction>(roundOp)
     ? roundOp
-    : typeof roundOp === 'number'
-      ? createRounder({ dec: roundOp })
-      : createRounder(roundOp || { dec: deprecatedDec, fixed: deprecatedFixed })
+    : createRounder(
+      typeof roundOp === 'number'
+        ? { dec: roundOp }
+        : (roundOp || { dec: deprecatedDec, fixed: deprecatedFixed }),
+    )
 
   return (value: number): string => {
     const unitObj = findUnit(value)
     return format(
       round(value / unitObj.div),
-      `${unitObj.pre}${unit}`,
+      unitObj.pre,
+      unit,
     )
   }
 
