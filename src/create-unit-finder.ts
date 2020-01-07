@@ -1,43 +1,60 @@
-import createLog from './create-log'
 import { pow } from './math'
-import { FindUnitFunction, TableItem } from './types'
+import { FindUnitFunction, FindUnitResult, TableItem } from './types'
 
-export const defaultTable: TableItem[] = [
-  { pre: 'T', power: 12 },
-  { pre: 'G', power: 9 },
-  { pre: 'M', power: 6 },
-  { pre: 'K', power: 3 },
-  { pre: '', power: 0 },
-  { pre: 'm', power: -3 },
-  { pre: '\u00b5', power: -6 },
-  { pre: 'n', power: -9 },
-  { pre: 'p', power: -12 },
-  { pre: 'f', power: -15 },
-]
+function createUnitFinder(table?: TableItem[]): FindUnitFunction {
 
-function createUnitFinder(base: number, table?: TableItem[]): FindUnitFunction {
+  if (!table) {
 
-  const log = createLog(base)
+    return (value: number): FindUnitResult => {
 
-  const table2 = table || defaultTable
+      const r0: FindUnitResult = { pre: '', div: 1 }
+
+      if (!value) {
+        return r0
+      }
+
+      const table2: FindUnitResult[] = [
+        { pre: 'T', div: 1e12 },
+        { pre: 'G', div: 1e9 },
+        { pre: 'M', div: 1e6 },
+        { pre: 'K', div: 1e3 },
+        r0,
+        { pre: 'm', div: 1e-3 },
+        { pre: '\u00b5', div: 1e-6 },
+        { pre: 'n', div: 1e-9 },
+        { pre: 'p', div: 1e-12 },
+        { pre: 'f', div: 1e-15 },
+      ]
+
+      const last = table2.length - 1
+      for (let i = 0; i < last; i++) {
+        const obj = table2[i]
+        if (value >= obj.div) {
+          return obj
+        }
+      }
+
+      return table2[last]
+
+    }
+
+  }
+
   const find = (value: number): TableItem => {
-    const pp = value ? Math.floor(log(value)) : 0
-    const last = table2.length - 1
+    const pp = value ? Math.floor(Math.log10(value)) : 0
+    const last = table.length - 1
     for (let i = 0; i < last; i++) {
-      const obj = table2[i]
+      const obj = table[i]
       if (obj.power <= pp) {
         return obj
       }
     }
-    return table2[last]
+    return table[last]
   }
 
-  return (value: number): {
-    div: number;
-    pre: string;
-  } => {
+  return (value: number): FindUnitResult => {
     const { power, pre } = find(value)
-    return { div: pow(base, power), pre }
+    return { div: pow(10, power), pre }
   }
 
 }
