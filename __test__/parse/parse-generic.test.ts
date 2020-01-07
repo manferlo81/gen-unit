@@ -8,13 +8,18 @@ describe('generic parse', () => {
 
   const parse = createParser({})
 
-  test('should return null on invalid numeric input', () => {
+  test('should return NaN on invalid numeric input', () => {
     const result = parse('10.3.4')
     expect(isNaN(result)).toBe(true)
   })
 
-  test('should return null on non numeric input', () => {
+  test('should return NaN on non numeric input', () => {
     const result = parse('non-numeric')
+    expect(isNaN(result)).toBe(true)
+  })
+
+  test('should return NaN on invalid unit', () => {
+    const result = parse('10 x')
     expect(isNaN(result)).toBe(true)
   })
 
