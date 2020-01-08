@@ -1,5 +1,6 @@
 import { pow } from './math'
-import { CreateParserOptions, ParseFunction, TableItem } from './types'
+import { CreateParserOptions, ParseFunction } from './parser-types'
+import { TableItem } from './types'
 
 const defaultTable: TableItem[] = [
   { pre: 'meg', power: 6 },

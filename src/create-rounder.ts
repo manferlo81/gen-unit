@@ -1,7 +1,7 @@
+import { RoundAdvancedOptions, RoundFunction } from './formatter-types'
 import { pow } from './math'
-import { RoundNumberFunction, RoundOptions } from './types'
 
-function createRounder(options: RoundOptions): RoundNumberFunction {
+function createRounder(options: RoundAdvancedOptions): RoundFunction {
 
   const { dec: decOp, fixed } = options
   const dec = decOp != null ? +decOp : 4

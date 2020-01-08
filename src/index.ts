@@ -1,3 +1,5 @@
-export { createParser } from './create-parser'
 export { createFormatter } from './create-formatter'
+export { createParser } from './create-parser'
+export * from './formatter-types'
+export * from './parser-types'
 export * from './types'

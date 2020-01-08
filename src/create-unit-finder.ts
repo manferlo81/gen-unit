@@ -1,5 +1,6 @@
+import { FindUnitFunction, FindUnitResult } from './formatter-types'
 import { pow } from './math'
-import { FindUnitFunction, FindUnitResult, TableItem } from './types'
+import { TableItem } from './types'
 
 function createUnitFinder(table?: TableItem[]): FindUnitFunction {
 
