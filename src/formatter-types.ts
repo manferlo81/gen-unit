@@ -16,12 +16,15 @@ export interface FindUnitResult {
   div: number;
   pre: string;
 }
+
 export type FindUnitFunction = (value: number) => FindUnitResult
+export type FindUnitOption = FindUnitFunction
 
 // OPTIONS
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
   unit?: string;
+  find?: FindUnitOption;
   round?: RoundOption;
 }
 

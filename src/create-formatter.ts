@@ -12,6 +12,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
 
   const {
     unit: unitOp,
+    find: findOp,
     round: roundOp,
     table: deprecatedTable,
     dec: deprecatedDec,
@@ -19,7 +20,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   } = options || {} as CreateFormatterOptions
 
   const unit = unitOp || ''
-  const findUnit = createUnitFinder(deprecatedTable)
+  const findUnit = isFunction(findOp) ? findOp : createUnitFinder(deprecatedTable)
   const round = isFunction<RoundFunction>(roundOp)
     ? roundOp
     : createRounder(
