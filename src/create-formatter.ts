@@ -14,6 +14,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
     unit: unitOp,
     find: findOp,
     round: roundOp,
+    output: outputOp,
     table: deprecatedTable,
     dec: deprecatedDec,
     fixed: deprecatedFixed,
@@ -28,10 +29,11 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
         ? { dec: roundOp }
         : (roundOp || { dec: deprecatedDec, fixed: deprecatedFixed }),
     )
+  const output = isFunction(outputOp) ? outputOp : format
 
   return (value: number): string => {
     const unitObj = findUnit(value)
-    return format(
+    return output(
       round(value / unitObj.div),
       unitObj.pre,
       unit,

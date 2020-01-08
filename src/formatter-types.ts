@@ -20,12 +20,17 @@ export interface FindUnitResult {
 export type FindUnitFunction = (value: number) => FindUnitResult
 export type FindUnitOption = FindUnitFunction
 
+// "output" OPTION
+
+export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string
+
 // OPTIONS
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
   unit?: string;
   find?: FindUnitOption;
   round?: RoundOption;
+  output?: FormatOutputFunction;
 }
 
 export type FormatFunction = (value: number) => string
