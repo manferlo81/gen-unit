@@ -2,7 +2,7 @@ import { createParser } from '../../src'
 
 describe('parse unit option', () => {
 
-  test('should return null with incorrect unit', () => {
+  test('should return NaN on incorrect unit', () => {
     const parse = createParser({ unit: 'g' })
     const result = parse('10 x')
     expect(isNaN(result)).toBe(true)

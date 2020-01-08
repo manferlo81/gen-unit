@@ -16,7 +16,9 @@ const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
 ]
 
-function createTransformer(base: number, table: TableItem[], unitOp?: string): (val: number, unit: string) => number {
+type Transformer = (val: number, unit: string) => number
+
+function createTransformer(table: TableItem[], unitOp?: string): Transformer {
 
   if (!unitOp) {
 
@@ -25,7 +27,7 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
       for (let i = 0, len = table.length; i < len; i++) {
         const obj = table[i]
         if (unit === obj.pre) {
-          return val * pow(base, obj.power)
+          return val * pow(10, obj.power)
         }
       }
 
@@ -44,7 +46,7 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
     for (let i = 0, len = table.length; i < len; i++) {
       const obj = table[i]
       if (unit === obj.pre || unit === (obj.pre + unitOp)) {
-        return val * pow(base, obj.power)
+        return val * pow(10, obj.power)
       }
     }
 
@@ -56,14 +58,10 @@ function createTransformer(base: number, table: TableItem[], unitOp?: string): (
 
 export function createParser(options?: CreateParserOptions): ParseFunction {
 
-  const {
-    unit: unitOp,
-    table: deprecatedTable,
-  } = options || {} as CreateParserOptions
+  const op = options || {} as CreateParserOptions
 
-  const table = deprecatedTable || defaultTable
-  const base = 10
-  const transform = createTransformer(base, table, unitOp)
+  const table = op.table || defaultTable
+  const transform = createTransformer(table, op.unit)
 
   return (input: ParseInput): number => {
 
