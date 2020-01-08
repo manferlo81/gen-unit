@@ -17,18 +17,16 @@ const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
 ]
 
-type Transformer = (val: number, unit: string) => number
-
-function createTransformer(table: TableItem[], unitOp?: string): Transformer {
+function createParseUnitFinder(table: TableItem[], unitOp?: string): (unit: string) => number {
 
   if (!unitOp) {
 
-    return (val: number, unit: string): number => {
+    return (unit: string): number => {
 
       for (let i = 0, len = table.length; i < len; i++) {
         const obj = table[i]
         if (unit === obj.pre) {
-          return val * pow(10, obj.power)
+          return pow(10, obj.power)
         }
       }
 
@@ -38,16 +36,16 @@ function createTransformer(table: TableItem[], unitOp?: string): Transformer {
 
   }
 
-  return (val: number, unit: string): number => {
+  return (unit: string): number => {
 
     if (unit === unitOp) {
-      return val
+      return 1
     }
 
     for (let i = 0, len = table.length; i < len; i++) {
       const obj = table[i]
       if (unit === obj.pre || unit === (obj.pre + unitOp)) {
-        return val * pow(10, obj.power)
+        return pow(10, obj.power)
       }
     }
 
@@ -62,7 +60,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
   const op = options || {} as CreateParserOptions
 
   const table = op.table || defaultTable
-  const transform = createTransformer(table, op.unit)
+  const find = createParseUnitFinder(table, op.unit)
 
   return (input: ParseInput): number => {
 
@@ -87,10 +85,16 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
     const asNum2 = +valueStr
 
     if (isNaN(asNum2)) {
-      return asNum2
+      return NaN
     }
 
-    return transform(asNum2, unit)
+    const mul = find(unit)
+
+    if (isNaN(mul)) {
+      return NaN
+    }
+
+    return asNum2 * mul
 
   }
 
