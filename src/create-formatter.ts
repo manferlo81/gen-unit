@@ -1,6 +1,6 @@
 import createRounder from './create-rounder'
 import createUnitFinder from './create-unit-finder'
-import { CreateFormatterOptions, FormatFunction, RoundFunction } from './formatter-types'
+import { CreateFormatterOptions, FormatFunction, RoundFunction, FormatOutputFunction, FindUnitFunction } from './formatter-types'
 import isFunction from './is-function'
 
 function format(value: string | number, pre: string, unit: string): string {
@@ -10,31 +10,31 @@ function format(value: string | number, pre: string, unit: string): string {
 
 export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
 
-  const {
-    unit: unitOp,
-    find: findOp,
-    round: roundOp,
-    output: outputOp,
-    table: deprecatedTable,
-    dec: deprecatedDec,
-    fixed: deprecatedFixed,
-  } = options || {} as CreateFormatterOptions
+  const op = options || {} as CreateFormatterOptions
 
-  const unit = unitOp || ''
-  const findUnit = isFunction(findOp) ? findOp : createUnitFinder(deprecatedTable)
-  const round = isFunction<RoundFunction>(roundOp)
-    ? roundOp
+  const {
+    find,
+    round,
+    output,
+    dec,
+    fixed,
+  } = op
+
+  const unit = op.unit || ''
+  const findUnit = isFunction<FindUnitFunction>(find) ? find : createUnitFinder(op.table)
+  const roundNum = isFunction<RoundFunction>(round)
+    ? round
     : createRounder(
-      typeof roundOp === 'number'
-        ? { dec: roundOp }
-        : (roundOp || { dec: deprecatedDec, fixed: deprecatedFixed }),
+      typeof round === 'number'
+        ? { dec: round }
+        : (round || { dec, fixed }),
     )
-  const output = isFunction(outputOp) ? outputOp : format
+  const fmt = isFunction<FormatOutputFunction>(output) ? output : format
 
   return (value: number): string => {
     const unitObj = findUnit(value)
-    return output(
-      round(value / unitObj.div),
+    return fmt(
+      roundNum(value / unitObj.div),
       unitObj.pre,
       unit,
     )
