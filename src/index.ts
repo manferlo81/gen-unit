@@ -1,5 +1,7 @@
 export { createFormatter } from './create-formatter'
 export { createParser } from './create-parser'
+export { default as format } from './format'
 export * from './formatter-types'
+export { default as parse } from './parse'
 export * from './parser-types'
 export * from './types'
