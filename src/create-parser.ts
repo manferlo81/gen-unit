@@ -17,7 +17,7 @@ const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
 ]
 
-function createParseUnitFinder(table: TableItem[], unitOp?: string): (unit: string) => number {
+function createMulFinder(table: TableItem[], unitOp?: string): (unit: string) => number {
 
   if (!unitOp) {
 
@@ -60,7 +60,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
   const op = options || {} as CreateParserOptions
 
   const table = op.table || defaultTable
-  const find = createParseUnitFinder(table, op.unit)
+  const findMul = createMulFinder(table, op.unit)
 
   return (input: ParseInput): number => {
 
@@ -88,7 +88,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return NaN
     }
 
-    const mul = find(unit)
+    const mul = findMul(unit)
 
     if (isNaN(mul)) {
       return NaN
