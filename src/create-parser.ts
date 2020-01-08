@@ -1,4 +1,5 @@
 import { pow } from './math'
+import { isNaN } from './number'
 import { CreateParserOptions, ParseFunction, ParseInput } from './parser-types'
 import { TableItem } from './types'
 
