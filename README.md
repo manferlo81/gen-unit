@@ -4,7 +4,7 @@
 
 A generic unit parser/formatter
 
-> I am working on the documentation, expect it soon...
+> `gen-unit` is under development, sudden changes are expected before version `0.1.0`, the [API](#api) will be documented on that version. Any issue or recommendation is welcome and may be file [here](https://github.com/manferlo81/gen-unit/issues).
 
 ## API
 
