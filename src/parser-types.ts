@@ -4,7 +4,8 @@ export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;
 }
 
-export type ParseFunction = (input: string | number | object) => number
+export type ParseInput = string | number | object
+export type ParseFunction = (input: ParseInput) => number
 
 // DEPRECATED
 

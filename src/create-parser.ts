@@ -1,5 +1,5 @@
 import { pow } from './math'
-import { CreateParserOptions, ParseFunction } from './parser-types'
+import { CreateParserOptions, ParseFunction, ParseInput } from './parser-types'
 import { TableItem } from './types'
 
 const defaultTable: TableItem[] = [
@@ -65,7 +65,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
   const base = 10
   const transform = createTransformer(base, table, unitOp)
 
-  return (input: string | number | object): number => {
+  return (input: ParseInput): number => {
 
     if (typeof input === 'number') {
       return input

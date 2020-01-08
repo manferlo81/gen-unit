@@ -1,9 +1,8 @@
 import { createParser } from './create-parser'
-import { CreateParserOptions } from './parser-types'
+import { CreateParserOptions, ParseInput } from './parser-types'
 
-function parse(input: string | number | object, options?: CreateParserOptions): number {
-  const parse = createParser(options)
-  return parse(input)
+function parse(input: ParseInput, options?: CreateParserOptions): number {
+  return createParser(options)(input)
 }
 
 export default parse
