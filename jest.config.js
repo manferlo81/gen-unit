@@ -5,6 +5,7 @@ module.exports = {
 
   preset: 'ts-jest',
   cacheDirectory: 'node_modules/.cache/jest',
+  testRegex: '/__test__/.*.test.ts$',
 
   collectCoverage: true,
   collectCoverageFrom: [
