@@ -2,7 +2,23 @@ import { createFormatter } from '../../src'
 
 describe('formatter "find" option', () => {
 
-  test('should use find unit option', () => {
+  test('should use "find" option as array', () => {
+    const format = createFormatter({
+      find: [
+        { pre: 'm', div: 1e-3 },
+        { pre: 'K', div: 1e3 },
+        { pre: '', div: 1 },
+      ],
+    })
+    expect(format(0)).toBe('0')
+    expect(format(3)).toBe('3')
+    expect(format(30e3)).toBe('30 K')
+    expect(format(30e6)).toBe('30000 K')
+    expect(format(30e-3)).toBe('30 m')
+    expect(format(30e-6)).toBe('0.03 m')
+  })
+
+  test('should use "find" option', () => {
     const format = createFormatter({
       find: () => ({ pre: 'x', div: 1 }),
     })

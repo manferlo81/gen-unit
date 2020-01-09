@@ -18,7 +18,7 @@ export interface FindUnitResult {
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult
-export type FindUnitOption = FindUnitFunction
+export type FindUnitOption = FindUnitResult[] | FindUnitFunction
 
 // "output" OPTION
 
