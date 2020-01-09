@@ -13,6 +13,7 @@ describe('generic format', () => {
   })
 
   const values = [
+    { value: 1e-16, expected: '0.1 f' },
     { value: 1e-15, expected: '1 f' },
     { value: 1e-12, expected: '1 p' },
     { value: 1e-9, expected: '1 n' },
@@ -23,6 +24,7 @@ describe('generic format', () => {
     { value: 1e6, expected: '1 M' },
     { value: 1e9, expected: '1 G' },
     { value: 1e12, expected: '1 T' },
+    { value: 1e15, expected: '1000 T' },
     { value: 1000e-18, expected: '1 f' },
     { value: 1000e-15, expected: '1 p' },
     { value: 1000e-12, expected: '1 n' },
@@ -36,6 +38,7 @@ describe('generic format', () => {
     { value: 1000e12, expected: '1000 T' },
     { value: 123e-3, expected: '123 m' },
     { value: 123, expected: '123' },
+    { value: 1.230e-16, expected: '0.123 f' },
     { value: 1.230e-15, expected: '1.23 f' },
     { value: 1.230e-12, expected: '1.23 p' },
     { value: 1.230e-9, expected: '1.23 n' },
@@ -46,6 +49,7 @@ describe('generic format', () => {
     { value: 1.23e6, expected: '1.23 M' },
     { value: 1.23e9, expected: '1.23 G' },
     { value: 1.23e12, expected: '1.23 T' },
+    { value: 1.23e15, expected: '1230 T' },
   ]
 
   values.forEach(({ value, expected }) => {
