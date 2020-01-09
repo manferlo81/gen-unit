@@ -17,7 +17,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "dev": "bundlib -dw",
-    "build": "bundlib",
+    "build": "bundlib -d",
     "test": "jest --color -w 3",
     "test:watch": "npm test -- --watch-all",
     "clean": "rimraf dist types coverage node_modules/.cache/bundlib node_modules/.cache/jest",
