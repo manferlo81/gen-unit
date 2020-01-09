@@ -16,10 +16,10 @@ describe('format round option', () => {
     expect(result).toBe('10.111')
   })
 
-  test('should default to 4 decimal', () => {
+  test('should default to 2 decimal', () => {
     const format = createFormatter({})
     const result = format(10.111111)
-    expect(result).toBe('10.1111')
+    expect(result).toBe('10.11')
   })
 
   test('should format with given number of decimal points (using number)', () => {
@@ -37,19 +37,19 @@ describe('format round option', () => {
   test('should return with fixed number of decimal points', () => {
     const format = createFormatter({ round: { fixed: true } })
     const result = format(11)
-    expect(result).toBe('11.0000')
+    expect(result).toBe('11.00')
   })
 
   test('should return with fixed number of decimal points (with unit prefix)', () => {
     const format = createFormatter({ round: { fixed: true } })
     const result = format(123e-3)
-    expect(result).toBe('123.0000 m')
+    expect(result).toBe('123.00 m')
   })
 
   test('should return with fixed number of decimal points (with unit)', () => {
     const format = createFormatter({ unit: 'g', round: { fixed: true } })
     const result = format(123e-3)
-    expect(result).toBe('123.0000 mg')
+    expect(result).toBe('123.00 mg')
   })
 
   test('should use custom rounder', () => {

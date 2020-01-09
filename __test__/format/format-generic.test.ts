@@ -38,7 +38,7 @@ describe('generic format', () => {
     { value: 1000e12, expected: '1000 T' },
     { value: 123e-3, expected: '123 m' },
     { value: 123, expected: '123' },
-    { value: 1.230e-16, expected: '0.123 f' },
+    { value: 1.230e-16, expected: '0.12 f' },
     { value: 1.230e-15, expected: '1.23 f' },
     { value: 1.230e-12, expected: '1.23 p' },
     { value: 1.230e-9, expected: '1.23 n' },
