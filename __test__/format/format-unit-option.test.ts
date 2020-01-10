@@ -20,4 +20,19 @@ describe('format unit option', () => {
     })
   })
 
+  test('should format number (using unit as function)', () => {
+    const format = createFormatter({
+      unit: () => 'X',
+    })
+    expect(format(1)).toBe('1 X')
+  })
+
+  test('should format number (using unit as function)', () => {
+    const format = createFormatter({
+      unit: (value) => value === 1 ? 'X' : 'Y',
+    })
+    expect(format(1)).toBe('1 X')
+    expect(format(2)).toBe('2 Y')
+  })
+
 })

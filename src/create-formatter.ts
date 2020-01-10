@@ -15,6 +15,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   const op = options || {} as CreateFormatterOptions
 
   const {
+    unit,
     find,
     round,
     output,
@@ -22,7 +23,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
     fixed,
   } = op
 
-  const unit = op.unit || ''
+  const getUnit = isFunction(unit) ? unit : (): string => (unit || '')
 
   const findUnit = isFunction<FindUnitFunction>(find)
     ? find
@@ -47,10 +48,13 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
 
   return (value: number): string => {
     const unitObj = findUnit(value)
+    const { pre } = unitObj
+    const value2 = value / unitObj.div
+    const rounded = roundNum(value2)
     return fmt(
-      roundNum(value / unitObj.div),
-      unitObj.pre,
-      unit,
+      rounded,
+      pre,
+      getUnit(value2, rounded, pre),
     )
   }
 

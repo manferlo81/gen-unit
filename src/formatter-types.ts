@@ -1,14 +1,7 @@
 import { TableItem } from './types'
+// "unit" OPTION
 
-// "round" OPTION
-
-export interface RoundAdvancedOptions {
-  dec?: number | string;
-  fixed?: boolean;
-}
-
-export type RoundFunction = (num: number) => (string | number);
-export type RoundOption = number | RoundAdvancedOptions | RoundFunction
+export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string
 
 // "find" OPTION
 
@@ -20,6 +13,16 @@ export interface FindUnitResult {
 export type FindUnitFunction = (value: number) => FindUnitResult
 export type FindUnitOption = FindUnitResult[] | FindUnitFunction
 
+// "round" OPTION
+
+export interface RoundAdvancedOptions {
+  dec?: number | string;
+  fixed?: boolean;
+}
+
+export type RoundFunction = (num: number) => (string | number);
+export type RoundOption = number | RoundAdvancedOptions | RoundFunction
+
 // "output" OPTION
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string
@@ -27,7 +30,7 @@ export type FormatOutputFunction = (value: string | number, pre: string, unit: s
 // OPTIONS
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
-  unit?: string;
+  unit?: string | GetUnitFunction;
   find?: FindUnitOption;
   round?: RoundOption;
   output?: FormatOutputFunction;
