@@ -52,8 +52,8 @@ describe('generic format', () => {
     { value: 1.23e15, expected: '1230 T' },
   ]
 
-  values.forEach(({ value, expected }) => {
-    test(`should format number (${value} => '${expected}')`, () => {
+  test(`should format number (${values.length} values)`, () => {
+    values.forEach(({ value, expected }) => {
       expect(format(value)).toBe(expected)
     })
   })

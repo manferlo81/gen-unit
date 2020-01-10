@@ -10,13 +10,13 @@ describe('format unit option', () => {
   })
 
   const values = [
-    { value: 10, expected: '10 g' },
-    { value: 10e3, expected: '10 Kg' },
+    { value: 10, expected: '10 ' },
+    { value: 10e3, expected: '10 K' },
   ]
 
-  values.forEach(({ value, expected }) => {
-    test(`should format number (using given unit) ${value} => "${expected}" `, () => {
-      expect(format(value)).toBe(expected)
+  test('should format number (using given unit)', () => {
+    values.forEach(({ value, expected }) => {
+      expect(format(value)).toBe(`${expected}g`)
     })
   })
 
@@ -27,7 +27,7 @@ describe('format unit option', () => {
     expect(format(1)).toBe('1 X')
   })
 
-  test('should format number (using unit as function)', () => {
+  test('should format number (using dynamic unit)', () => {
     const format = createFormatter({
       unit: (value) => value === 1 ? 'X' : 'Y',
     })

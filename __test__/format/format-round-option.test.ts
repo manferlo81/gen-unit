@@ -16,7 +16,7 @@ describe('format round option', () => {
     expect(result).toBe('10.111')
   })
 
-  test('should default to 2 decimal', () => {
+  test('should default to 2 decimal places', () => {
     const format = createFormatter({})
     const result = format(10.111111)
     expect(result).toBe('10.11')

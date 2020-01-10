@@ -18,7 +18,7 @@ describe('formatter "find" option', () => {
     expect(format(30e-6)).toBe('0.03 m')
   })
 
-  test('should use "find" option', () => {
+  test('should use "find" option as function', () => {
     const format = createFormatter({
       find: () => ({ pre: 'x', div: 1 }),
     })
@@ -32,7 +32,7 @@ describe('formatter "find" option', () => {
     expect(format(100)).toBe('10 x')
   })
 
-  test('should pass value', () => {
+  test('should pass value back', () => {
     const format = createFormatter({
       find: (value: number) => (value >= 1 ? { pre: 's', div: 1 } : { pre: 'ms', div: 1e-3 }),
     })

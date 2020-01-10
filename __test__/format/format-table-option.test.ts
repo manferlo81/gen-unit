@@ -1,6 +1,6 @@
 import { createFormatter } from '../../src'
 
-describe('format deprecated table option', () => {
+describe('format deprecated "table" option', () => {
 
   const format = createFormatter({
     table: [
