@@ -1,4 +1,5 @@
 import { createParser } from '../../src'
+import expectToBeNaN from '../expect/to-be-nan'
 
 describe('generic parse', () => {
 
@@ -10,42 +11,80 @@ describe('generic parse', () => {
 
   test('should return NaN on invalid numeric input', () => {
     const result = parse('10.3.4')
-    expect(isNaN(result)).toBe(true)
+    expectToBeNaN(result)
   })
 
   test('should return NaN on non numeric input', () => {
     const result = parse('non-numeric')
-    expect(isNaN(result)).toBe(true)
+    expectToBeNaN(result)
   })
 
   test('should return NaN on invalid unit', () => {
     const result = parse('10 x')
-    expect(isNaN(result)).toBe(true)
+    expectToBeNaN(result)
   })
 
   test('should parse number', () => {
-    const result = parse(10)
-    expect(result).toBe(10)
+    const values = [
+      0,
+      1,
+      2,
+      10,
+      123,
+      0.1,
+      2.3,
+    ]
+    values.forEach((value) => {
+      expect(parse(value)).toBe(value)
+    })
   })
 
   test('should parse numeric string', () => {
-    const result = parse('10')
-    expect(result).toBe(10)
+    const values = [
+      { value: '0', expected: 0 },
+      { value: '1', expected: 1 },
+      { value: '10', expected: 10 },
+      { value: '123', expected: 123 },
+      { value: '0.0', expected: 0 },
+      { value: '0.1', expected: 0.1 },
+      { value: '123.4', expected: 123.4 },
+    ]
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBe(expected)
+    })
   })
 
   test('should parse exponential numeric string', () => {
-    const result = parse('10e-3')
-    expect(result).toBeCloseTo(10e-3)
+    const values = [
+      { value: '1e3', expected: 1e3 },
+      { value: '10e-3', expected: 10e-3 },
+      { value: '3e-6', expected: 3e-6 },
+      { value: '123e-6', expected: 123e-6 },
+    ]
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBeCloseTo(expected)
+    })
   })
 
   test('should parse string with unit', () => {
-    const result = parse('10u')
-    expect(result).toBeCloseTo(10e-6)
+    const values = [
+      { value: '10u', expected: 10e-6 },
+      { value: '10 u', expected: 10e-6 },
+      { value: '10    u', expected: 10e-6 },
+    ]
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBeCloseTo(expected)
+    })
   })
 
   test('should parse exponential numeric string with unit', () => {
-    const result = parse('100e-3 m')
-    expect(result).toBeCloseTo(100e-6)
+    const values = [
+      { value: '100e-3 m', expected: 100e-6 },
+      { value: '100e-3 K', expected: 100 },
+    ]
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBeCloseTo(expected)
+    })
   })
 
 })
