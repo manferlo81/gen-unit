@@ -1,6 +1,6 @@
 import { FindUnitFunction, FindUnitResult } from './formatter-types'
 
-function createUnitFinder(table: FindUnitResult[], unity: FindUnitResult): FindUnitFunction {
+export function createUnitFinder(table: FindUnitResult[], unity: FindUnitResult): FindUnitFunction {
 
   return (value: number): FindUnitResult => {
 
@@ -21,5 +21,3 @@ function createUnitFinder(table: FindUnitResult[], unity: FindUnitResult): FindU
   }
 
 }
-
-export default createUnitFinder

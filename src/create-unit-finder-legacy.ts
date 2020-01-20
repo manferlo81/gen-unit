@@ -1,10 +1,10 @@
-import createUnitFinder from './create-unit-finder'
+import { createUnitFinder } from './create-unit-finder'
 import { FindUnitFunction, FindUnitResult } from './formatter-types'
 import { pow } from './math'
-import sortFindUnitArray from './sort-find-unit-array'
+import { sortFindUnitArray } from './sort-find-unit-array'
 import { TableItem } from './types'
 
-function createLegacyUnitFinder(table?: TableItem[]): FindUnitFunction {
+export function createLegacyUnitFinder(table?: TableItem[]): FindUnitFunction {
 
   const unity = { pre: '', div: 1 }
 
@@ -36,5 +36,3 @@ function createLegacyUnitFinder(table?: TableItem[]): FindUnitFunction {
   )
 
 }
-
-export default createLegacyUnitFinder
