@@ -44,7 +44,7 @@ function createMulFinder(table: TableItem[], unitOp?: string): (unit: string) =>
 
     for (let i = 0, len = table.length; i < len; i++) {
       const obj = table[i]
-      if (unit === obj.pre || unit === (obj.pre + unitOp)) {
+      if (unit === obj.pre || unit === `${obj.pre}${unitOp}`) {
         return pow(10, obj.power)
       }
     }
