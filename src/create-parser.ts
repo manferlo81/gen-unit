@@ -81,10 +81,10 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return NaN
     }
 
-    const [, valueStr, unit] = result
-    const asNum2 = +valueStr
+    const [, valueAsStr, unit] = result
+    const valueAsNum = +valueAsStr
 
-    if (isNaN(asNum2)) {
+    if (isNaN(valueAsNum)) {
       return NaN
     }
 
@@ -94,7 +94,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return NaN
     }
 
-    return asNum2 * mul
+    return valueAsNum * mul
 
   }
 
