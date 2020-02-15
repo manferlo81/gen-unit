@@ -1,7 +1,7 @@
 {
   "name": "gen-unit",
   "description": "A generic unit parser/formatter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [
     "generic",
     "unit",
