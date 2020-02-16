@@ -8,10 +8,12 @@ export function createUnitFinder(table: FindUnitResult[], unity: FindUnitResult)
       return unity
     }
 
+    const val = Math.abs(value)
+
     const last = table.length - 1
     for (let i = 0; i < last; i++) {
       const obj = table[i]
-      if (value >= obj.div) {
+      if (val >= obj.div) {
         return obj
       }
     }

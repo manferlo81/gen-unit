@@ -58,4 +58,8 @@ describe('generic format', () => {
     })
   })
 
+  test('should format negative number', () => {
+    expect(format(-1)).toBe('-1')
+  })
+
 })
