@@ -2,6 +2,13 @@
 
 ## Version History
 
+### [0.0.4](https://github.com/manferlo81/gen-unit/compare/v0.0.3...v0.0.4) (2020-02-16)
+
+
+### Bug Fixes
+
+* **format:** format negative number ([89b6c59](https://github.com/manferlo81/gen-unit/commit/89b6c59efe6c08e7926b684e2f05cce2bf4d155e))
+
 ### [0.0.3](https://github.com/manferlo81/gen-unit/compare/v0.0.2...v0.0.3) (2020-02-15)
 
 
