@@ -17,7 +17,9 @@ const defaultTable: TableItem[] = [
   { pre: 'T', power: 12 },
 ]
 
-function createMulFinder(table: TableItem[], unitOp?: string): (unit: string) => number {
+type MulFinder = (unit: string) => number
+
+function createMulFinder(table: TableItem[], unitOp?: string): MulFinder {
 
   if (!unitOp) {
 
