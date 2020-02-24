@@ -27,4 +27,16 @@ describe('parse unit option', () => {
     expect(result).toBeCloseTo(10e-3)
   })
 
+  test('should parse invalid exponential (e) as unit', () => {
+    const parse = createParser({ unit: 'e' })
+    const result = parse('10e')
+    expect(result).toBeCloseTo(10)
+  })
+
+  test('should parse valid exponential (e) as exponential', () => {
+    const parse = createParser({ unit: 'e' })
+    const result = parse('10e-3')
+    expect(result).toBeCloseTo(10e-3)
+  })
+
 })
