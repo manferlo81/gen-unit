@@ -58,8 +58,10 @@ describe('generic parse', () => {
     const values = [
       { value: '1e3', expected: 1e3 },
       { value: '10e-3', expected: 10e-3 },
+      { value: '10e+3', expected: 10e+3 },
       { value: '3e-6', expected: 3e-6 },
       { value: '123e-6', expected: 123e-6 },
+      { value: '123e+6', expected: 123e+6 },
     ]
     values.forEach(({ value, expected }) => {
       expect(parse(value)).toBeCloseTo(expected)
@@ -81,6 +83,8 @@ describe('generic parse', () => {
     const values = [
       { value: '100e-3 m', expected: 100e-6 },
       { value: '100e-3 K', expected: 100 },
+      { value: '100e3 m', expected: 100 },
+      { value: '100e+3 m', expected: 100 },
     ]
     values.forEach(({ value, expected }) => {
       expect(parse(value)).toBeCloseTo(expected)

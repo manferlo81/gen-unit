@@ -77,7 +77,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return asNum
     }
 
-    const result = /^\s*(-?[0-9-e.]+)\s*(\w*)\s*$/.exec(asString)
+    const result = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/.exec(asString)
 
     if (!result) {
       return NaN
