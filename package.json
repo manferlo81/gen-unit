@@ -1,7 +1,7 @@
 {
   "name": "gen-unit",
-  "description": "A generic unit parser/formatter",
   "version": "0.0.5",
+  "description": "A generic unit parser/formatter",
   "keywords": [
     "generic",
     "unit",
@@ -15,6 +15,9 @@
   "module": "dist/gen-unit.mjs",
   "browser": "dist/gen-unit.umd.js",
   "types": "types/index.d.ts",
+  "bundlib": {
+    "min": "browser"
+  },
   "scripts": {
     "dev": "bundlib -dw",
     "build": "bundlib -d",
@@ -25,20 +28,24 @@
     "prerelease": "npm run clean && npm run lint && npm test && npm run build",
     "release": "standard-version"
   },
-  "bundlib": {
-    "min": "browser"
-  },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.2",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
-    "bundlib": "^0.14.4",
+    "bundlib": "^0.15.2",
     "chokidar": "^3.3.1",
     "eslint": "^6.8.0",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "rimraf": "^3.0.2",
+    "rollup": "^2.1.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "standard-version": "^7.1.0",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
