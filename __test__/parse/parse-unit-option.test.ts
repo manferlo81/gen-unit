@@ -1,12 +1,11 @@
 import { createParser } from '../../src'
-import expectToBeNaN from '../expect/to-be-nan'
 
 describe('parse unit option', () => {
 
   test('should return NaN on incorrect unit', () => {
     const parse = createParser({ unit: 'g' })
     const result = parse('10 x')
-    expectToBeNaN(result)
+    expect(result).toBeNaN()
   })
 
   test('should parse with correct unit', () => {

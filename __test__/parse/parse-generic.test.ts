@@ -1,5 +1,4 @@
 import { createParser } from '../../src'
-import expectToBeNaN from '../expect/to-be-nan'
 
 describe('generic parse', () => {
 
@@ -11,17 +10,17 @@ describe('generic parse', () => {
 
   test('should return NaN on invalid numeric input', () => {
     const result = parse('10.3.4')
-    expectToBeNaN(result)
+    expect(result).toBeNaN()
   })
 
   test('should return NaN on non numeric input', () => {
     const result = parse('non-numeric')
-    expectToBeNaN(result)
+    expect(result).toBeNaN()
   })
 
   test('should return NaN on invalid unit', () => {
     const result = parse('10 x')
-    expectToBeNaN(result)
+    expect(result).toBeNaN()
   })
 
   test('should parse number', () => {
