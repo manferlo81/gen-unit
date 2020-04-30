@@ -15,9 +15,6 @@
   "module": "dist/gen-unit.mjs",
   "browser": "dist/gen-unit.umd.js",
   "types": "types/index.d.ts",
-  "bundlib": {
-    "min": "browser"
-  },
   "scripts": {
     "dev": "bundlib -dw",
     "build": "bundlib -d",
