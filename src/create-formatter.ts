@@ -1,5 +1,5 @@
 import { createRounder } from './create-rounder'
-import { createUnitFinder2 } from './create-unit-finder'
+import { createUnitFinder } from './create-unit-finder'
 import { formatOutput } from './format-output'
 import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './formatter-types'
 import { isFunction } from './is-function'
@@ -18,7 +18,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
 
   const getUnit = isFunction(unit) ? unit : (): string => (unit || '')
 
-  const findUnit = createUnitFinder2(find, deprecatedTable)
+  const findUnit = createUnitFinder(find, deprecatedTable)
 
   const roundNum = isFunction<RoundFunction>(round)
     ? round
