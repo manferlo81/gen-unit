@@ -1,9 +1,18 @@
-import { FindUnitExpResult, FindUnitFunction, FindUnitOption, FindUnitResult } from './formatter-types'
-import { isFunction } from './is-function'
-import { sortFindUnitArray } from './sort-find-unit-array'
-import { TableItem } from './types'
+import { isFunction } from '../tools/is-function'
+import { DeprecatedTableItem } from '../types'
+import { FindUnitExpResult, FindUnitFunction, FindUnitOption, FindUnitResult } from './types'
 
-export function createUnitFinder(find?: FindUnitOption, table?: TableItem[]): FindUnitFunction {
+function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpResult>, base: number): FindUnitResult[] {
+  return units
+    .map<FindUnitResult>(
+      (item) => ({ pre: item.pre, div: 'exp' in item ? Math.pow(base, item.exp) : item.div }),
+    )
+    .sort(
+      (a, b) => (b.div - a.div),
+    )
+}
+
+export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableItem[]): FindUnitFunction {
 
   if (isFunction(find)) {
     return find
@@ -55,7 +64,7 @@ export function createUnitFinder(find?: FindUnitOption, table?: TableItem[]): Fi
 
 }
 
-export function createUnitFinderFromTable(table: TableItem[]): FindUnitFunction {
+export function createUnitFinderFromTable(table: DeprecatedTableItem[]): FindUnitFunction {
   return createUnitFinder({
     base: 10,
     find: table.map<FindUnitExpResult>(({ pre, power }) => ({ pre, exp: power })),

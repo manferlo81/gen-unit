@@ -1,6 +1,6 @@
-import { RoundAdvancedOptions, RoundFunction } from './formatter-types'
-import { pow } from './math'
-import { isFinite, isNaN } from './number'
+import { pow } from '../tools/math'
+import { isFinite, isNaN } from '../tools/number'
+import { RoundAdvancedOptions, RoundFunction } from './types'
 
 export function createRounder(options: RoundAdvancedOptions): RoundFunction {
 

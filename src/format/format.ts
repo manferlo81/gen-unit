@@ -1,8 +1,12 @@
-import { createRounder } from './create-rounder'
-import { createUnitFinder } from './create-unit-finder'
-import { formatOutput } from './format-output'
-import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './formatter-types'
-import { isFunction } from './is-function'
+import { isFunction } from '../tools/is-function'
+import { createUnitFinder } from './find-unit'
+import { createRounder } from './round'
+import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './types'
+
+function defaultFormat(value: string | number, pre: string, unit: string): string {
+  const wholeUnit = `${pre}${unit}`
+  return `${value}${wholeUnit ? ` ${wholeUnit}` : ''}`
+}
 
 export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
 
@@ -30,7 +34,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
 
   const fmt = isFunction<FormatOutputFunction>(output)
     ? output
-    : formatOutput
+    : defaultFormat
 
   return (value: number): string => {
     const unitObj = findUnit(value)
@@ -44,4 +48,8 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
     )
   }
 
+}
+
+export function format(value: number, options?: CreateFormatterOptions): string {
+  return createFormatter(options)(value)
 }
