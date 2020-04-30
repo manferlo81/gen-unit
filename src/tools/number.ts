@@ -1,1 +1,1 @@
-export const { isNaN, isFinite } = Number
+export const { isNaN, isFinite } = Number;

@@ -1,7 +1,7 @@
-import { isNaN } from '../tools/number'
-import { DeprecatedTableItem } from '../types'
-import { createMulFinder } from './find-mul'
-import { CreateParserOptions, ParseFunction, ParseInput } from './types'
+import { isNaN } from '../tools/number';
+import { DeprecatedTableItem } from '../types';
+import { createMulFinder } from './find-mul';
+import { CreateParserOptions, ParseFunction, ParseInput } from './types';
 
 const defaultTable: DeprecatedTableItem[] = [
   { pre: 'meg', power: 6 },
@@ -15,55 +15,55 @@ const defaultTable: DeprecatedTableItem[] = [
   { pre: 'M', power: 6 },
   { pre: 'G', power: 9 },
   { pre: 'T', power: 12 },
-]
+];
 
 export function createParser(options?: CreateParserOptions): ParseFunction {
 
   const {
     unit,
     table: deprecatedTable,
-  } = options || {} as CreateParserOptions
+  } = options || {} as CreateParserOptions;
 
-  const findMul = createMulFinder(deprecatedTable || defaultTable, unit)
+  const findMul = createMulFinder(deprecatedTable || defaultTable, unit);
 
   return (input: ParseInput): number => {
 
     if (typeof input === 'number') {
-      return input
+      return input;
     }
 
-    const asString = `${input}`
-    const asNum = +asString
+    const asString = `${input}`;
+    const asNum = +asString;
 
     if (!isNaN(asNum)) {
-      return asNum
+      return asNum;
     }
 
-    const result = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/.exec(asString)
+    const result = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/.exec(asString);
 
     if (!result) {
-      return NaN
+      return NaN;
     }
 
-    const [, valueAsStr, unit] = result
-    const valueAsNum = +valueAsStr
+    const [, valueAsStr, unit] = result;
+    const valueAsNum = +valueAsStr;
 
     if (isNaN(valueAsNum)) {
-      return NaN
+      return NaN;
     }
 
-    const mul = findMul(unit)
+    const mul = findMul(unit);
 
     if (isNaN(mul)) {
-      return NaN
+      return NaN;
     }
 
-    return valueAsNum * mul
+    return valueAsNum * mul;
 
-  }
+  };
 
 }
 
 export function parse(input: ParseInput, options?: CreateParserOptions): number {
-  return createParser(options)(input)
+  return createParser(options)(input);
 }

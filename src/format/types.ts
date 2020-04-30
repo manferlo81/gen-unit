@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../types'
+import { DeprecatedTableItem } from '../types';
 // "unit" OPTION
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string

@@ -3,9 +3,8 @@ module.exports = {
   testEnvironment: 'node',
   browser: false,
 
-  preset: 'ts-jest',
   cacheDirectory: 'node_modules/.cache/jest',
-  testRegex: '/__test__/.*.test.ts$',
+  preset: 'ts-jest',
 
   collectCoverage: true,
   collectCoverageFrom: [
@@ -16,6 +15,10 @@ module.exports = {
     ? ['json', 'clover']
     : ['lcov', 'text', 'text-summary'],
 
+  testMatch: [
+    '**/__test__/**/*.test.ts',
+  ],
+
   verbose: true,
 
-}
+};

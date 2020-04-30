@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../types'
+import { DeprecatedTableItem } from '../types';
 
 export type FindMultiplierFunction = (unit: string) => number
 

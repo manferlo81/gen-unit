@@ -1,1 +1,1 @@
-export const { pow } = Math
+export const { pow } = Math;

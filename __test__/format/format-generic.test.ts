@@ -1,16 +1,16 @@
-import { createFormatter } from '../../src'
+import { createFormatter } from '../../src';
 
 describe('generic format', () => {
 
   test('should not throw if no option passed', () => {
-    expect(() => createFormatter()).not.toThrow()
-  })
+    expect(() => createFormatter()).not.toThrow();
+  });
 
-  const format = createFormatter({})
+  const format = createFormatter({});
 
   test('should format zero', () => {
-    expect(format(0)).toBe('0')
-  })
+    expect(format(0)).toBe('0');
+  });
 
   const values = [
     { value: 1e-16, expected: '0.1 f' },
@@ -50,16 +50,16 @@ describe('generic format', () => {
     { value: 1.23e9, expected: '1.23 G' },
     { value: 1.23e12, expected: '1.23 T' },
     { value: 1.23e15, expected: '1230 T' },
-  ]
+  ];
 
   test(`should format number (${values.length} values)`, () => {
     values.forEach(({ value, expected }) => {
-      expect(format(value)).toBe(expected)
-    })
-  })
+      expect(format(value)).toBe(expected);
+    });
+  });
 
   test('should format negative number', () => {
-    expect(format(-1)).toBe('-1')
-  })
+    expect(format(-1)).toBe('-1');
+  });
 
-})
+});
