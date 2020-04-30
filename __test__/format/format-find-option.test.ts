@@ -27,12 +27,12 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use "find" option as array of exponents', () => {
+  test('should use "find" option as array of exponents with base 1000', () => {
 
     const format = createFormatter({
       find: [
-        { pre: 'm', exp: -3 },
-        { pre: 'K', exp: 3 },
+        { pre: 'm', exp: -1 },
+        { pre: 'K', exp: 1 },
         { pre: '', exp: 0 },
       ],
     });

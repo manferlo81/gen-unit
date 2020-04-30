@@ -1,12 +1,14 @@
 import { isFunction } from '../tools/is-function';
+import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
 import { FindUnitExpResult, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
 function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpResult>, base: number): FindUnitResult[] {
   return units
-    .map<FindUnitResult>(
-      (item) => ({ pre: item.pre, div: 'exp' in item ? Math.pow(base, item.exp) : item.div }),
-    )
+    .map<FindUnitResult>((item) => ({
+      pre: item.pre,
+      div: 'exp' in item ? pow(base, item.exp) : item.div,
+    }))
     .sort(
       (a, b) => (b.div - a.div),
     );
@@ -20,26 +22,28 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
 
   const unity = { pre: '', div: 1 };
 
-  if (!find && table) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    return createUnitFinderFromTable(table);
-  }
-
   const results: FindUnitResult[] = !find
-    ? sortFindUnitArray([
-      { exp: 4, pre: 'T' },
-      { exp: 3, pre: 'G' },
-      { exp: 2, pre: 'M' },
-      { exp: 1, pre: 'K' },
-      { exp: 0, pre: '' },
-      { exp: -1, pre: 'm' },
-      { exp: -2, pre: '\u00b5' },
-      { exp: -3, pre: 'n' },
-      { exp: -4, pre: 'p' },
-      { exp: -5, pre: 'f' },
-    ], 1000)
+    ? (
+      table
+        ? sortFindUnitArray(
+          table.map(({ pre, power }) => ({ pre, exp: power })),
+          10,
+        )
+        : [
+          { div: 1e12, pre: 'T' },
+          { div: 1e9, pre: 'G' },
+          { div: 1e6, pre: 'M' },
+          { div: 1e3, pre: 'K' },
+          unity,
+          { div: 1e-3, pre: 'm' },
+          { div: 1e-6, pre: '\u00b5' },
+          { div: 1e-9, pre: 'n' },
+          { div: 1e-12, pre: 'p' },
+          { div: 1e-15, pre: 'f' },
+        ]
+    )
     : Array.isArray(find)
-      ? sortFindUnitArray(find, 10)
+      ? sortFindUnitArray(find, 1000)
       : sortFindUnitArray(find.find, find.base);
 
   return (value): FindUnitResult => {
@@ -62,11 +66,4 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
 
   };
 
-}
-
-export function createUnitFinderFromTable(table: DeprecatedTableItem[]): FindUnitFunction {
-  return createUnitFinder({
-    base: 10,
-    find: table.map<FindUnitExpResult>(({ pre, power }) => ({ pre, exp: power })),
-  });
 }
