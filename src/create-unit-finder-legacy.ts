@@ -1,6 +1,5 @@
 import { createUnitFinder } from './create-unit-finder'
-import { FindUnitFunction, FindUnitResult } from './formatter-types'
-import { pow } from './math'
+import { FindUnitFunction, FindUnitExpResult } from './formatter-types'
 import { sortFindUnitArray } from './sort-find-unit-array'
 import { TableItem } from './types'
 
@@ -28,9 +27,10 @@ export function createLegacyUnitFinder(table?: TableItem[]): FindUnitFunction {
 
   return createUnitFinder(
     sortFindUnitArray(
-      table.map<FindUnitResult>(
-        ({ pre, power }) => ({ pre, div: pow(10, power) }),
+      table.map<FindUnitExpResult>(
+        ({ pre, power }) => ({ pre, exp: power }),
       ),
+      10,
     ),
     unity,
   )

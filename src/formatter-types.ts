@@ -10,8 +10,18 @@ export interface FindUnitResult {
   pre: string;
 }
 
+export interface FindUnitExpResult {
+  exp: number;
+  pre: string;
+}
+
+export interface AdvancedFindUnit {
+  base: number;
+  find: Array<FindUnitResult | FindUnitExpResult>;
+}
+
 export type FindUnitFunction = (value: number) => FindUnitResult
-export type FindUnitOption = FindUnitResult[] | FindUnitFunction
+export type FindUnitOption = Array<FindUnitResult | FindUnitExpResult> | FindUnitFunction
 
 // "round" OPTION
 

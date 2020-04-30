@@ -25,7 +25,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
     ? find
     : Array.isArray(find)
       ? createUnitFinder(
-        sortFindUnitArray(find),
+        sortFindUnitArray(find, 10),
         { pre: '', div: 1 },
       )
       : createLegacyUnitFinder(op.table)

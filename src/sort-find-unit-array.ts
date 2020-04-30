@@ -1,5 +1,11 @@
-import { FindUnitResult } from './formatter-types'
+import { FindUnitResult, FindUnitExpResult } from './formatter-types'
 
-export function sortFindUnitArray(units: FindUnitResult[]): FindUnitResult[] {
-  return units.sort((a, b) => (b.div - a.div))
+export function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpResult>, base: number): FindUnitResult[] {
+  return units
+    .map<FindUnitResult>(
+      (item) => ({ pre: item.pre, div: 'exp' in item ? Math.pow(base, item.exp) : item.div }),
+    )
+    .sort(
+      (a, b) => (b.div - a.div),
+    )
 }
