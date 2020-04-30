@@ -1,41 +1,31 @@
 import { createRounder } from './create-rounder'
-import { createUnitFinder } from './create-unit-finder'
-import { createLegacyUnitFinder } from './create-unit-finder-legacy'
+import { createUnitFinder2 } from './create-unit-finder'
 import { formatOutput } from './format-output'
-import { CreateFormatterOptions, FindUnitFunction, FormatFunction, FormatOutputFunction, RoundFunction } from './formatter-types'
+import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './formatter-types'
 import { isFunction } from './is-function'
-import { sortFindUnitArray } from './sort-find-unit-array'
 
 export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
-
-  const op = options || {} as CreateFormatterOptions
 
   const {
     unit,
     find,
     round,
     output,
-    dec,
-    fixed,
-  } = op
+    dec: deprecatedDec,
+    fixed: deprecatedFixed,
+    table: deprecatedTable,
+  } = options || {} as CreateFormatterOptions
 
   const getUnit = isFunction(unit) ? unit : (): string => (unit || '')
 
-  const findUnit = isFunction<FindUnitFunction>(find)
-    ? find
-    : Array.isArray(find)
-      ? createUnitFinder(
-        sortFindUnitArray(find, 10),
-        { pre: '', div: 1 },
-      )
-      : createLegacyUnitFinder(op.table)
+  const findUnit = createUnitFinder2(find, deprecatedTable)
 
   const roundNum = isFunction<RoundFunction>(round)
     ? round
     : createRounder(
       typeof round === 'number'
         ? { dec: round }
-        : (round || { dec, fixed }),
+        : (round || { dec: deprecatedDec, fixed: deprecatedFixed }),
     )
 
   const fmt = isFunction<FormatOutputFunction>(output)
