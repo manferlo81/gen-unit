@@ -1,1 +1,2 @@
 min: browser
+project: tsconfig-build.json

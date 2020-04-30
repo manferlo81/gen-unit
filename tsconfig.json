@@ -11,9 +11,13 @@
     "noImplicitThis": true
   },
   "include": [
-    "src/**/*.ts"
+    "src",
+    "__test__"
   ],
   "exclude": [
-    "node_modules/**"
+    "node_modules",
+    "dist",
+    "types",
+    "coverage"
   ]
 }
