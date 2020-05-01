@@ -2,9 +2,9 @@ import { MICRO } from '../consts';
 import { isFunction } from '../tools/is-function';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
-import { FindUnitExpResult, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
+import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
-function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpResult>, base: number): FindUnitResult[] {
+function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpItem>, base: number): FindUnitResult[] {
   return units
     .map<FindUnitResult>((item) => ({
       pre: item.pre,

@@ -10,28 +10,29 @@ export interface FindUnitResult {
   pre: string;
 }
 
-export interface FindUnitExpResult {
+export interface FindUnitExpItem {
   exp: number;
   pre: string;
 }
 
-export interface AdvancedFindUnit {
+export interface AdvancedFindUnitOptions {
   base?: number;
-  find?: Array<FindUnitResult | FindUnitExpResult>;
+  find?: Array<FindUnitResult | FindUnitExpItem>;
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult
-export type FindUnitOption = number | Array<FindUnitResult | FindUnitExpResult> | AdvancedFindUnit | FindUnitFunction
+export type DeclarativeFindUnitOption = number | Array<FindUnitExpItem | FindUnitResult> | AdvancedFindUnitOptions
+export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction
 
 // "round" OPTION
 
-export interface RoundAdvancedOptions {
+export interface AdvancedRoundOptions {
   dec?: number | string;
   fixed?: boolean;
 }
 
 export type RoundFunction = (num: number) => (string | number);
-export type RoundOption = number | RoundAdvancedOptions | RoundFunction
+export type RoundOption = number | AdvancedRoundOptions | RoundFunction
 
 // "output" OPTION
 
