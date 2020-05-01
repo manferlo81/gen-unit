@@ -16,8 +16,8 @@ export interface FindUnitExpResult {
 }
 
 export interface AdvancedFindUnit {
-  base: number;
-  find: Array<FindUnitResult | FindUnitExpResult>;
+  base?: number;
+  find?: Array<FindUnitResult | FindUnitExpResult>;
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult

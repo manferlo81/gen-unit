@@ -14,13 +14,26 @@ function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpResult>, bas
     );
 }
 
+const unity = { pre: '', div: 1 };
+
+const defaultFindResults = [
+  { exp: 4, pre: 'T' },
+  { exp: 3, pre: 'G' },
+  { exp: 2, pre: 'M' },
+  { exp: 1, pre: 'K' },
+  unity,
+  { exp: -1, pre: 'm' },
+  { exp: -2, pre: '\u00b5' },
+  { exp: -3, pre: 'n' },
+  { exp: -4, pre: 'p' },
+  { exp: -5, pre: 'f' },
+];
+
 export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableItem[]): FindUnitFunction {
 
   if (isFunction(find)) {
     return find;
   }
-
-  const unity = { pre: '', div: 1 };
 
   const results: FindUnitResult[] = !find
     ? (
@@ -29,22 +42,11 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
           table.map(({ pre, power }) => ({ pre, exp: power })),
           10,
         )
-        : [
-          { div: 1e12, pre: 'T' },
-          { div: 1e9, pre: 'G' },
-          { div: 1e6, pre: 'M' },
-          { div: 1e3, pre: 'K' },
-          unity,
-          { div: 1e-3, pre: 'm' },
-          { div: 1e-6, pre: '\u00b5' },
-          { div: 1e-9, pre: 'n' },
-          { div: 1e-12, pre: 'p' },
-          { div: 1e-15, pre: 'f' },
-        ]
+        : sortFindUnitArray(defaultFindResults, 1000)
     )
     : Array.isArray(find)
       ? sortFindUnitArray(find, 1000)
-      : sortFindUnitArray(find.find, find.base);
+      : sortFindUnitArray(find.find || defaultFindResults, find.base || 1000);
 
   return (value): FindUnitResult => {
 

@@ -66,7 +66,34 @@ describe('formatter "find" option', () => {
 
     const format = createFormatter({
       find: {
-        base: 1000,
+        base: 10,
+        find: [
+          { pre: 'm', exp: -3 },
+          { pre: 'K', exp: 3 },
+          { pre: '', exp: 0 },
+        ],
+      },
+    });
+
+    const values = [
+      { value: 0, expected: '0' },
+      { value: 3, expected: '3' },
+      { value: 30e3, expected: '30 K' },
+      { value: 30e6, expected: '30000 K' },
+      { value: 30e-3, expected: '30 m' },
+      { value: 30e-6, expected: '0.03 m' },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(format(value)).toBe(expected);
+    });
+
+  });
+
+  test('should default to base 1000', () => {
+
+    const format = createFormatter({
+      find: {
         find: [
           { pre: 'm', exp: -1 },
           { pre: 'K', exp: 1 },
@@ -82,6 +109,91 @@ describe('formatter "find" option', () => {
       { value: 30e6, expected: '30000 K' },
       { value: 30e-3, expected: '30 m' },
       { value: 30e-6, expected: '0.03 m' },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(format(value)).toBe(expected);
+    });
+
+  });
+
+  test('should use default units given a base', () => {
+
+    const format = createFormatter({
+      find: {
+        base: 1024,
+      },
+    });
+
+    const values = [
+      { value: 0, expected: '0' },
+      { value: 0.5, expected: '512 m' },
+      { value: 500, expected: '500' },
+      { value: 1024 ** 1, expected: '1 K' },
+      { value: 1024 ** 2, expected: '1 M' },
+      { value: 1024 ** 3, expected: '1 G' },
+      { value: 1024 ** 4, expected: '1 T' },
+      { value: 1024 ** -1, expected: '1 m' },
+      { value: 1024 ** -2, expected: '1 \u00b5' },
+      { value: 1024 ** -3, expected: '1 n' },
+      { value: 1024 ** -4, expected: '1 p' },
+      { value: 1024 ** -5, expected: '1 f' },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(format(value)).toBe(expected);
+    });
+
+  });
+
+  test('should use default units ', () => {
+
+    const format = createFormatter({
+      find: undefined,
+    });
+
+    const values = [
+      { value: 0, expected: '0' },
+      { value: 0.5, expected: '500 m' },
+      { value: 500, expected: '500' },
+      { value: 12e12, expected: '12 T' },
+      { value: 12e9, expected: '12 G' },
+      { value: 12e6, expected: '12 M' },
+      { value: 12e3, expected: '12 K' },
+      { value: 12, expected: '12' },
+      { value: 12e-3, expected: '12 m' },
+      { value: 12e-6, expected: '12 \u00b5' },
+      { value: 12e-9, expected: '12 n' },
+      { value: 12e-12, expected: '12 p' },
+      { value: 12e-15, expected: '12 f' },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(format(value)).toBe(expected);
+    });
+
+  });
+
+  test('should use default units given an empty object', () => {
+
+    const format = createFormatter({
+      find: {},
+    });
+
+    const values = [
+      { value: 0, expected: '0' },
+      { value: 0.5, expected: '500 m' },
+      { value: 500, expected: '500' },
+      { value: 12e12, expected: '12 T' },
+      { value: 12e9, expected: '12 G' },
+      { value: 12e6, expected: '12 M' },
+      { value: 12e3, expected: '12 K' },
+      { value: 12, expected: '12' },
+      { value: 12e-3, expected: '12 m' },
+      { value: 12e-6, expected: '12 \u00b5' },
+      { value: 12e-9, expected: '12 n' },
+      { value: 12e-12, expected: '12 p' },
+      { value: 12e-15, expected: '12 f' },
     ];
 
     values.forEach(({ value, expected }) => {
