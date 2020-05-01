@@ -1,3 +1,4 @@
+import { MICRO } from '../consts';
 import { isFunction } from '../tools/is-function';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
@@ -23,7 +24,7 @@ const defaultFindResults = [
   { exp: 1, pre: 'K' },
   unity,
   { exp: -1, pre: 'm' },
-  { exp: -2, pre: '\u00b5' },
+  { exp: -2, pre: MICRO },
   { exp: -3, pre: 'n' },
   { exp: -4, pre: 'p' },
   { exp: -5, pre: 'f' },
