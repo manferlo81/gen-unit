@@ -44,9 +44,11 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
         )
         : sortFindUnitArray(defaultFindResults, 1000)
     )
-    : Array.isArray(find)
-      ? sortFindUnitArray(find, 1000)
-      : sortFindUnitArray(find.find || defaultFindResults, find.base || 1000);
+    : typeof find === 'number'
+      ? sortFindUnitArray(defaultFindResults, find)
+      : Array.isArray(find)
+        ? sortFindUnitArray(find, 1000)
+        : sortFindUnitArray(find.find || defaultFindResults, find.base || 1000);
 
   return (value): FindUnitResult => {
 

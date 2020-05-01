@@ -21,7 +21,7 @@ export interface AdvancedFindUnit {
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult
-export type FindUnitOption = AdvancedFindUnit | Array<FindUnitResult | FindUnitExpResult> | FindUnitFunction
+export type FindUnitOption = number | Array<FindUnitResult | FindUnitExpResult> | AdvancedFindUnit | FindUnitFunction
 
 // "round" OPTION
 
