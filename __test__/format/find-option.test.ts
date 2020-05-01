@@ -30,31 +30,6 @@ describe('format "find" option', () => {
 
   });
 
-  test('Should use "find" option as array', () => {
-
-    const format = createFormatter({
-      find: [
-        { pre: 'm', div: 1e-3 },
-        { pre: 'K', div: 1e3 },
-        { pre: '', div: 1 },
-      ],
-    });
-
-    const values = [
-      { value: 0, expected: '0' },
-      { value: 3, expected: '3' },
-      { value: 30e3, expected: '30 K' },
-      { value: 30e6, expected: '30000 K' },
-      { value: 30e-3, expected: '30 m' },
-      { value: 30e-6, expected: '0.03 m' },
-    ];
-
-    values.forEach(({ value, expected }) => {
-      expect(format(value)).toBe(expected);
-    });
-
-  });
-
   test('Should use "find" option as array of exponents with base 1000', () => {
 
     const format = createFormatter({

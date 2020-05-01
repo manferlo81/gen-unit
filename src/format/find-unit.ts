@@ -4,15 +4,18 @@ import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
 import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
-function sortFindUnitArray(units: Array<FindUnitResult | FindUnitExpItem>, base: number): FindUnitResult[] {
+function transformFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {
   return units
     .map<FindUnitResult>((item) => ({
       pre: item.pre,
-      div: 'exp' in item ? pow(base, item.exp) : item.div,
-    }))
-    .sort(
-      (a, b) => (b.div - a.div),
-    );
+      div: pow(base, item.exp),
+    }));
+}
+
+function sortFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {
+  return transformFindUnitArray(units, base).sort(
+    (a, b) => (b.div - a.div),
+  );
 }
 
 const unity = { pre: '', div: 1 };
@@ -22,7 +25,7 @@ const defaultFindResults = [
   { exp: 3, pre: 'G' },
   { exp: 2, pre: 'M' },
   { exp: 1, pre: 'K' },
-  unity,
+  { exp: 0, pre: '' },
   { exp: -1, pre: 'm' },
   { exp: -2, pre: MICRO },
   { exp: -3, pre: 'n' },
@@ -43,10 +46,10 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
           table.map(({ pre, power }) => ({ pre, exp: power })),
           10,
         )
-        : sortFindUnitArray(defaultFindResults, 1000)
+        : transformFindUnitArray(defaultFindResults, 1000)
     )
     : typeof find === 'number'
-      ? sortFindUnitArray(defaultFindResults, find)
+      ? transformFindUnitArray(defaultFindResults, find)
       : Array.isArray(find)
         ? sortFindUnitArray(find, 1000)
         : sortFindUnitArray(find.find || defaultFindResults, find.base || 1000);

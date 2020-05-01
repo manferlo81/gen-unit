@@ -17,11 +17,11 @@ export interface FindUnitExpItem {
 
 export interface AdvancedFindUnitOptions {
   base?: number;
-  find?: Array<FindUnitResult | FindUnitExpItem>;
+  find?: FindUnitExpItem[];
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult
-export type DeclarativeFindUnitOption = number | Array<FindUnitExpItem | FindUnitResult> | AdvancedFindUnitOptions
+export type DeclarativeFindUnitOption = number | FindUnitExpItem[] | AdvancedFindUnitOptions
 export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction
 
 // "round" OPTION
