@@ -1,12 +1,12 @@
 import { format } from '../../src';
 
-describe('single use format', () => {
+describe('single use format method', () => {
 
-  test('should format number', () => {
+  test('Should format number', () => {
     expect(format(10)).toBe('10');
   });
 
-  test('should format number (with options)', () => {
+  test('Should format number with options', () => {
     expect(format(10, { unit: 'g' })).toBe('10 g');
   });
 

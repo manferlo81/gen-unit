@@ -1,8 +1,8 @@
-import { createFormatter } from '../../src';
+import { createFormatter, MICRO } from '../../src';
 
-describe('formatter "find" option', () => {
+describe('format "find" option', () => {
 
-  test('should use "find" option as number', () => {
+  test('Should use "find" option as number', () => {
 
     const format = createFormatter({
       find: 1024,
@@ -18,7 +18,7 @@ describe('formatter "find" option', () => {
       { value: 1024 ** 1, expected: '1 K' },
       { value: 1024 ** 0, expected: '1' },
       { value: 1024 ** -1, expected: '1 m' },
-      { value: 1024 ** -2, expected: '1 \u00b5' },
+      { value: 1024 ** -2, expected: `1 ${MICRO}` },
       { value: 1024 ** -3, expected: '1 n' },
       { value: 1024 ** -4, expected: '1 p' },
       { value: 1024 ** -5, expected: '1 f' },
@@ -30,7 +30,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use "find" option as array', () => {
+  test('Should use "find" option as array', () => {
 
     const format = createFormatter({
       find: [
@@ -55,7 +55,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use "find" option as array of exponents with base 1000', () => {
+  test('Should use "find" option as array of exponents with base 1000', () => {
 
     const format = createFormatter({
       find: [
@@ -80,17 +80,17 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use "find" option as function', () => {
+  test('Should use "find" option as function', () => {
 
     const format = createFormatter({
-      find: () => ({ pre: 'x', div: 1 }),
+      find: () => ({ pre: 'x', div: 2 }),
     });
 
-    expect(format(10)).toBe('10 x');
+    expect(format(10)).toBe('5 x');
 
   });
 
-  test('should use "find" option as object', () => {
+  test('Should use "find" option as object', () => {
 
     const format = createFormatter({
       find: {
@@ -118,7 +118,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should default to base 1000', () => {
+  test('Should default to base 1000', () => {
 
     const format = createFormatter({
       find: {
@@ -145,7 +145,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use default units given a base', () => {
+  test('Should use default units given a base', () => {
 
     const format = createFormatter({
       find: {
@@ -174,7 +174,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use default units ', () => {
+  test('Should use default units with base 1000', () => {
 
     const format = createFormatter({
       find: undefined,
@@ -202,7 +202,7 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should use default units given an empty object', () => {
+  test('Should use default units given an empty object', () => {
 
     const format = createFormatter({
       find: {},
@@ -230,28 +230,17 @@ describe('formatter "find" option', () => {
 
   });
 
-  test('should default to unity if array empty', () => {
+  test('Should default to unity if array empty', () => {
 
     const format = createFormatter({
-      unit: 'x',
       find: [],
     });
 
-    expect(format(100)).toBe('100 x');
+    expect(format(100)).toBe('100');
 
   });
 
-  test('should respect "div" member', () => {
-
-    const format = createFormatter({
-      find: () => ({ pre: 'x', div: 10 }),
-    });
-
-    expect(format(100)).toBe('10 x');
-
-  });
-
-  test('should pass value back', () => {
+  test('Should pass value to find function', () => {
 
     const format = createFormatter({
       find: (value: number) => (value >= 1 ? { pre: 's', div: 1 } : { pre: 'ms', div: 1e-3 }),
