@@ -1,9 +1,6 @@
 import { DeprecatedTableItem } from '../types';
-// "unit" OPTION
 
-export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string
-
-// "find" OPTION
+export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 
 export interface FindUnitResult {
   div: number;
@@ -15,30 +12,24 @@ export interface FindUnitExpItem {
   pre: string;
 }
 
-export interface AdvancedFindUnitOptions {
+export interface FindUnitAdvancedOptions {
   base?: number;
   find?: FindUnitExpItem[];
 }
 
-export type FindUnitFunction = (value: number) => FindUnitResult
-export type DeclarativeFindUnitOption = number | FindUnitExpItem[] | AdvancedFindUnitOptions
-export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction
+export type FindUnitFunction = (value: number) => FindUnitResult;
+export type DeclarativeFindUnitOption = number | FindUnitExpItem[] | FindUnitAdvancedOptions;
+export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction;
 
-// "round" OPTION
-
-export interface AdvancedRoundOptions {
+export interface RoundAdvancedOptions {
   dec?: number | string;
   fixed?: boolean;
 }
 
 export type RoundFunction = (num: number) => (string | number);
-export type RoundOption = number | AdvancedRoundOptions | RoundFunction
+export type RoundOption = number | RoundAdvancedOptions | RoundFunction;
 
-// "output" OPTION
-
-export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string
-
-// OPTIONS
+export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string;
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
   unit?: string | GetUnitFunction;
@@ -47,7 +38,7 @@ export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions
   output?: FormatOutputFunction;
 }
 
-export type FormatFunction = (value: number) => string
+export type FormatFunction = (value: number) => string;
 
 // DEPRECATED
 

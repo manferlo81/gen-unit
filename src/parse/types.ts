@@ -1,13 +1,31 @@
 import { DeprecatedTableItem } from '../types';
 
-export type FindMultiplierFunction = (unit: string) => number
+export interface FindMultiplierExpItem {
+  pre: string;
+  exp: number;
+}
+
+export interface FindMultiplierResultItem {
+  pre: string;
+  mul: number;
+}
+
+export interface FindMultiplierAdvancedOptions {
+  base?: number;
+  find?: FindMultiplierExpItem[];
+}
+
+export type FindMultiplierFunction = (unit: string) => number;
+export type DeclarativeFindMultiplierOption = number | FindMultiplierExpItem[] | FindMultiplierAdvancedOptions;
+export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction;
 
 export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;
+  find?: FindMultiplierOption;
 }
 
-export type ParseInput = string | number | object
-export type ParseFunction = (input: ParseInput) => number
+export type ParseInput = string | number | object;
+export type ParseFunction = (input: ParseInput) => number;
 
 // DEPRECATED
 

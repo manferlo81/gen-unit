@@ -1,30 +1,16 @@
 import { isNaN } from '../tools/number';
-import { DeprecatedTableItem } from '../types';
 import { createMulFinder } from './find-mul';
 import { CreateParserOptions, ParseFunction, ParseInput } from './types';
-
-const defaultTable: DeprecatedTableItem[] = [
-  { pre: 'meg', power: 6 },
-  { pre: 'f', power: -15 },
-  { pre: 'p', power: -12 },
-  { pre: 'n', power: -9 },
-  { pre: 'u', power: -6 },
-  { pre: 'm', power: -3 },
-  { pre: 'k', power: 3 },
-  { pre: 'K', power: 3 },
-  { pre: 'M', power: 6 },
-  { pre: 'G', power: 9 },
-  { pre: 'T', power: 12 },
-];
 
 export function createParser(options?: CreateParserOptions): ParseFunction {
 
   const {
     unit,
+    find,
     table: deprecatedTable,
   } = options || {} as CreateParserOptions;
 
-  const findMul = createMulFinder(deprecatedTable || defaultTable, unit);
+  const findMul = createMulFinder(unit, find, deprecatedTable);
 
   return (input: ParseInput): number => {
 
@@ -50,6 +36,10 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
 
     if (isNaN(valueAsNum)) {
       return NaN;
+    }
+
+    if (valueAsNum === 0) {
+      return 0;
     }
 
     const mul = findMul(unit);

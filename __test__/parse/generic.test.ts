@@ -102,4 +102,27 @@ describe('generic parse', () => {
 
   });
 
+  test('Should return 0 without checking for units', () => {
+
+    const values = [
+      '0f',
+      '0p',
+      '0n',
+      '0u',
+      '0m',
+      '0',
+      '0k',
+      '0K',
+      '0meg',
+      '0M',
+      '0G',
+      '0T',
+    ];
+
+    values.forEach((value) => {
+      expect(parse(value)).toBe(0);
+    });
+
+  });
+
 });

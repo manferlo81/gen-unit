@@ -32,10 +32,6 @@ rules:
     - error
     - single
 
-  semi:
-    - error
-    - always
-
   comma-dangle:
     - error
     - always-multiline
@@ -48,6 +44,11 @@ rules:
     - max: 1
       maxBOF: 0
       maxEOF: 0
+
+  semi: "off"
+  "@typescript-eslint/semi":
+    - error
+    - always
 
   "@typescript-eslint/array-type":
     - error

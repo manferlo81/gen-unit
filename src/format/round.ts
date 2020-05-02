@@ -1,8 +1,8 @@
 import { pow } from '../tools/math';
 import { isFinite, isNaN } from '../tools/number';
-import { AdvancedRoundOptions, RoundFunction } from './types';
+import { RoundAdvancedOptions, RoundFunction } from './types';
 
-export function createRounder(options: AdvancedRoundOptions): RoundFunction {
+export function createRounder(options: RoundAdvancedOptions): RoundFunction {
 
   const { dec: decOp, fixed } = options;
   const dec = decOp != null ? +decOp : 2;
