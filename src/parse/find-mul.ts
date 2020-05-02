@@ -18,11 +18,17 @@ const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'T', exp: 4 },
 ];
 
-function f1(find: FindMultiplierExpItem[], base: number): FindMultiplierResultItem[] {
+function transformItems(find: FindMultiplierExpItem[], base: number): FindMultiplierResultItem[] {
   return find.map(({ pre, exp }) => ({
     pre,
     mul: pow(base, exp),
   }));
+}
+
+function sortItems(find: FindMultiplierExpItem[], base: number): FindMultiplierResultItem[] {
+  return transformItems(find, base).sort(
+    (a, b) => b.pre.length - a.pre.length,
+  );
 }
 
 export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
@@ -34,14 +40,19 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
   const findTable = find
     ? (
       typeof find === 'number'
-        ? f1(defaultFindItems, find)
+        ? transformItems(defaultFindItems, find)
         : isArray(find)
-          ? f1(find, 1000)
-          : f1(find.find || defaultFindItems, find.base || 1000)
+          ? sortItems(find, 1000)
+          : find.find
+            ? sortItems(find.find, find.base || 1000)
+            : transformItems(defaultFindItems, find.base || 1000)
     )
     : table
-      ? table.map(({ pre, power }) => ({ pre, mul: pow(10, power) }))
-      : f1(defaultFindItems, 1000);
+      ? sortItems(
+        table.map(({ pre, power }) => ({ pre, exp: power })),
+        10,
+      )
+      : transformItems(defaultFindItems, 1000);
 
   if (!unit) {
 

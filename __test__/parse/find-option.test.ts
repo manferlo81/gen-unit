@@ -114,6 +114,33 @@ describe('parse "find" option', () => {
 
   });
 
+  test('Should use default base and find if empty object passed', () => {
+
+    const parse = createParser({
+      find: {},
+    });
+
+    const values = [
+      { value: '1.2f', expected: 1.2e-15 },
+      { value: '1.2p', expected: 1.2e-12 },
+      { value: '1.2n', expected: 1.2e-9 },
+      { value: '1.2u', expected: 1.2e-6 },
+      { value: '1.2m', expected: 1.2e-3 },
+      { value: '1.2', expected: 1.2 },
+      { value: '1.2k', expected: 1.2e3 },
+      { value: '1.2K', expected: 1.2e3 },
+      { value: '1.2meg', expected: 1.2e6 },
+      { value: '1.2M', expected: 1.2e6 },
+      { value: '1.2G', expected: 1.2e9 },
+      { value: '1.2T', expected: 1.2e12 },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBeCloseTo(expected, 6);
+    });
+
+  });
+
   test('Should use "find" option as function', () => {
 
     const parse = createParser({

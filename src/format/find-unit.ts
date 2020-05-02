@@ -39,20 +39,22 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
     return find;
   }
 
-  const results: FindUnitResult[] = !find
+  const results: FindUnitResult[] = find
     ? (
-      table
-        ? sortFindUnitArray(
-          table.map(({ pre, power }) => ({ pre, exp: power })),
-          10,
-        )
-        : transformFindUnitArray(defaultFindResults, 1000)
+      typeof find === 'number'
+        ? transformFindUnitArray(defaultFindResults, find)
+        : Array.isArray(find)
+          ? sortFindUnitArray(find, 1000)
+          : find.find
+            ? sortFindUnitArray(find.find, find.base || 1000)
+            : transformFindUnitArray(defaultFindResults, find.base || 1000)
     )
-    : typeof find === 'number'
-      ? transformFindUnitArray(defaultFindResults, find)
-      : Array.isArray(find)
-        ? sortFindUnitArray(find, 1000)
-        : sortFindUnitArray(find.find || defaultFindResults, find.base || 1000);
+    : table
+      ? sortFindUnitArray(
+        table.map(({ pre, power }) => ({ pre, exp: power })),
+        10,
+      )
+      : transformFindUnitArray(defaultFindResults, 1000);
 
   return (value): FindUnitResult => {
 
