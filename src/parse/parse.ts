@@ -1,4 +1,4 @@
-import { isNaN } from '../tools/number';
+import { isFinite, isNaN } from '../tools/number';
 import { createMulFinder } from './find-mul';
 import { CreateParserOptions, ParseFunction, ParseInput } from './types';
 
@@ -15,14 +15,23 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
   return (input: ParseInput): number => {
 
     if (typeof input === 'number') {
-      return input;
+      return isFinite(input) ? input : NaN;
+    }
+
+    if (!input) {
+      return NaN;
     }
 
     const asString = `${input}`;
+
+    if (!asString) {
+      return NaN;
+    }
+
     const asNum = +asString;
 
     if (!isNaN(asNum)) {
-      return asNum;
+      return isFinite(asNum) ? asNum : NaN;
     }
 
     const result = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/.exec(asString);

@@ -8,17 +8,44 @@ describe('generic parse', () => {
 
   const parse = createParser({});
 
-  test('Should return NaN on invalid numeric input', () => {
-    expect(parse('10.3.4')).toBeNaN();
+  test('Should return NaN on invalid input', () => {
+
+    const values = [
+      '',
+      '10.3.4',
+      'non-numeric',
+      '10 x',
+      null,
+      undefined,
+      true,
+      false,
+      { toString: (): string => '' },
+      Infinity,
+      -Infinity,
+      'Infinity',
+    ];
+
+    values.forEach((value) => {
+      expect(parse(value as never)).toBeNaN();
+    });
+
   });
 
-  test('Should return NaN on non numeric input', () => {
-    expect(parse('non-numeric')).toBeNaN();
-  });
+  // test('Should return NaN on empty string', () => {
+  //   expect(parse('')).toBeNaN();
+  // });
 
-  test('Should return NaN on invalid unit', () => {
-    expect(parse('10 x')).toBeNaN();
-  });
+  // test('Should return NaN on invalid numeric input', () => {
+  //   expect(parse('10.3.4')).toBeNaN();
+  // });
+
+  // test('Should return NaN on non numeric input', () => {
+  //   expect(parse('non-numeric')).toBeNaN();
+  // });
+
+  // test('Should return NaN on invalid unit', () => {
+  //   expect(parse('10 x')).toBeNaN();
+  // });
 
   test('Should parse number', () => {
 
