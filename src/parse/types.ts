@@ -5,11 +5,6 @@ export interface FindMultiplierExpItem {
   exp: number;
 }
 
-export interface FindMultiplierResultItem {
-  pre: string;
-  mul: number;
-}
-
 export interface FindMultiplierAdvancedOptions {
   base?: number;
   find?: FindMultiplierExpItem[];

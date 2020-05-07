@@ -2,7 +2,7 @@ import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
-import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, FindMultiplierResultItem } from './types';
+import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption } from './types';
 
 const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'meg', exp: 2 },
@@ -18,17 +18,25 @@ const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'T', exp: 4 },
 ];
 
-function transformItems(find: FindMultiplierExpItem[], base: number): FindMultiplierResultItem[] {
-  return find.map(({ pre, exp }) => ({
-    pre,
-    mul: pow(base, exp),
-  }));
-}
+function transformItems(find: FindMultiplierExpItem[], base: number, unit?: string): Record<string, number> {
 
-function sortItems(find: FindMultiplierExpItem[], base: number): FindMultiplierResultItem[] {
-  return transformItems(find, base).sort(
-    (a, b) => b.pre.length - a.pre.length,
+  const populate: (result: Record<string, number>, pre: string, value: number) => void = unit
+    ? (result, pre, value): void => {
+      result[pre] = value;
+      result[pre + unit] = value;
+    }
+    : (result, pre, value): void => {
+      result[pre] = value;
+    };
+
+  return find.reduce<Record<string, number>>(
+    (result, { pre, exp }) => {
+      populate(result, pre, pow(base, exp));
+      return result;
+    },
+    {},
   );
+
 }
 
 export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
@@ -40,36 +48,20 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
   const findTable = find
     ? (
       typeof find === 'number'
-        ? transformItems(defaultFindItems, find)
+        ? transformItems(defaultFindItems, find, unit)
         : isArray(find)
-          ? sortItems(find, 1000)
+          ? transformItems(find, 1000, unit)
           : find.find
-            ? sortItems(find.find, find.base || 1000)
-            : transformItems(defaultFindItems, find.base || 1000)
+            ? transformItems(find.find, find.base || 1000, unit)
+            : transformItems(defaultFindItems, find.base || 1000, unit)
     )
     : table
-      ? sortItems(
+      ? transformItems(
         table.map(({ pre, power }) => ({ pre, exp: power })),
         10,
+        unit,
       )
-      : transformItems(defaultFindItems, 1000);
-
-  if (!unit) {
-
-    return (capturedUnit: string): number => {
-
-      for (let i = 0, len = findTable.length; i < len; i++) {
-        const obj = findTable[i];
-        if (capturedUnit === obj.pre) {
-          return obj.mul;
-        }
-      }
-
-      return NaN;
-
-    };
-
-  }
+      : transformItems(defaultFindItems, 1000, unit);
 
   return (capturedUnit: string): number => {
 
@@ -77,11 +69,9 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
       return 1;
     }
 
-    for (let i = 0, len = findTable.length; i < len; i++) {
-      const obj = findTable[i];
-      if (capturedUnit === obj.pre || capturedUnit === `${obj.pre}${unit}`) {
-        return obj.mul;
-      }
+    // eslint-disable-next-line no-prototype-builtins
+    if (findTable.hasOwnProperty(capturedUnit)) {
+      return findTable[capturedUnit];
     }
 
     return NaN;
