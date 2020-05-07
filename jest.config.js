@@ -1,7 +1,6 @@
 module.exports = {
 
   testEnvironment: 'node',
-  browser: false,
 
   cacheDirectory: 'node_modules/.cache/jest',
   preset: 'ts-jest',
