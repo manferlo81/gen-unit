@@ -41,11 +41,12 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
     const { pre } = unitObj;
     const value2 = value / unitObj.div;
     const rounded = roundNum(value2);
-    return fmt(
+    const result = fmt(
       rounded,
       pre,
       getUnit(value2, rounded, pre),
     );
+    return `${result}`;
   };
 
 }

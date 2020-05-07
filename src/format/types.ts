@@ -29,7 +29,7 @@ export interface RoundAdvancedOptions {
 export type RoundFunction = (num: number) => (string | number);
 export type RoundOption = number | RoundAdvancedOptions | RoundFunction;
 
-export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string;
+export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
 
 export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
   unit?: string | GetUnitFunction;

@@ -17,4 +17,12 @@ describe('format "outout" option', () => {
     expect(format(10e-3)).toBe('10-m-g');
   });
 
+  test('Should use returned number and convert it to string', () => {
+    const format = createFormatter({
+      unit: 'g',
+      output: (value) => value,
+    });
+    expect(format(10e-3)).toBe('10');
+  });
+
 });
