@@ -1,4 +1,5 @@
 import { isFinite, isNaN } from '../tools/number';
+import { capture } from './capture';
 import { createMulFinder } from './find-mul';
 import { CreateParserOptions, ParseFunction, ParseInput } from './types';
 
@@ -34,13 +35,13 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return isFinite(asNum) ? asNum : NaN;
     }
 
-    const result = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/.exec(asString);
+    const result = capture(asString);
 
     if (!result) {
       return NaN;
     }
 
-    const [, valueAsStr, unit] = result;
+    const [valueAsStr, unit] = result;
     const valueAsNum = +valueAsStr;
 
     if (isNaN(valueAsNum)) {
