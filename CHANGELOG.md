@@ -2,6 +2,22 @@
 
 ## Version History
 
+### [0.0.6](https://github.com/manferlo81/gen-unit/compare/v0.0.5...v0.0.6) (2020-05-08)
+
+
+### Features
+
+* **format:** Option "find" as number ([2fb3ab7](https://github.com/manferlo81/gen-unit/commit/2fb3ab7db02a21edba4cfc6666b0ea4e9f9bd624))
+* **format:** output option can return a number ([7cf1806](https://github.com/manferlo81/gen-unit/commit/7cf18065ec4ae22909fa7fbde223f038e8cebbe1))
+* **parse:** "find" option & return 0 ([d4ce7c5](https://github.com/manferlo81/gen-unit/commit/d4ce7c587441a7d21f544baf6dbdf55d82183947))
+* **parse:** Find Multiplier can return an object ([1c284f1](https://github.com/manferlo81/gen-unit/commit/1c284f196d172583c154ebde3b7f28c88bbbf69f))
+* Advanced "find" options ([e8f1fc6](https://github.com/manferlo81/gen-unit/commit/e8f1fc6454e7b636903927e3d9798c0fea524d8d))
+
+
+### Bug Fixes
+
+* **parse:** Return NaN on empty string & Infinity ([a6dd26b](https://github.com/manferlo81/gen-unit/commit/a6dd26bf064328ff4bd1b48b56ebfc06651ce3e5))
+
 ### [0.0.5](https://github.com/manferlo81/gen-unit/compare/v0.0.4...v0.0.5) (2020-02-24)
 
 
