@@ -1,4 +1,4 @@
-const reg = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/;
+const reg = /^\s*(-?\d*\.?\d+(?:e[+-]?\d+)?)\s*([a-zA-Z]*)\s*$/;
 
 export function capture(input: string): [string, string] | null {
 
