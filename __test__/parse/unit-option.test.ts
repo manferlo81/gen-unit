@@ -3,8 +3,20 @@ import { createParser } from '../../src';
 describe('parse "unit" option', () => {
 
   test('Should return NaN on incorrect unit', () => {
+
     const parse = createParser({ unit: 'g' });
-    expect(parse('10 x')).toBeNaN();
+
+    const values = [
+      '10 x',
+      '10 xg',
+      '10 mx',
+      '10 Kx',
+    ];
+
+    values.forEach((value) => {
+      expect(parse(value)).toBeNaN();
+    });
+
   });
 
   test('Should parse with correct unit', () => {
@@ -13,14 +25,15 @@ describe('parse "unit" option', () => {
 
     const values = [
       { value: '10m', expected: 10e-3 },
-      { value: '10mg', expected: 10e-3 },
-      { value: '10g', expected: 10 },
-      { value: '10kg', expected: 10e3 },
-      { value: '10Kg', expected: 10e3 },
+      { value: '10', expected: 10 },
       { value: '10k', expected: 10e3 },
       { value: '10K', expected: 10e3 },
       { value: '2M', expected: 2e6 },
       { value: '2meg', expected: 2e6 },
+      { value: '10mg', expected: 10e-3 },
+      { value: '10g', expected: 10 },
+      { value: '10kg', expected: 10e3 },
+      { value: '10Kg', expected: 10e3 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -66,6 +79,7 @@ describe('parse "unit" option', () => {
     const values = [
       { value: '10meg', expected: 10e-3 },
       { value: '10megeg', expected: 10e6 },
+      { value: '10Meg', expected: 10e6 },
     ];
 
     values.forEach(({ value, expected }) => {

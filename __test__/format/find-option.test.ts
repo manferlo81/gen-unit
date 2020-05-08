@@ -4,24 +4,25 @@ describe('format "find" option', () => {
 
   test('Should use "find" option as number', () => {
 
+    const base = 1024;
     const format = createFormatter({
-      find: 1024,
+      find: base,
     });
 
     const values = [
       { value: 0, expected: '0' },
       { value: 0.5, expected: '512 m' },
       { value: 500, expected: '500' },
-      { value: 1024 ** 4, expected: '1 T' },
-      { value: 1024 ** 3, expected: '1 G' },
-      { value: 1024 ** 2, expected: '1 M' },
-      { value: 1024 ** 1, expected: '1 K' },
-      { value: 1024 ** 0, expected: '1' },
-      { value: 1024 ** -1, expected: '1 m' },
-      { value: 1024 ** -2, expected: `1 ${MICRO}` },
-      { value: 1024 ** -3, expected: '1 n' },
-      { value: 1024 ** -4, expected: '1 p' },
-      { value: 1024 ** -5, expected: '1 f' },
+      { value: 1.2 * base ** 4, expected: '1.2 T' },
+      { value: 1.2 * base ** 3, expected: '1.2 G' },
+      { value: 1.2 * base ** 2, expected: '1.2 M' },
+      { value: 1.2 * base ** 1, expected: '1.2 K' },
+      { value: 1.2 * base ** 0, expected: '1.2' },
+      { value: 1.2 * base ** -1, expected: '1.2 m' },
+      { value: 1.2 * base ** -2, expected: `1.2 ${MICRO}` },
+      { value: 1.2 * base ** -3, expected: '1.2 n' },
+      { value: 1.2 * base ** -4, expected: '1.2 p' },
+      { value: 1.2 * base ** -5, expected: '1.2 f' },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -122,25 +123,24 @@ describe('format "find" option', () => {
 
   test('Should use default units given a base', () => {
 
+    const base = 1024;
     const format = createFormatter({
-      find: {
-        base: 1024,
-      },
+      find: { base },
     });
 
     const values = [
       { value: 0, expected: '0' },
       { value: 0.5, expected: '512 m' },
       { value: 500, expected: '500' },
-      { value: 1024 ** 1, expected: '1 K' },
-      { value: 1024 ** 2, expected: '1 M' },
-      { value: 1024 ** 3, expected: '1 G' },
-      { value: 1024 ** 4, expected: '1 T' },
-      { value: 1024 ** -1, expected: '1 m' },
-      { value: 1024 ** -2, expected: '1 \u00b5' },
-      { value: 1024 ** -3, expected: '1 n' },
-      { value: 1024 ** -4, expected: '1 p' },
-      { value: 1024 ** -5, expected: '1 f' },
+      { value: 1.2 * base ** 1, expected: '1.2 K' },
+      { value: 1.2 * base ** 2, expected: '1.2 M' },
+      { value: 1.2 * base ** 3, expected: '1.2 G' },
+      { value: 1.2 * base ** 4, expected: '1.2 T' },
+      { value: 1.2 * base ** -1, expected: '1.2 m' },
+      { value: 1.2 * base ** -2, expected: `1.2 ${MICRO}` },
+      { value: 1.2 * base ** -3, expected: '1.2 n' },
+      { value: 1.2 * base ** -4, expected: '1.2 p' },
+      { value: 1.2 * base ** -5, expected: '1.2 f' },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -151,9 +151,7 @@ describe('format "find" option', () => {
 
   test('Should use default units with base 1000', () => {
 
-    const format = createFormatter({
-      find: undefined,
-    });
+    const format = createFormatter();
 
     const values = [
       { value: 0, expected: '0' },
