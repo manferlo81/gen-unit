@@ -1,6 +1,7 @@
 import { hasOwn } from '../tools/helpers';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
+import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
 import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption } from './types';
@@ -48,7 +49,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
   const findTable = find
     ? (
-      typeof find === 'number'
+      isNumber(find)
         ? transformItems(defaultFindItems, find, unit)
         : isArray(find)
           ? transformItems(find, 1000, unit)

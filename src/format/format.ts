@@ -1,4 +1,5 @@
 import { isFunction } from '../tools/is-function';
+import { isNumber } from '../tools/is-number';
 import { createUnitFinder } from './find-unit';
 import { createRounder } from './round';
 import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './types';
@@ -27,7 +28,7 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
   const roundNum = isFunction<RoundFunction>(round)
     ? round
     : createRounder(
-      typeof round === 'number'
+      isNumber(round)
         ? { dec: round }
         : (round || { dec: deprecatedDec, fixed: deprecatedFixed }),
     );

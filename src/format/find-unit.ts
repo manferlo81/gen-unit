@@ -1,6 +1,7 @@
 import { MICRO } from '../consts';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
+import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
 import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
@@ -42,7 +43,7 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
 
   const results: FindUnitResult[] = find
     ? (
-      typeof find === 'number'
+      isNumber(find)
         ? transformFindUnitArray(defaultFindResults, find)
         : isArray(find)
           ? sortFindUnitArray(find, 1000)

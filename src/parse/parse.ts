@@ -1,3 +1,4 @@
+import { isNumber } from '../tools/is-number';
 import { isFinite, isNaN } from '../tools/number';
 import { capture } from './capture';
 import { createMulFinder } from './find-mul';
@@ -15,7 +16,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
 
   return (input: ParseInput): number => {
 
-    if (typeof input === 'number') {
+    if (isNumber(input)) {
       return isFinite(input) ? input : NaN;
     }
 
