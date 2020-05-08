@@ -55,11 +55,13 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
 
     const mul = findMul(unit);
 
-    if (isNaN(mul)) {
+    if (!mul && mul !== 0) {
       return NaN;
     }
 
-    return valueAsNum * mul;
+    const mul2 = isNumber(mul) ? mul : mul.mul;
+
+    return mul2 ? valueAsNum * mul2 : NaN;
 
   };
 

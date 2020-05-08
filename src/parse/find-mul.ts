@@ -4,7 +4,7 @@ import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
-import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption } from './types';
+import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, MultiplierFound } from './types';
 
 const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'meg', exp: 2 },
@@ -65,17 +65,17 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
       )
       : transformItems(defaultFindItems, 1000, unit);
 
-  return (capturedUnit: string): number => {
+  return (capturedUnit: string): MultiplierFound | null => {
 
     if (capturedUnit === unit) {
-      return 1;
+      return { mul: 1 };
     }
 
     if (hasOwn.call(findTable, capturedUnit)) {
-      return findTable[capturedUnit];
+      return { mul: findTable[capturedUnit] };
     }
 
-    return NaN;
+    return null;
 
   };
 

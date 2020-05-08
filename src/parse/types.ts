@@ -10,7 +10,10 @@ export interface FindMultiplierAdvancedOptions {
   find?: FindMultiplierExpItem[];
 }
 
-export type FindMultiplierFunction = (unit: string) => number;
+export interface MultiplierFound {
+  mul: number;
+}
+export type FindMultiplierFunction = (unit: string) => number | null | MultiplierFound;
 export type DeclarativeFindMultiplierOption = number | FindMultiplierExpItem[] | FindMultiplierAdvancedOptions;
 export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction;
 
