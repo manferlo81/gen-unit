@@ -40,15 +40,40 @@ unit: string;
 
 ```typescript
 const parse = createParser({
-  unit: 'm',
+  unit: 'g',
 });
 
 parse('1'); // => 1
-parse('1 m'); // => 1
-parse('1 mm'); // => 0.001
+parse('1 g'); // => 1
+parse('1 mg'); // => 0.001
 parse('1 K'); // => 1000
-parse('1 Km'); // => 1000
+parse('1 Kg'); // => 1000
 parse('1 ms'); // => NaN
+```
+
+* Precedence
+
+This option takes precedence over any prefix or prefixed unit.
+
+***examples***
+
+```typescript
+const parse = createParser({
+  unit: 'm',
+});
+
+parse('1 m'); // => 1  (not 0.001)
+parse('1 mm'); // => 0.001
+```
+
+```typescript
+const parse = createParser({
+  unit: 'eg', // assume "eg" is the unit... for some reason
+});
+
+parse('1 meg'); // => 0.001 (not 1000000)
+parse('1 megeg'); // => 1000000
+parse('1 Meg'); // => 1000000
 ```
 
 ##### find

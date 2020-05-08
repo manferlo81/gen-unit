@@ -59,4 +59,19 @@ describe('parse "unit" option', () => {
 
   });
 
+  test('Should parse prefixed unit over prefix', () => {
+
+    const parse = createParser({ unit: 'eg' });
+
+    const values = [
+      { value: '10meg', expected: 10e-3 },
+      { value: '10megeg', expected: 10e6 },
+    ];
+
+    values.forEach(({ value, expected }) => {
+      expect(parse(value)).toBe(expected);
+    });
+
+  });
+
 });
