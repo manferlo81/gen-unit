@@ -1,8 +1,8 @@
 const reg = /^\s*(-?[.\d]+(?:e[+-]?\d+)?)\s*(\w*)\s*$/;
 
-export function capture(asString: string): [string, string] | null {
+export function capture(input: string): [string, string] | null {
 
-  const result = reg.exec(asString);
+  const result = reg.exec(input);
 
   if (!result) {
     return null;

@@ -1,3 +1,4 @@
+import { hasOwn } from '../tools/helpers';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { pow } from '../tools/math';
@@ -69,8 +70,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
       return 1;
     }
 
-    // eslint-disable-next-line no-prototype-builtins
-    if (findTable.hasOwnProperty(capturedUnit)) {
+    if (hasOwn.call(findTable, capturedUnit)) {
       return findTable[capturedUnit];
     }
 
