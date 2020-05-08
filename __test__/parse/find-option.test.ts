@@ -142,7 +142,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as function returning object | null', () => {
+  test('Should use "find" option as function returning object', () => {
 
     const parse = createParser({
       find: (unit) => (unit === 'k' ? { mul: 1000 } : null),
@@ -159,6 +159,24 @@ describe('parse "find" option', () => {
     });
 
     expect(parse('4.2m')).toBeNaN();
+
+  });
+
+  test('Should use "find" option as function returning object with NaN', () => {
+
+    const parse = createParser({
+      find: () => ({ mul: NaN }),
+    });
+
+    const values = [
+      '1.2k',
+      '3.1k',
+      '4.2m',
+    ];
+
+    values.forEach((value) => {
+      expect(parse(value)).toBeNaN();
+    });
 
   });
 
