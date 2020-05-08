@@ -38,7 +38,13 @@ const defaultFindResults = [
 export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableItem[]): FindUnitFunction {
 
   if (isFunction(find)) {
-    return find;
+    return (value): FindUnitResult => {
+      const result = find(value);
+      if (typeof result !== 'object') {
+        throw new TypeError(`${result} is not a valid return value for "find" option`);
+      }
+      return result;
+    };
   }
 
   const results: FindUnitResult[] = find

@@ -231,4 +231,26 @@ describe('format "find" option', () => {
 
   });
 
+  test('Should throw on invalid find function result', () => {
+
+    const values = [
+      true,
+      false,
+      0,
+      'string',
+      '',
+    ];
+
+    values.forEach((value) => {
+
+      const format = createFormatter({
+        find: () => value as never,
+      });
+
+      expect(() => format(10)).toThrow();
+
+    });
+
+  });
+
 });
