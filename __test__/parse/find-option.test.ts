@@ -200,4 +200,24 @@ describe('parse "find" option', () => {
 
   });
 
+  test('Should throw on invalid multiplier', () => {
+
+    const values = [
+      true,
+      false,
+      0,
+    ];
+
+    values.forEach((value) => {
+
+      const parse = createParser({
+        find: () => value as never,
+      });
+
+      expect(() => parse('10 x')).toThrow();
+
+    });
+
+  });
+
 });

@@ -5,6 +5,7 @@ import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { DeprecatedTableItem } from '../types';
 import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, MultiplierFound } from './types';
+import { isNaN } from '../tools/number';
 
 const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'meg', exp: 2 },
@@ -45,8 +46,29 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
   if (isFunction(find)) {
     return (capturedUnit: string): MultiplierFound | null => {
+
       const result = find(capturedUnit);
-      return isNumber(result) ? { mul: result } : (result || null);
+
+      if (isNumber(result)) {
+
+        if (result === 0) {
+          throw new TypeError('Multiplier can\'t be zero');
+        }
+
+        return isNaN(result) ? null : { mul: result };
+
+      }
+
+      if (result == null) {
+        return null;
+      }
+
+      if (typeof result !== 'object') {
+        throw new TypeError(`${result} if not a valid multiplier`);
+      }
+
+      return result;
+
     };
   }
 
