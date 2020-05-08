@@ -44,7 +44,10 @@ function transformItems(find: FindMultiplierExpItem[], base: number, unit?: stri
 export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
 
   if (isFunction(find)) {
-    return find;
+    return (capturedUnit: string): MultiplierFound | null => {
+      const result = find(capturedUnit);
+      return isNumber(result) ? { mul: result } : (result || null);
+    };
   }
 
   const findTable = find
