@@ -23,7 +23,7 @@ export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   find?: FindMultiplierOption;
 }
 
-export type ParseInput = string | number | object;
+export type ParseInput = string | number | unknown;
 export type ParseFunction = (input: ParseInput) => number;
 
 // DEPRECATED

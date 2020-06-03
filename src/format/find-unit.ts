@@ -41,6 +41,7 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
     return (value): FindUnitResult => {
       const result = find(value);
       if (typeof result !== 'object') {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new TypeError(`${result} is not a valid return value for "find" option`);
       }
       return result;

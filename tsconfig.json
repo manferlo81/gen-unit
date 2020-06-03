@@ -11,8 +11,8 @@
     "noImplicitThis": true
   },
   "include": [
-    "src",
-    "__test__",
+    "src/**/*.ts",
+    "__test__/**/*.ts",
     "jest.config.js"
   ],
   "exclude": [

@@ -24,6 +24,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
       return NaN;
     }
 
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const asString = `${input}`;
 
     if (!asString) {

@@ -64,6 +64,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
       }
 
       if (typeof result !== 'object') {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw new TypeError(`${result} if not a valid multiplier`);
       }
 
