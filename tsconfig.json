@@ -12,7 +12,8 @@
   },
   "include": [
     "src",
-    "__test__"
+    "__test__",
+    "jest.config.js"
   ],
   "exclude": [
     "node_modules",
