@@ -9,7 +9,10 @@
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true
+    "noImplicitThis": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist"
   },
   "include": [
     "src/**/*.ts",
@@ -19,7 +22,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    "types",
     "coverage"
   ]
 }

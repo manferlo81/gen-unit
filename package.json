@@ -14,13 +14,13 @@
   "main": "dist/gen-unit.js",
   "module": "dist/gen-unit.mjs",
   "browser": "dist/gen-unit.umd.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "bundlib -dw",
     "build": "bundlib -d",
     "test": "jest --color -w 3",
     "test:watch": "npm test -- --watch-all",
-    "clean": "rimraf dist types coverage node_modules/.cache/bundlib node_modules/.cache/jest",
+    "clean": "rimraf dist coverage node_modules/.cache/bundlib node_modules/.cache/jest",
     "lint": "eslint src/** __test__/**",
     "prerelease": "npm run clean && npm run lint && npm test && npm run build",
     "release": "standard-version"
@@ -43,8 +43,7 @@
     "typescript": "^4.0.3"
   },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "author": {
     "name": "Manuel Fernández",
