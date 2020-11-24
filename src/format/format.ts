@@ -4,11 +4,6 @@ import { createUnitFinder } from './find-unit';
 import { createRounder } from './round';
 import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './types';
 
-function defaultFormat(value: string | number, pre: string, unit: string): string {
-  const wholeUnit = `${pre}${unit}`;
-  return `${value}${wholeUnit ? ` ${wholeUnit}` : ''}`;
-}
-
 export function createFormatter(options?: CreateFormatterOptions): FormatFunction {
 
   const {
@@ -35,7 +30,10 @@ export function createFormatter(options?: CreateFormatterOptions): FormatFunctio
 
   const fmt = isFunction<FormatOutputFunction>(output)
     ? output
-    : defaultFormat;
+    : (value: string | number, pre: string, unit: string): string => {
+      const wholeUnit = `${pre}${unit}`;
+      return `${value}${wholeUnit ? ` ${wholeUnit}` : ''}`;
+    };
 
   return (value: number): string => {
     const unitObj = findUnit(value);
