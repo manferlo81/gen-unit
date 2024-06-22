@@ -16,49 +16,66 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
 
   return (input: ParseInput): number => {
 
+    // if input is of type number (number, NaN or Infinity)
     if (isNumber(input)) {
+      // return the number if it's finite (number), otherwise (NaN or Infinity) return NaN
       return isFinite(input) ? input : NaN;
     }
 
+    // if input is falsy (false, "", null or undefined) return NaN
     if (!input) {
       return NaN;
     }
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    const asString = `${input}`;
+    // convert input (probably array or object) to string
+    const asString = `${input as string}`;
 
+    // if string is empty ("") return NaN
     if (!asString) {
       return NaN;
     }
 
+    // convert string to number
     const asNum = +asString;
 
+    // if number is not NaN & it's finite (not Infinity) return it, otherwise return NaN
     if (!isNaN(asNum)) {
       return isFinite(asNum) ? asNum : NaN;
     }
 
-    const result = capture(asString);
+    // capture value & unit from string
+    const captureResult = capture(asString);
 
-    if (!result) {
+    // if can't capture, return NaN
+    if (!captureResult) {
       return NaN;
     }
 
-    const [valueAsStr, unit] = result;
+    // get value & unit from captured
+    const [valueAsStr, wholeUnit] = captureResult;
+    // convert captured value to number
     const valueAsNum = +valueAsStr;
 
+    // if value if 0 or NaN
     if (!valueAsNum) {
-      return valueAsNum === 0 ? 0 : NaN;
+      // return 0 or NaN
+      return valueAsNum;// === 0 ? 0 : NaN;
     }
 
-    const mul = findMul(unit);
+    // find multiplier
+    const mulObj = findMul(wholeUnit);
 
-    if (!mul) {
+    // if can't find multiplier, return NaN
+    if (!mulObj) {
       return NaN;
     }
 
-    const { mul: mul2 } = mul;
+    // get multiplier from object
+    const { mul: multiplier } = mulObj;
 
-    return mul2 ? valueAsNum * mul2 : NaN;
+    // TODO: provably unnecessary check as multiplier should be different from 0 or NaN
+    // but maybe I should leave it as a sanity check
+    return multiplier ? valueAsNum * multiplier : NaN;
 
   };
 

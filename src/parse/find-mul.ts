@@ -3,10 +3,11 @@ import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { DeprecatedTableItem } from '../types';
-import { FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, MultiplierFound } from './types';
 import { isNaN } from '../tools/number';
+import { DeprecatedTableItem } from '../types';
+import { DeclarativeFindMultiplierOption, FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, MultiplierFound } from './types';
 
+// default find multiplier exponent list
 const defaultFindItems: FindMultiplierExpItem[] = [
   { pre: 'meg', exp: 2 },
   { pre: 'f', exp: -5 },
@@ -42,37 +43,7 @@ function transformItems(find: FindMultiplierExpItem[], base: number, unit?: stri
 
 }
 
-export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
-
-  if (isFunction(find)) {
-    return (capturedUnit: string): MultiplierFound | null => {
-
-      const result = find(capturedUnit);
-
-      if (isNumber(result)) {
-
-        if (result === 0) {
-          throw new TypeError('Multiplier can\'t be zero');
-        }
-
-        return isNaN(result) ? null : { mul: result };
-
-      }
-
-      if (result == null) {
-        return null;
-      }
-
-      if (typeof result !== 'object') {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        throw new TypeError(`${result} if not a valid multiplier`);
-      }
-
-      return result;
-
-    };
-  }
-
+function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption, table?: DeprecatedTableItem[]) {
   const findTable = find
     ? (
       isNumber(find)
@@ -90,17 +61,64 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
         unit,
       )
       : transformItems(defaultFindItems, 1000, unit);
+  return findTable;
+}
 
-  return (capturedUnit: string): MultiplierFound | null => {
+export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
 
-    if (capturedUnit === unit) {
+  // if find is a function
+  if (isFunction(find)) {
+
+    return (capturedHoleUnit: string): MultiplierFound | null => {
+
+      // find multiplier
+      const result = find(capturedHoleUnit);
+
+      // if multiplier is a number
+      if (isNumber(result)) {
+
+        // if multiplier is 0, throw Error
+        if (result === 0) {
+          throw new TypeError('Multiplier can\'t be zero');
+        }
+
+        // if multiplier is NaN, return null (no multiplier found)
+        // otherwise return multiplier object
+        return isNaN(result) ? null : { mul: result };
+
+      }
+
+      // if no multiplier found, return null
+      if (result == null) {
+        return null;
+      }
+
+      // if multiplier is not an object, throw Error
+      if (typeof result !== 'object') {
+        throw new TypeError(`${result as string} if not a valid multiplier`);
+      }
+
+      // return multiplier object
+      return result;
+
+    };
+  }
+
+  const findTable = createFindTable(unit, find, table);
+
+  return (capturedHoleUnit: string): MultiplierFound | null => {
+
+    // if captured unit equals unit, return 1 as multiplier
+    if (capturedHoleUnit === unit) {
       return { mul: 1 };
     }
 
-    if (hasOwn.call(findTable, capturedUnit)) {
-      return { mul: findTable[capturedUnit] };
+    // if table contains captured unit, return corresponding multiplier
+    if (hasOwn.call(findTable, capturedHoleUnit)) {
+      return { mul: findTable[capturedHoleUnit] };
     }
 
+    // return null if not multiplier found
     return null;
 
   };

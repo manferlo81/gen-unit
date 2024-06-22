@@ -13,8 +13,9 @@ export interface FindMultiplierAdvancedOptions {
 export interface MultiplierFound {
   mul: number;
 }
-export type FindMultiplierUserFunction = (unit: string) => number | null | MultiplierFound;
-export type FindMultiplierFunction = (unit: string) => MultiplierFound | null;
+
+export type FindMultiplierUserFunction = (capturedHoleUnit: string) => number | null | MultiplierFound;
+export type FindMultiplierFunction = (capturedWholeUnit: string) => MultiplierFound | null;
 export type DeclarativeFindMultiplierOption = number | FindMultiplierExpItem[] | FindMultiplierAdvancedOptions;
 export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierUserFunction;
 
