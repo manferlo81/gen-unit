@@ -4,7 +4,7 @@ import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { isNaN } from '../tools/number';
-import { DeprecatedTableItem } from '../types';
+import { DeprecatedTableItem } from '../common/deprecated';
 import { DeclarativeFindMultiplierOption, FindMultiplierExpItem, FindMultiplierFunction, FindMultiplierOption, MultiplierFound } from './types';
 
 // default find multiplier exponent list

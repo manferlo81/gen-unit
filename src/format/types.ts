@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../types';
+import { type DeprecatedCreateFormatterOptions } from './deprecated';
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 
@@ -39,11 +39,3 @@ export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions
 }
 
 export type FormatFunction = (value: number) => string;
-
-// DEPRECATED
-
-interface DeprecatedCreateFormatterOptions {
-  dec?: number | string;
-  fixed?: boolean;
-  table?: DeprecatedTableItem[];
-}

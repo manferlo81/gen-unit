@@ -1,9 +1,9 @@
-import { MICRO } from '../consts';
+import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { DeprecatedTableItem } from '../types';
+import { DeprecatedTableItem } from '../common/deprecated';
 import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
 function transformFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {

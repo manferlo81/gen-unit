@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../types';
+import { type DeprecatedCreateParserOptions } from './deprecated';
 
 export interface FindMultiplierExpItem {
   pre: string;
@@ -24,11 +24,5 @@ export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   find?: FindMultiplierOption;
 }
 
-export type ParseInput = string | number | unknown;
+export type ParseInput = unknown;
 export type ParseFunction = (input: ParseInput) => number;
-
-// DEPRECATED
-
-interface DeprecatedCreateParserOptions {
-  table?: DeprecatedTableItem[];
-}
