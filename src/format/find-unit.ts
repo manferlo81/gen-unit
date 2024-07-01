@@ -55,8 +55,8 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
         : isArray(find)
           ? sortFindUnitArray(find, 1000)
           : find.find
-            ? sortFindUnitArray(find.find, find.base || 1000)
-            : transformFindUnitArray(defaultFindResults, find.base || 1000)
+            ? sortFindUnitArray(find.find, find.base ?? 1000)
+            : transformFindUnitArray(defaultFindResults, find.base ?? 1000)
     )
     : table
       ? sortFindUnitArray(

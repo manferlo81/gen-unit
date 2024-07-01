@@ -51,8 +51,8 @@ function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption, 
         : isArray(find)
           ? transformItems(find, 1000, unit)
           : find.find
-            ? transformItems(find.find, find.base || 1000, unit)
-            : transformItems(defaultFindItems, find.base || 1000, unit)
+            ? transformItems(find.find, find.base ?? 1000, unit)
+            : transformItems(defaultFindItems, find.base ?? 1000, unit)
     )
     : table
       ? transformItems(

@@ -4,13 +4,13 @@ import { capture } from './capture';
 import { createMulFinder } from './find-mul';
 import { CreateParserOptions, ParseFunction, ParseInput } from './types';
 
-export function createParser(options?: CreateParserOptions): ParseFunction {
+export function createParser(options: CreateParserOptions = {}): ParseFunction {
 
   const {
     unit,
     find,
     table: deprecatedTable,
-  } = options || {} as CreateParserOptions;
+  } = options;
 
   const findMul = createMulFinder(unit, find, deprecatedTable);
 
@@ -28,7 +28,7 @@ export function createParser(options?: CreateParserOptions): ParseFunction {
     }
 
     // convert input (probably array or object) to string
-    const asString = `${input as string}`;
+    const asString = `${input as never}`;
 
     // if string is empty ("") return NaN
     if (!asString) {

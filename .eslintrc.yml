@@ -5,51 +5,61 @@ env:
 
 extends:
   - "eslint:recommended"
-  - "plugin:@typescript-eslint/recommended"
-  - "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  - "plugin:@typescript-eslint/strict-type-checked"
+  - "plugin:@typescript-eslint/stylistic-type-checked"
 
 parser: "@typescript-eslint/parser"
 
 parserOptions:
-  ecmaVersion: 12
+  ecmaVersion: latest
   sourceType: module
   project: tsconfig.json
 
 plugins:
+  - "@stylistic/js"
   - "@typescript-eslint"
+  - "@stylistic/ts"
+
+root: true
 
 rules:
-  indent:
+  "@stylistic/js/semi": "off"
+  "@stylistic/ts/semi":
+    - error
+    - always
+
+  "@stylistic/js/indent": "off"
+  "@stylistic/ts/indent":
     - error
     - 2
 
-  linebreak-style:
-    - error
-    - windows
-
-  quotes:
+  "@stylistic/js/quotes": "off"
+  "@stylistic/ts/quotes":
     - error
     - single
 
-  comma-dangle:
+  "@stylistic/js/comma-dangle": "off"
+  "@stylistic/ts/comma-dangle":
     - error
     - always-multiline
+
+  "@stylistic/js/linebreak-style":
+    - error
+    - windows
 
   no-useless-rename: error
   object-shorthand: error
 
-  no-multiple-empty-lines:
+  "@stylistic/js/no-multiple-empty-lines":
     - error
     - max: 1
       maxBOF: 0
       maxEOF: 0
 
-  semi: "off"
-  "@typescript-eslint/semi":
-    - error
-    - always
-
   "@typescript-eslint/array-type":
     - error
     - default: array-simple
       readonly: array-simple
+
+  "@stylistic/ts/member-delimiter-style": "error"
+  "@typescript-eslint/restrict-template-expressions": "off"
