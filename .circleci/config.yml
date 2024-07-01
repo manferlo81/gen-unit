@@ -4,9 +4,9 @@ orbs:
   codecov: codecov/codecov@1.0.5
 
 executors:
-  node_10:
+  node_18:
     docker:
-      - image: circleci/node:10
+      - image: cimg/node:18.20.3
     working_directory: &working_directory ~/gen-unit
 
 commands:
@@ -21,7 +21,7 @@ commands:
 
 jobs:
   test_and_build:
-    executor: node_10
+    executor: node_18
     steps:
       - checkout
       - restore_cache:
@@ -47,7 +47,7 @@ jobs:
             - .
 
   upload_coverage:
-    executor: node_10
+    executor: node_18
     steps:
       - attach_workspace: &attach_workspace
           at: *working_directory
@@ -55,7 +55,7 @@ jobs:
           file: coverage/*.json
 
   publish_to_npm:
-    executor: node_10
+    executor: node_18
     steps:
       - attach_workspace: *attach_workspace
       - npm_publish
