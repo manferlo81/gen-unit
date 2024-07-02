@@ -1,5 +1,4 @@
-import { type DeprecatedCreateParserOptions } from './deprecated';
-import { MultiplierFound } from './internal-types';
+import { type DeprecatedCreateParserOptions, type DeprecatedFindMultiplierFunction } from './deprecated';
 
 export interface FindMultiplierExpItem {
   pre: string;
@@ -14,9 +13,9 @@ export interface FindMultiplierAdvancedOptions {
   find?: FindMultiplierExpItems;
 }
 
-export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null | MultiplierFound;
+export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
 export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | FindMultiplierExpItems | FindMultiplierAdvancedOptions;
-export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction;
+export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction | DeprecatedFindMultiplierFunction;
 
 export interface CreateParserOptions extends DeprecatedCreateParserOptions {
   unit?: string;

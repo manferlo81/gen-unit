@@ -12,7 +12,7 @@ export function createParser(options: CreateParserOptions = {}): ParseFunction {
     table: deprecatedTable,
   } = options;
 
-  const findMul = createMulFinder(unit, find, deprecatedTable);
+  const findMultiplier = createMulFinder(unit, find, deprecatedTable);
 
   return (input: ParseInput): number => {
 
@@ -63,19 +63,15 @@ export function createParser(options: CreateParserOptions = {}): ParseFunction {
     }
 
     // find multiplier
-    const mulObj = findMul(wholeUnit);
+    const multiplier = findMultiplier(wholeUnit);
 
     // if can't find multiplier, return NaN
-    if (!mulObj) {
+    if (!multiplier) {
       return NaN;
     }
 
-    // get multiplier from object
-    const { mul: multiplier } = mulObj;
-
-    // TODO: provably unnecessary check as multiplier should be different from 0 or NaN
-    // but maybe I should leave it as a sanity check
-    return multiplier ? valueAsNum * multiplier : NaN;
+    // return  multiplier
+    return valueAsNum * multiplier;
 
   };
 

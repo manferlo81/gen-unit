@@ -4,8 +4,9 @@ import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { DeclarativeFindMultiplierOption, FindMultiplierExpItem } from './types';
+import { validateMultiplier } from './validate-multiplier';
 
-type FindMultiplierTable = Record<string, number>;
+type FindMultiplierTable = Partial<Record<string, number>>;
 
 const defaultBase1000FindItems: FindMultiplierExpItem[] = [
   { pre: 'meg', exp: 2 },
@@ -22,6 +23,13 @@ const defaultBase1000FindItems: FindMultiplierExpItem[] = [
   { pre: 'T', exp: 4 },
 ];
 
+const populateMultiplierTable = (result: FindMultiplierTable, pre: string, multiplier: number): FindMultiplierTable => {
+  return {
+    ...result,
+    [pre]: multiplier,
+  };
+};
+
 /**
  * transforms find items into
  * @param items
@@ -31,17 +39,24 @@ const defaultBase1000FindItems: FindMultiplierExpItem[] = [
  */
 function transformItems(items: FindMultiplierExpItem[], base: number, unit = ''): FindMultiplierTable {
 
-  const populate: (result: FindMultiplierTable, pre: string, value: number) => FindMultiplierTable = unit
-    ? (result, pre, value) => {
-      return { ...result, [pre]: value, [`${pre}${unit}`]: value };
+  const populate: (result: FindMultiplierTable, pre: string, value: number) => FindMultiplierTable = unit ? (
+    (result, pre, multiplier) => {
+      return populateMultiplierTable(
+        populateMultiplierTable(
+          result,
+          pre,
+          multiplier,
+        ),
+        `${pre}${unit}`,
+        multiplier,
+      );
     }
-    : (result, pre, value) => {
-      return { ...result, [pre]: value };
-    };
+  ) : populateMultiplierTable;
 
   return items.reduce<FindMultiplierTable>(
     (result, { pre, exp }) => {
-      return populate(result, pre, pow(base, exp));
+      const multiplier = validateMultiplier(pow(base, exp));
+      return populate(result, pre, multiplier);
     },
     {},
   );

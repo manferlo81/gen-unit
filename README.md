@@ -16,6 +16,13 @@ yarn add gen-unit
 
 ## API
 
+- [createParser](#createparser)
+  - ["unit" option](#unit)
+  - ["find" option](#find)
+- [createFormatter](#createformatter)
+  - ["unit" option](#unit-1)
+  - ["find" option](#find-1)
+
 ### createParser
 
 Creates a `parse` function using the given options.
@@ -51,19 +58,26 @@ parse('1 Kg'); // => 1000
 parse('1 ms'); // => NaN
 ```
 
-* Precedence
+- Precedence
 
 This option takes precedence over any prefix or prefixed unit.
 
 ***examples***
 
 ```typescript
-const parse = createParser({
-  unit: 'm',
+const parseMeter = createParser({
+  unit: 'm', // Meter
 });
 
-parse('1 m'); // => 1  (not 0.001)
-parse('1 mm'); // => 0.001
+parseMeter('1 m'); // returns 1 (1 meter)
+parseMeter('1 mm'); // returns 0.001 (1 millimeter)
+
+const parseSecond = createParser({
+  unit: 's'
+});
+
+parseSecond('1 m'); // returns 0.001 (1 millisecond)
+parseSecond('1 ms'); // returns 0.001 (1 millisecond)
 ```
 
 ```typescript
@@ -80,7 +94,7 @@ parse('1 Meg'); // => 1000000
 
 The `"find"` option describes how to find the `number` by which the parsed value should be multiplied.
 
-* ***"find" option as an object***
+- ***"find" option as an object***
 
 ```typescript
 find: {
@@ -127,7 +141,7 @@ parse('1 M'); // => 1048576
 parse('1 G'); // => NaN
 ```
 
-* ***"find" option as a number***
+- ***"find" option as a number***
 
 ```typescript
 find: number;
@@ -145,10 +159,10 @@ const parse = createParser({
 parse('2'); // => 2
 parse('2 K'); // => 2048
 parse('2 M'); // => 2097152
-parse('2 G'); // => ‭‭‭2147483648‬
+parse('2 G'); // => 2147483648
 ```
 
-* ***"find" option as an array***
+- ***"find" option as an array***
 
 ```typescript
 find: Array<{ pre: string; exp: number }>;
@@ -172,13 +186,13 @@ parse('1.3 M'); // => 1300000
 parse('1.3 G'); // => NaN
 ```
 
-* ***"find" option as a function***
+- ***"find" option as a function***
 
 ```typescript
-find: (unit: string) => number;
+find: (unit: string) => number | null;
 ```
 
-A function that returns a `number` by which the parsed value should be multiplied based on the captured `unit`.
+A function that returns a non-zero `number` by which the parsed value should be multiplied based on the captured `unit`. Return `null` (or `undefined`) if multiplier can't be determined. I will cause the parse function to return `NaN`. If your function returns zero (`0`), parse function will throw a `TypeError`.
 
 ***example***
 
@@ -190,6 +204,9 @@ const parse = createParser({
     } else if (unit === 'M') {
       return 1024 ** 2;
     }
+    // next line can be omitted
+    // as it will return undefined anyway
+    return null;
   },
 });
 
@@ -198,6 +215,10 @@ parse('2 K'); // => 2048
 parse('2 M'); // => 2097152
 parse('2 G'); // => NaN
 ```
+
+- ***Notes***
+
+Previous version of this library allow this function to return an object `{ mul: number }` containing the multiplier. While this still works it's not recommended as this behavior will be removed in the future.
 
 ### createFormatter
 
@@ -215,7 +236,7 @@ type FormatFunction = (input) => string;
 
 The `"unit"` option defines the `unit` to be used during formatting.
 
-* ***"unit" option as a string***
+- ***"unit" option as a string***
 
 ```typescript
 unit: string;
@@ -235,7 +256,7 @@ format(0.0012); // => '1.2 mm'
 format(1200); // => '1.2 Km'
 ```
 
-* ***"unit" option as a function***
+- ***"unit" option as a function***
 
 ```typescript
 unit: (value: number, rounded: string | number, pre: string) => string;
@@ -261,7 +282,7 @@ format(1200); // => '1.2 Km'
 
 The `"find"` option describes how to find the unit `prefix` based on input value.
 
-* ***"find" option as an object***
+- ***"find" option as an object***
 
 ```typescript
 find: {
@@ -306,7 +327,7 @@ format(2048); // => '2 K'
 format(2097152); // => '2048 K'
 ```
 
-* ***"find" option as a number***
+- ***"find" option as a number***
 
 ```typescript
 find: number;
@@ -326,7 +347,7 @@ format(2048); // => '2 K'
 format(2097152); // => '2 M'
 ```
 
-* ***"find" option as an array***
+- ***"find" option as an array***
 
 ```typescript
 find: Array<{ exp: number; pre: string }>;
@@ -349,7 +370,7 @@ format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
 
-* ***"find" option as a function***
+- ***"find" option as a function***
 
 ```typescript
 find: (value: number) => { div: number; pre: string };
@@ -379,7 +400,7 @@ format(2000000); // => '2000 K'
 
 The `"round"` option describes how to round the value.
 
-* ***"round" option as an object***
+- ***"round" option as an object***
 
 ```typescript
 round: {
@@ -410,7 +431,7 @@ format(1230); // => '1.230 K'
 format(0.00123); // => '1.230 m'
 ```
 
-* ***"round" option as a number***
+- ***"round" option as a number***
 
 ```typescript
 round: number;
@@ -430,7 +451,7 @@ format(1230); // => '1.2 K'
 format(0.00123); // => '1.2 m'
 ```
 
-* ***"round" option a function***
+- ***"round" option a function***
 
 ```typescript
 round: (num: number) => (string | number);

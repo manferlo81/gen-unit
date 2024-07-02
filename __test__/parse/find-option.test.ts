@@ -146,48 +146,10 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as function returning object', () => {
-
-    const parse = createParser({
-      find: (unit) => (unit === 'k' ? { mul: 1000 } : null),
-    });
-
-    const values = [
-      { value: '1.2k', expected: 1.2 * 1000 },
-      { value: '3.1k', expected: 3.1 * 1000 },
-      { value: '3.1', expected: 3.1 },
-    ];
-
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
-    });
-
-    expect(parse('4.2m')).toBeNaN();
-
-  });
-
-  test('Should use "find" option as function returning object with NaN', () => {
-
-    const parse = createParser({
-      find: () => ({ mul: NaN }),
-    });
-
-    const values = [
-      '1.2k',
-      '3.1k',
-      '4.2m',
-    ];
-
-    values.forEach((value) => {
-      expect(parse(value)).toBeNaN();
-    });
-
-  });
-
   test('Should use "find" option as function returning number', () => {
 
     const parse = createParser({
-      find: (unit) => unit === 'k' ? 1000 : NaN,
+      find: (unit) => unit === 'k' ? 1000 : null,
     });
 
     const values = [
@@ -209,8 +171,6 @@ describe('parse "find" option', () => {
     const values = [
       true,
       false,
-      // { mul: true },
-      // { mul: false },
     ];
 
     values.forEach((value) => {
@@ -225,41 +185,33 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should throw on invalid multiplier object', () => {
+  test('Should throw on zero as multiplier', () => {
 
-    const values = [
-      { mul: true },
-      { mul: false },
-    ];
-
-    values.forEach((value) => {
-
-      const parse = createParser({
-        find: () => value as never,
-      });
-
-      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
-
+    const parse = createParser({
+      find: () => 0,
     });
+
+    expect(() => parse('10 k')).toThrow('Multiplier can\'t be zero');
 
   });
 
-  test('Should throw on zero as multiplier', () => {
+  test('Should throw on NaN as multiplier', () => {
 
-    const values = [
-      0,
-      { mul: 0 },
-    ];
-
-    values.forEach((value) => {
-
-      const parse = createParser({
-        find: () => value as never,
-      });
-
-      expect(() => parse('10 k')).toThrow('Multiplier can\'t be zero');
-
+    const parse = createParser({
+      find: () => NaN,
     });
+
+    expect(() => parse('10 k')).toThrow('multiplier is NaN');
+
+  });
+
+  test('Should return NaN if multiplier is null', () => {
+
+    const parse = createParser({
+      find: () => null,
+    });
+
+    expect(parse('10 k')).toBeNaN();
 
   });
 

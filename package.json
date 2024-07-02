@@ -13,8 +13,11 @@
   ],
   "type": "commonjs",
   "exports": {
+    "default": "./dist/gen-unit.cjs",
+    "require": "./dist/gen-unit.cjs",
     "import": "./dist/gen-unit.mjs",
-    "default": "./dist/gen-unit.cjs"
+    "node": "./dist/gen-unit.cjs",
+    "types": "./dist/types/index.d.ts"
   },
   "main": "./dist/gen-unit.cjs",
   "module": "./dist/gen-unit.mjs",
@@ -63,7 +66,8 @@
   },
   "author": {
     "name": "Manuel Fernández",
-    "email": "manferlo81@gmail.com"
+    "email": "manferlo81@gmail.com",
+    "url": "https://github.com/manferlo81"
   },
   "repository": {
     "type": "git",
