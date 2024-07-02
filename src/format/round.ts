@@ -1,7 +1,7 @@
 import { error } from '../common/error';
 import { pow } from '../tools/math';
 import { isFinite, isNaN } from '../tools/number';
-import { RoundAdvancedOptions, RoundFunction } from './types';
+import { type RoundAdvancedOptions, type RoundFunction } from './types';
 
 export function createRounder(options: RoundAdvancedOptions): RoundFunction {
 

@@ -16,12 +16,17 @@ yarn add gen-unit
 
 ## API
 
-- [createParser](#createparser)
+- [createParser function](#createparser)
   - ["unit" option](#unit)
   - ["find" option](#find)
-- [createFormatter](#createformatter)
+- [createFormatter function](#createformatter)
   - ["unit" option](#unit-1)
   - ["find" option](#find-1)
+  - ["round" option](#round)
+  - ["output" option](#output)
+- [parse function](#parse)
+- [format function](#format)
+- [MICRO constant](#micro)
 
 ### createParser
 
@@ -71,9 +76,11 @@ const parseMeter = createParser({
 
 parseMeter('1 m'); // returns 1 (1 meter)
 parseMeter('1 mm'); // returns 0.001 (1 millimeter)
+```
 
+```typescript
 const parseSecond = createParser({
-  unit: 's'
+  unit: 's' // Seconds
 });
 
 parseSecond('1 m'); // returns 0.001 (1 millisecond)
@@ -109,6 +116,7 @@ default: {
     { pre: 'p', exp: -4 },
     { pre: 'n', exp: -3 },
     { pre: 'u', exp: -2 },
+    { pre: 'µ', exp: -2 },
     { pre: 'm', exp: -1 },
     { pre: 'k', exp: 1 },
     { pre: 'K', exp: 1 },
@@ -168,7 +176,7 @@ parse('2 G'); // => 2147483648
 find: Array<{ pre: string; exp: number }>;
 ```
 
-An `array` of `objects` describing the different units `prefixes`.
+An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000).
 
 ***example***
 
@@ -183,7 +191,7 @@ const parse = createParser({
 parse('1.3'); // => 1.3
 parse('1.3 K'); // => 1300
 parse('1.3 M'); // => 1300000
-parse('1.3 G'); // => NaN
+parse('1.3 G'); // => NaN because prefix "G" can't be found
 ```
 
 - ***"find" option as a function***
@@ -493,7 +501,7 @@ format(0.00123); // => '1.23ms'
 
 ### parse
 
-A convenient function to parse an input in one step.
+A convenient function to parse an input in one step. I will internally call `createParser` then will call the newly created parser.
 
 ```typescript
 function parse(input, options): number;
@@ -501,11 +509,15 @@ function parse(input, options): number;
 
 ### format
 
-A convenient function to format a `number` in one step.
+A convenient function to format a `number` in one step. It wil internally call `createFormatter` then will call the newly created formatter.
 
 ```typescript
 function format(input, options): string;
 ```
+
+### MICRO
+
+A constant containing the micro symbol ("µ")
 
 ## License
 

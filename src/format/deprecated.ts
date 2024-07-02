@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../common/deprecated';
+import { type DeprecatedTableItem } from '../common/deprecated';
 
 /** @deprecated */
 export interface DeprecatedCreateFormatterOptions {

@@ -1,4 +1,4 @@
-import { DeprecatedTableItem } from '../common/deprecated';
+import { type DeprecatedTableItem } from '../common/deprecated';
 import { error } from '../common/error';
 import { type FindExponentItems } from '../common/types';
 import { MICRO } from '../constants';
