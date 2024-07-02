@@ -38,7 +38,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
       // if multiplier is not an object, throw Error
       if (typeof result !== 'object') {
-        throw new TypeError(`${result as string} if not a valid multiplier`);
+        throw new TypeError(`${result as string} is not a valid multiplier`);
       }
 
       // return multiplier object
