@@ -36,9 +36,22 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
       }
 
-      // if multiplier is not an object, throw Error
+      // throw if multiplier is not an object
       if (typeof result !== 'object') {
-        throw new TypeError(`${result as string} is not a valid multiplier`);
+        throw new TypeError(`function should return a number, { mul: number } or null. got ${result as string}`);
+      }
+
+      // get multiplier from object
+      const { mul } = result;
+
+      // throw if multiplier is not a number
+      if (!isNumber(mul)) {
+        throw new TypeError(`${mul} is not a valid multiplier`);
+      }
+
+      // throw if multiplier is zero
+      if (mul === 0) {
+        throw new TypeError('Multiplier can\'t be zero');
       }
 
       // return multiplier object
