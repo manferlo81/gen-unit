@@ -1,8 +1,8 @@
 import { isNumber } from '../tools/is-number';
 import { isFinite, isNaN } from '../tools/number';
 import { capture } from './capture';
-import { createMulFinder } from './find-mul';
-import { CreateParserOptions, ParseFunction, ParseInput } from './types';
+import { createMulFinder } from './find-multiplier';
+import { type CreateParserOptions, type ParseFunction, type ParseInput } from './types';
 
 export function createParser(options: CreateParserOptions = {}): ParseFunction {
 

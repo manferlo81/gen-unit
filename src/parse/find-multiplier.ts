@@ -1,8 +1,8 @@
-import { DeprecatedTableItem } from '../common/deprecated';
+import { type DeprecatedTableItem } from '../common/deprecated';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { __createFindTable } from './find-table';
-import { FindMultiplierFunction, FindMultiplierOption } from './types';
+import { type FindMultiplierFunction, type FindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';
 
 export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {

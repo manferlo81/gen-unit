@@ -1,4 +1,4 @@
-import { MICRO, createParser } from '../../src';
+import { MICRO, createParser, type CreateParserOptions } from '../../src';
 
 describe('parse "find" option', () => {
 
@@ -118,7 +118,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use default base and find if empty object passed', () => {
+  test('Should use default base and items if empty object passed', () => {
 
     const parse = createParser({
       find: {},
@@ -163,6 +163,34 @@ describe('parse "find" option', () => {
     });
 
     expect(parse('4.2m')).toBeNaN();
+
+  });
+
+  test('Should throw if find options result in a zero multiplier', () => {
+
+    const optionList: CreateParserOptions[] = [
+      { find: 0 },
+      { find: { base: 0 } },
+    ];
+
+    optionList.forEach((options) => {
+      expect(() => createParser(options)).toThrow('Multiplier can\'t be zero');
+    });
+
+  });
+
+  test('Should throw if find options result in a NaN multiplier', () => {
+
+    const optionList: CreateParserOptions[] = [
+      { find: NaN },
+      { find: [{ pre: 'k', exp: NaN }] },
+      { find: { base: NaN } },
+      { find: { find: [{ pre: 'k', exp: NaN }] } },
+    ];
+
+    optionList.forEach((options) => {
+      expect(() => createParser(options)).toThrow('multiplier is NaN');
+    });
 
   });
 

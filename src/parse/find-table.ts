@@ -1,9 +1,9 @@
-import { DeprecatedTableItem } from '../common/deprecated';
+import { type DeprecatedTableItem } from '../common/deprecated';
 import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { DeclarativeFindMultiplierOption, FindMultiplierExpItem } from './types';
+import { type DeclarativeFindMultiplierOption, type FindMultiplierExpItem } from './types';
 import { validateMultiplier } from './validate-multiplier';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
@@ -94,7 +94,7 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
 
   // return null if no "find" option
   // TODO: once deprecated "table" option removed it should return default find table and remove null form result
-  if (!find) return null;
+  if (find == null) return null;
 
   // use "find" option as base if it's a number
   if (isNumber(find)) return transformItems(defaultBase1000FindItems, find, unit);
