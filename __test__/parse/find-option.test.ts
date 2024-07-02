@@ -1,4 +1,4 @@
-import { createParser } from '../../src';
+import { MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
@@ -10,8 +10,10 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2k', expected: 1.2 * base },
-      { value: '1.2m', expected: 1.2 / base },
+      { value: '1.2m', expected: 1.2 * base ** -1 },
+      { value: '1.2k', expected: 1.2 * 1024 },
+      { value: '1.2M', expected: 1.2 * 1024 ** 2 },
+      { value: '1.2G', expected: 1.2 * 1024 ** 3 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -30,8 +32,8 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2k', expected: 1.2e3 },
-      { value: '1.2m', expected: 1.2e-3 },
+      { value: '1.2k', expected: 1.2 * 1000 ** 1 },
+      { value: '1.2m', expected: 1.2 * 1000 ** -1 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -54,8 +56,8 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2k', expected: 1.2 * base },
-      { value: '1.2m', expected: 1.2 / base },
+      { value: '1.2k', expected: 1.2 * base ** 1 },
+      { value: '1.2m', expected: 1.2 * base ** -1 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -72,11 +74,12 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2f', expected: 1.2 / base ** 5 },
-      { value: '1.2p', expected: 1.2 / base ** 4 },
-      { value: '1.2n', expected: 1.2 / base ** 3 },
-      { value: '1.2u', expected: 1.2 / base ** 2 },
-      { value: '1.2m', expected: 1.2 / base },
+      { value: '1.2f', expected: 1.2 * base ** -5 },
+      { value: '1.2p', expected: 1.2 * base ** -4 },
+      { value: '1.2n', expected: 1.2 * base ** -3 },
+      { value: '1.2u', expected: 1.2 * base ** -2 },
+      { value: `1.2${MICRO}`, expected: 1.2 * base ** -2 },
+      { value: '1.2m', expected: 1.2 * base ** -1 },
       { value: '1.2', expected: 1.2 },
       { value: '1.2k', expected: 1.2 * base },
       { value: '1.2K', expected: 1.2 * base },
@@ -104,9 +107,9 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2k', expected: 1.2e3 },
+      { value: '1.2k', expected: 1.2 * 1000 },
       { value: '1.2', expected: 1.2 },
-      { value: '1.2m', expected: 1.2e-3 },
+      { value: '1.2m', expected: 1.2 / 1000 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -122,18 +125,19 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2f', expected: 1.2e-15 },
-      { value: '1.2p', expected: 1.2e-12 },
-      { value: '1.2n', expected: 1.2e-9 },
-      { value: '1.2u', expected: 1.2e-6 },
-      { value: '1.2m', expected: 1.2e-3 },
+      { value: '1.2f', expected: 1.2 * 1000 ** -5 },
+      { value: '1.2p', expected: 1.2 * 1000 ** -4 },
+      { value: '1.2n', expected: 1.2 * 1000 ** -3 },
+      { value: '1.2u', expected: 1.2 * 1000 ** -2 },
+      { value: `1.2${MICRO}`, expected: 1.2 * 1000 ** -2 },
+      { value: '1.2m', expected: 1.2 * 1000 ** -1 },
       { value: '1.2', expected: 1.2 },
-      { value: '1.2k', expected: 1.2e3 },
-      { value: '1.2K', expected: 1.2e3 },
-      { value: '1.2meg', expected: 1.2e6 },
-      { value: '1.2M', expected: 1.2e6 },
-      { value: '1.2G', expected: 1.2e9 },
-      { value: '1.2T', expected: 1.2e12 },
+      { value: '1.2k', expected: 1.2 * 1000 },
+      { value: '1.2K', expected: 1.2 * 1000 },
+      { value: '1.2meg', expected: 1.2 * 1000 ** 2 },
+      { value: '1.2M', expected: 1.2 * 1000 ** 2 },
+      { value: '1.2G', expected: 1.2 * 1000 ** 3 },
+      { value: '1.2T', expected: 1.2 * 1000 ** 4 },
     ];
 
     values.forEach(({ value, expected }) => {
@@ -149,8 +153,8 @@ describe('parse "find" option', () => {
     });
 
     const values = [
-      { value: '1.2k', expected: 1.2e3 },
-      { value: '3.1k', expected: 3.1e3 },
+      { value: '1.2k', expected: 1.2 * 1000 },
+      { value: '3.1k', expected: 3.1 * 1000 },
       { value: '3.1', expected: 3.1 },
     ];
 
@@ -205,7 +209,8 @@ describe('parse "find" option', () => {
     const values = [
       true,
       false,
-      0,
+      // { mul: true },
+      // { mul: false },
     ];
 
     values.forEach((value) => {
@@ -214,7 +219,45 @@ describe('parse "find" option', () => {
         find: () => value as never,
       });
 
-      expect(() => parse('10 x')).toThrow();
+      expect(() => parse('10 k')).toThrow('function should return');
+
+    });
+
+  });
+
+  test('Should throw on invalid multiplier object', () => {
+
+    const values = [
+      { mul: true },
+      { mul: false },
+    ];
+
+    values.forEach((value) => {
+
+      const parse = createParser({
+        find: () => value as never,
+      });
+
+      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
+
+    });
+
+  });
+
+  test('Should throw on zero as multiplier', () => {
+
+    const values = [
+      0,
+      { mul: 0 },
+    ];
+
+    values.forEach((value) => {
+
+      const parse = createParser({
+        find: () => value as never,
+      });
+
+      expect(() => parse('10 k')).toThrow('Multiplier can\'t be zero');
 
     });
 
