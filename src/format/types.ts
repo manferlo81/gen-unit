@@ -1,3 +1,4 @@
+import { type FindExponentItems } from '../common/types';
 import { type DeprecatedCreateFormatterOptions } from './deprecated';
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
@@ -7,18 +8,13 @@ export interface FindUnitResult {
   pre: string;
 }
 
-export interface FindUnitExpItem {
-  exp: number;
-  pre: string;
-}
-
 export interface FindUnitAdvancedOptions {
   base?: number;
-  find?: FindUnitExpItem[];
+  find?: FindExponentItems;
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult;
-export type DeclarativeFindUnitOption = number | FindUnitExpItem[] | FindUnitAdvancedOptions;
+export type DeclarativeFindUnitOption = number | FindExponentItems | FindUnitAdvancedOptions;
 export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction;
 
 export interface RoundAdvancedOptions {

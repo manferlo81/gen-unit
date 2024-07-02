@@ -3,12 +3,13 @@ import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { type DeclarativeFindMultiplierOption, type FindMultiplierExpItem } from './types';
+import { type DeclarativeFindMultiplierOption } from './types';
+import { type FindExponentItem } from '../common/types';
 import { validateMultiplier } from './validate-multiplier';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
 
-const defaultBase1000FindItems: FindMultiplierExpItem[] = [
+const defaultBase1000FindItems: FindExponentItem[] = [
   { pre: 'meg', exp: 2 },
   { pre: 'f', exp: -5 },
   { pre: 'p', exp: -4 },
@@ -37,7 +38,7 @@ const populateMultiplierTable = (result: FindMultiplierTable, pre: string, multi
  * @param unit
  * @returns
  */
-function transformItems(items: FindMultiplierExpItem[], base: number, unit = ''): FindMultiplierTable {
+function transformItems(items: FindExponentItem[], base: number, unit = ''): FindMultiplierTable {
 
   const populate: (result: FindMultiplierTable, pre: string, value: number) => FindMultiplierTable = unit ? (
     (result, pre, multiplier) => {

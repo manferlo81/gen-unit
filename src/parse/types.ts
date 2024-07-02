@@ -1,20 +1,15 @@
+import { type FindExponentItems } from '../common/types';
 import { type DeprecatedCreateParserOptions, type DeprecatedFindMultiplierFunction } from './deprecated';
 
-export interface FindMultiplierExpItem {
-  pre: string;
-  exp: number;
-}
-
 export type BaseFindMultiplierOption = number;
-export type FindMultiplierExpItems = FindMultiplierExpItem[];
 
 export interface FindMultiplierAdvancedOptions {
   base?: BaseFindMultiplierOption;
-  find?: FindMultiplierExpItems;
+  find?: FindExponentItems;
 }
 
 export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
-export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | FindMultiplierExpItems | FindMultiplierAdvancedOptions;
+export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | FindExponentItems | FindMultiplierAdvancedOptions;
 export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction | DeprecatedFindMultiplierFunction;
 
 export interface CreateParserOptions extends DeprecatedCreateParserOptions {

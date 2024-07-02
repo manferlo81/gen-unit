@@ -2,7 +2,7 @@ import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { createUnitFinder } from './find-unit';
 import { createRounder } from './round';
-import { CreateFormatterOptions, FormatFunction, FormatOutputFunction, RoundFunction } from './types';
+import { type CreateFormatterOptions, type FormatFunction, type FormatOutputFunction, type RoundFunction } from './types';
 
 export function createFormatter(options: CreateFormatterOptions = {}): FormatFunction {
 
@@ -28,7 +28,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
         : (round ?? { dec: deprecatedDec, fixed: deprecatedFixed }),
     );
 
-  const fmt = isFunction<FormatOutputFunction>(output)
+  const formatOutput = isFunction<FormatOutputFunction>(output)
     ? output
     : (value: string | number, pre: string, unit: string): string => {
       const wholeUnit = `${pre}${unit}`;
@@ -37,13 +37,13 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
 
   return (value: number): string => {
     const unitObj = findUnit(value);
-    const { pre } = unitObj;
-    const value2 = value / unitObj.div;
-    const rounded = roundNum(value2);
-    const result = fmt(
+    const { pre, div: divisor } = unitObj;
+    const divided = value / divisor;
+    const rounded = roundNum(divided);
+    const result = formatOutput(
       rounded,
       pre,
-      getUnit(value2, rounded, pre),
+      getUnit(divided, rounded, pre),
     );
     return `${result}`;
   };

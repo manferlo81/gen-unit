@@ -1,13 +1,14 @@
 import { DeprecatedTableItem } from '../common/deprecated';
 import { error } from '../common/error';
+import { type FindExponentItems } from '../common/types';
 import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
+import { type FindUnitFunction, type FindUnitOption, type FindUnitResult } from './types';
 
-function transformFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {
+function transformFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
   return units
     .map<FindUnitResult>((item) => ({
       pre: item.pre,
@@ -15,7 +16,7 @@ function transformFindUnitArray(units: FindUnitExpItem[], base: number): FindUni
     }));
 }
 
-function sortFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {
+function sortFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
   return transformFindUnitArray(units, base).sort(
     (a, b) => (b.div - a.div),
   );
