@@ -1,4 +1,5 @@
 import { type DeprecatedTableItem } from '../common/deprecated';
+import { error } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { __createFindTable } from './find-table';
@@ -27,7 +28,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
       // throw if multiplier is not an object
       if (typeof result !== 'object') {
-        throw new TypeError(`function should return a non-zero number, null or undefined. got ${result as string}`);
+        throw error(`function should return a non-zero number, null or undefined. got ${result as string}`);
       }
 
       // get multiplier from object
@@ -39,7 +40,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
 
       // throw if multiplier is not a number
       if (!isNumber(multiplier)) {
-        throw new TypeError(`${multiplier} is not a valid multiplier`);
+        throw error(`${multiplier} is not a valid multiplier`);
       }
 
       return validateMultiplier(multiplier);

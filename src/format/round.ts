@@ -1,3 +1,4 @@
+import { error } from '../common/error';
 import { pow } from '../tools/math';
 import { isFinite, isNaN } from '../tools/number';
 import { RoundAdvancedOptions, RoundFunction } from './types';
@@ -8,7 +9,7 @@ export function createRounder(options: RoundAdvancedOptions): RoundFunction {
   const dec = decOp != null ? +decOp : 2;
 
   if (isNaN(dec) || !isFinite(dec) || dec < 0) {
-    throw new TypeError('invalid "dec" option.');
+    throw error('invalid "dec" option.');
   }
 
   if (fixed) {

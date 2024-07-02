@@ -1,9 +1,10 @@
+import { DeprecatedTableItem } from '../common/deprecated';
+import { error } from '../common/error';
 import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { DeprecatedTableItem } from '../common/deprecated';
 import { FindUnitExpItem, FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
 function transformFindUnitArray(units: FindUnitExpItem[], base: number): FindUnitResult[] {
@@ -42,7 +43,7 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
       const result = find(value);
       if (typeof result !== 'object') {
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        throw new TypeError(`${result} is not a valid return value for "find" option`);
+        throw error(`${result} is not a valid return value for "find" option`);
       }
       return result;
     };
