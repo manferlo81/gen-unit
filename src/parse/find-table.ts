@@ -1,4 +1,5 @@
 import { DeprecatedTableItem } from '../common/deprecated';
+import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
@@ -12,6 +13,7 @@ const defaultBase1000FindItems: FindMultiplierExpItem[] = [
   { pre: 'p', exp: -4 },
   { pre: 'n', exp: -3 },
   { pre: 'u', exp: -2 },
+  { pre: MICRO, exp: -2 },
   { pre: 'm', exp: -1 },
   { pre: 'k', exp: 1 },
   { pre: 'K', exp: 1 },
