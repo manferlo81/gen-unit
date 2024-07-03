@@ -1,71 +1,29 @@
-import { type DeprecatedTableItem } from '../common/deprecated';
+import type { DeprecatedTableItem } from '../common/deprecated';
 import { error } from '../common/error';
-import { type FindExponentItems } from '../common/types';
-import { MICRO } from '../constants';
-import { isArray } from '../tools/is-array';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
-import { pow } from '../tools/math';
-import { type FindUnitFunction, type FindUnitOption, type FindUnitResult } from './types';
+import { isFinite } from '../tools/number';
+import { createFindItems_deprecated, unity } from './find-items';
+import type { FindUnitFunction, FindUnitOption, FindUnitResult } from './types';
 
-function transformFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
-  return units
-    .map<FindUnitResult>((item) => ({
-      pre: item.pre,
-      div: pow(base, item.exp),
-    }));
-}
+export function createUnitFinder_deprecated(find?: FindUnitOption, deprecatedTable?: DeprecatedTableItem[]): FindUnitFunction {
 
-function sortFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
-  return transformFindUnitArray(units, base).sort(
-    (a, b) => (b.div - a.div),
-  );
-}
-
-const unity = { pre: '', div: 1 };
-
-const defaultFindResults = [
-  { exp: 4, pre: 'T' },
-  { exp: 3, pre: 'G' },
-  { exp: 2, pre: 'M' },
-  { exp: 1, pre: 'K' },
-  { exp: 0, pre: '' },
-  { exp: -1, pre: 'm' },
-  { exp: -2, pre: MICRO },
-  { exp: -3, pre: 'n' },
-  { exp: -4, pre: 'p' },
-  { exp: -5, pre: 'f' },
-];
-
-export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableItem[]): FindUnitFunction {
-
+  // return wrapped function if it's a function
   if (isFunction(find)) {
     return (value): FindUnitResult => {
       const result = find(value);
       if (typeof result !== 'object') {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         throw error(`${result} is not a valid return value for "find" option`);
+      }
+      const { div } = result;
+      if (!isNumber(div) || !div || !isFinite(div)) {
+        throw error(`${div} is not a valid divider`);
       }
       return result;
     };
   }
 
-  const results: FindUnitResult[] = find
-    ? (
-      isNumber(find)
-        ? transformFindUnitArray(defaultFindResults, find)
-        : isArray(find)
-          ? sortFindUnitArray(find, 1000)
-          : find.find
-            ? sortFindUnitArray(find.find, find.base ?? 1000)
-            : transformFindUnitArray(defaultFindResults, find.base ?? 1000)
-    )
-    : table
-      ? sortFindUnitArray(
-        table.map(({ pre, power }) => ({ pre, exp: power })),
-        10,
-      )
-      : transformFindUnitArray(defaultFindResults, 1000);
+  const findItems = createFindItems_deprecated(find, deprecatedTable);
 
   return (value): FindUnitResult => {
 
@@ -75,15 +33,15 @@ export function createUnitFinder(find?: FindUnitOption, table?: DeprecatedTableI
 
     const val = Math.abs(value);
 
-    const lastIndex = results.length - 1;
+    const lastIndex = findItems.length - 1;
     for (let i = 0; i < lastIndex; i++) {
-      const obj = results[i];
+      const obj = findItems[i];
       if (val >= obj.div) {
         return obj;
       }
     }
 
-    return results[lastIndex] || unity;
+    return lastIndex >= 0 ? findItems[lastIndex] : unity;
 
   };
 

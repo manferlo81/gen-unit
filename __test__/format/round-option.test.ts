@@ -25,7 +25,7 @@ describe('format "round" option', () => {
     expect(format(10.111111)).toBe('10.111');
   });
 
-  test('Should return with fixed number of decimal points', () => {
+  test('Should return with fixed number of default decimal points (2)', () => {
 
     const format = createFormatter({ round: { fixed: true } });
 

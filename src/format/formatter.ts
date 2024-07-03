@@ -1,8 +1,8 @@
 import { isFunction } from '../tools/is-function';
-import { isNumber } from '../tools/is-number';
-import { createUnitFinder } from './find-unit';
-import { createRounder } from './round';
-import { type CreateFormatterOptions, type FormatFunction, type FormatOutputFunction, type RoundFunction } from './types';
+import { createUnitFinder_deprecated } from './find-unit';
+import { createFormatOutput } from './output';
+import { createRounder_deprecated } from './round';
+import type { CreateFormatterOptions, FormatFunction, GetUnitFunction } from './types';
 
 export function createFormatter(options: CreateFormatterOptions = {}): FormatFunction {
 
@@ -16,24 +16,10 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
     table: deprecatedTable,
   } = options;
 
-  const getUnit = isFunction(unit) ? unit : (): string => (unit ?? '');
-
-  const findUnit = createUnitFinder(find, deprecatedTable);
-
-  const roundNum = isFunction<RoundFunction>(round)
-    ? round
-    : createRounder(
-      isNumber(round)
-        ? { dec: round }
-        : (round ?? { dec: deprecatedDec, fixed: deprecatedFixed }),
-    );
-
-  const formatOutput = isFunction<FormatOutputFunction>(output)
-    ? output
-    : (value: string | number, pre: string, unit: string): string => {
-      const wholeUnit = `${pre}${unit}`;
-      return `${value as string}${wholeUnit ? ` ${wholeUnit}` : ''}`;
-    };
+  const getUnit: GetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
+  const findUnit = createUnitFinder_deprecated(find, deprecatedTable);
+  const roundNum = createRounder_deprecated(round, deprecatedDec, deprecatedFixed);
+  const formatOutput = createFormatOutput(output);
 
   return (value: number): string => {
     const unitObj = findUnit(value);

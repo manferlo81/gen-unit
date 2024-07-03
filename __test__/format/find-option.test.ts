@@ -247,7 +247,25 @@ describe('format "find" option', () => {
         find: () => value as never,
       });
 
-      expect(() => format(10)).toThrow();
+      expect(() => format(10)).toThrow('is not a valid return value for "find" option');
+
+    });
+
+  });
+
+  test('Should throw on invalid find function result divider', () => {
+
+    const values = [
+      { pre: '', div: 0 },
+    ];
+
+    values.forEach((value) => {
+
+      const format = createFormatter({
+        find: () => value as never,
+      });
+
+      expect(() => format(10)).toThrow('is not a valid divider');
 
     });
 
