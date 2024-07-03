@@ -1,5 +1,7 @@
 export { MICRO } from './constants';
-export { createFormatter, format } from './format/format';
+export { format } from './format/format';
+export { createFormatter } from './format/formatter';
 export * from './format/types';
-export { createParser, parse } from './parse/parse';
+export { parse } from './parse/parse';
+export { createParser } from './parse/parser';
 export * from './parse/types';
