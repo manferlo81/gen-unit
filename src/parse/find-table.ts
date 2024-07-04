@@ -1,5 +1,5 @@
 import type { DeprecatedTableItem } from '../common/deprecated';
-import { femto, giga, kilo, mega, micro, milli, nano, pico, tera } from '../common/find-items';
+import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItem, FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
@@ -10,8 +10,8 @@ import { validateMultiplier } from './validate-multiplier';
 type FindMultiplierTable = Partial<Record<string, number>>;
 
 export const defaultBase1000ParseFindItems: FindExponentItems = [
-  // exa,
-  // peta,
+  exa,
+  peta,
   tera,
   giga,
   { pre: 'meg', exp: 2 },
@@ -24,7 +24,7 @@ export const defaultBase1000ParseFindItems: FindExponentItems = [
   nano,
   pico,
   femto,
-  // atto,
+  atto,
 ];
 
 function populateMultiplierTable(result: FindMultiplierTable, pre: string, multiplier: number): FindMultiplierTable {
@@ -106,7 +106,7 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
  * @param table deprecated "table" option
  * @returns the multiplier find table
  */
-export function __createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierTable {
+export function createFindTable_deprecated(unit?: string, find?: DeclarativeFindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierTable {
 
   const findTable = createFindTable(unit, find);
   if (findTable) return findTable;

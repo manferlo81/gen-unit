@@ -2,7 +2,7 @@ import { type DeprecatedTableItem } from '../common/deprecated';
 import { error } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
-import { __createFindTable } from './find-table';
+import { createFindTable_deprecated } from './find-table';
 import { type FindMultiplierFunction, type FindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';
 
@@ -48,7 +48,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
     };
   }
 
-  const findTable = __createFindTable(unit, find, table);
+  const findTable = createFindTable_deprecated(unit, find, table);
 
   return (capturedHoleUnit: string) => {
 

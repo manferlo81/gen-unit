@@ -1,5 +1,5 @@
 import type { DeprecatedTableItem } from '../common/deprecated';
-import { femto, giga, mega, micro, milli, nano, pico, tera } from '../common/find-items';
+import { atto, exa, femto, giga, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
@@ -24,8 +24,8 @@ function sortFindUnitArray(units: FindExponentItems, base: number): FindUnitResu
 export const unity: FindUnitResult = { pre: '', div: 1 };
 
 const defaultBase1000FormatFindItems: FindExponentItems = [
-  // exa,
-  // peta,
+  exa,
+  peta,
   tera,
   giga,
   mega,
@@ -37,7 +37,7 @@ const defaultBase1000FormatFindItems: FindExponentItems = [
   nano,
   pico,
   femto,
-  // atto,
+  atto,
 ];
 
 export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResult[] | null {
