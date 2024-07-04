@@ -1,35 +1,38 @@
-import { type DeprecatedTableItem } from '../common/deprecated';
-import { MICRO } from '../constants';
+import type { DeprecatedTableItem } from '../common/deprecated';
+import { femto, giga, kilo, mega, micro, milli, nano, pico, tera } from '../common/find-items';
+import type { FindExponentItem, FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import { type DeclarativeFindMultiplierOption } from './types';
-import { type FindExponentItem } from '../common/types';
+import type { DeclarativeFindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
 
-const defaultBase1000FindItems: FindExponentItem[] = [
+export const defaultBase1000ParseFindItems: FindExponentItems = [
+  // exa,
+  // peta,
+  tera,
+  giga,
   { pre: 'meg', exp: 2 },
-  { pre: 'f', exp: -5 },
-  { pre: 'p', exp: -4 },
-  { pre: 'n', exp: -3 },
-  { pre: 'u', exp: -2 },
-  { pre: MICRO, exp: -2 },
-  { pre: 'm', exp: -1 },
-  { pre: 'k', exp: 1 },
+  mega,
   { pre: 'K', exp: 1 },
-  { pre: 'M', exp: 2 },
-  { pre: 'G', exp: 3 },
-  { pre: 'T', exp: 4 },
+  kilo,
+  milli,
+  { pre: 'u', exp: -2 },
+  micro,
+  nano,
+  pico,
+  femto,
+  // atto,
 ];
 
-const populateMultiplierTable = (result: FindMultiplierTable, pre: string, multiplier: number): FindMultiplierTable => {
+function populateMultiplierTable(result: FindMultiplierTable, pre: string, multiplier: number): FindMultiplierTable {
   return {
     ...result,
     [pre]: multiplier,
   };
-};
+}
 
 /**
  * transforms find items into
@@ -64,26 +67,6 @@ function transformItems(items: FindExponentItem[], base: number, unit = ''): Fin
 
 }
 
-export function __deprecatedCreateFindTable(unit?: string, table?: DeprecatedTableItem[]): FindMultiplierTable {
-
-  // return default table if "table" option not provided
-  if (!table) {
-    return transformItems(
-      defaultBase1000FindItems,
-      1000,
-      unit,
-    );
-  }
-
-  // return table based on the "table" option
-  return transformItems(
-    table.map(({ pre, power }) => ({ pre, exp: power })),
-    10,
-    unit,
-  );
-
-}
-
 /**
  * creates a multiplier find table based on the "find" option
  *
@@ -98,7 +81,7 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
   if (find == null) return null;
 
   // use "find" option as base if it's a number
-  if (isNumber(find)) return transformItems(defaultBase1000FindItems, find, unit);
+  if (isNumber(find)) return transformItems(defaultBase1000ParseFindItems, find, unit);
 
   // use "find" option as items if it's an array
   if (isArray(find)) return transformItems(find, 1000, unit);
@@ -110,7 +93,7 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
   if (items) return transformItems(items, base, unit);
 
   // use default items
-  return transformItems(defaultBase1000FindItems, base, unit);
+  return transformItems(defaultBase1000ParseFindItems, base, unit);
 
 }
 
@@ -124,7 +107,24 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
  * @returns the multiplier find table
  */
 export function __createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierTable {
+
   const findTable = createFindTable(unit, find);
   if (findTable) return findTable;
-  return __deprecatedCreateFindTable(unit, table);
+
+  // return default table if "table" option not provided
+  if (!table) {
+    return transformItems(
+      defaultBase1000ParseFindItems,
+      1000,
+      unit,
+    );
+  }
+
+  // return table based on the "table" option
+  return transformItems(
+    table.map(({ pre, power }) => ({ pre, exp: power })),
+    10,
+    unit,
+  );
+
 }

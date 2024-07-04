@@ -4,8 +4,8 @@ import { type DeprecatedCreateFormatterOptions } from './deprecated';
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 
 export interface FindUnitResult {
-  div: number;
   pre: string;
+  div: number;
 }
 
 export type FindUnitFunction = (value: number) => FindUnitResult;

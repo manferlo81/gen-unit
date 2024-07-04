@@ -1,6 +1,6 @@
 import type { DeprecatedTableItem } from '../common/deprecated';
+import { femto, giga, mega, micro, milli, nano, pico, tera } from '../common/find-items';
 import type { FindExponentItems } from '../common/types';
-import { MICRO } from '../constants';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
@@ -21,19 +21,23 @@ function sortFindUnitArray(units: FindExponentItems, base: number): FindUnitResu
   );
 }
 
-export const unity = { pre: '', div: 1 };
+export const unity: FindUnitResult = { pre: '', div: 1 };
 
-const defaultFindResults = [
-  { exp: 4, pre: 'T' },
-  { exp: 3, pre: 'G' },
-  { exp: 2, pre: 'M' },
+const defaultBase1000FormatFindItems: FindExponentItems = [
+  // exa,
+  // peta,
+  tera,
+  giga,
+  mega,
+  // kilo,
   { exp: 1, pre: 'K' },
   { exp: 0, pre: '' },
-  { exp: -1, pre: 'm' },
-  { exp: -2, pre: MICRO },
-  { exp: -3, pre: 'n' },
-  { exp: -4, pre: 'p' },
-  { exp: -5, pre: 'f' },
+  milli,
+  micro,
+  nano,
+  pico,
+  femto,
+  // atto,
 ];
 
 export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResult[] | null {
@@ -43,7 +47,7 @@ export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResul
   }
 
   if (isNumber(find)) {
-    return transformFindUnitArray(defaultFindResults, find);
+    return transformFindUnitArray(defaultBase1000FormatFindItems, find);
   }
 
   if (isArray(find)) {
@@ -56,7 +60,7 @@ export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResul
     return sortFindUnitArray(items, base);
   }
 
-  return transformFindUnitArray(defaultFindResults, base);
+  return transformFindUnitArray(defaultBase1000FormatFindItems, base);
 
 }
 
@@ -68,7 +72,7 @@ export function createFindItems_deprecated(find?: DeclarativeFindUnitOption, dep
 
   if (!deprecatedTable) {
     return transformFindUnitArray(
-      defaultFindResults,
+      defaultBase1000FormatFindItems,
       1000,
     );
   }
