@@ -1,5 +1,5 @@
 import type { DeprecatedTableItem } from '../common/deprecated';
-import { atto, exa, femto, giga, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
+import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
@@ -29,8 +29,7 @@ const defaultBase1000FormatFindItems: FindExponentItems = [
   tera,
   giga,
   mega,
-  // kilo,
-  { exp: 1, pre: 'K' },
+  kilo,
   { exp: 0, pre: '' },
   milli,
   micro,

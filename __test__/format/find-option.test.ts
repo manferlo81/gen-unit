@@ -16,7 +16,7 @@ describe('format "find" option', () => {
       { value: 1.2 * base ** 4, expected: '1.2 T' },
       { value: 1.2 * base ** 3, expected: '1.2 G' },
       { value: 1.2 * base ** 2, expected: '1.2 M' },
-      { value: 1.2 * base ** 1, expected: '1.2 K' },
+      { value: 1.2 * base ** 1, expected: '1.2 k' },
       { value: 1.2 * base ** 0, expected: '1.2' },
       { value: 1.2 * base ** -1, expected: '1.2 m' },
       { value: 1.2 * base ** -2, expected: `1.2 ${MICRO}` },
@@ -36,7 +36,7 @@ describe('format "find" option', () => {
     const format = createFormatter({
       find: [
         { pre: 'm', exp: -1 },
-        { pre: 'K', exp: 1 },
+        { pre: 'k', exp: 1 },
         { pre: '', exp: 0 },
       ],
     });
@@ -44,8 +44,8 @@ describe('format "find" option', () => {
     const values = [
       { value: 0, expected: '0' },
       { value: 3, expected: '3' },
-      { value: 30e3, expected: '30 K' },
-      { value: 30e6, expected: '30000 K' },
+      { value: 30e3, expected: '30 k' },
+      { value: 30e6, expected: '30000 k' },
       { value: 30e-3, expected: '30 m' },
       { value: 30e-6, expected: '0.03 m' },
     ];
@@ -73,7 +73,7 @@ describe('format "find" option', () => {
         base: 10,
         find: [
           { pre: 'm', exp: -3 },
-          { pre: 'K', exp: 3 },
+          { pre: 'k', exp: 3 },
           { pre: '', exp: 0 },
         ],
       },
@@ -82,8 +82,8 @@ describe('format "find" option', () => {
     const values = [
       { value: 0, expected: '0' },
       { value: 3, expected: '3' },
-      { value: 30e3, expected: '30 K' },
-      { value: 30e6, expected: '30000 K' },
+      { value: 30e3, expected: '30 k' },
+      { value: 30e6, expected: '30000 k' },
       { value: 30e-3, expected: '30 m' },
       { value: 30e-6, expected: '0.03 m' },
     ];
@@ -100,7 +100,7 @@ describe('format "find" option', () => {
       find: {
         find: [
           { pre: 'm', exp: -1 },
-          { pre: 'K', exp: 1 },
+          { pre: 'k', exp: 1 },
           { pre: '', exp: 0 },
         ],
       },
@@ -109,8 +109,8 @@ describe('format "find" option', () => {
     const values = [
       { value: 0, expected: '0' },
       { value: 3, expected: '3' },
-      { value: 30e3, expected: '30 K' },
-      { value: 30e6, expected: '30000 K' },
+      { value: 30e3, expected: '30 k' },
+      { value: 30e6, expected: '30000 k' },
       { value: 30e-3, expected: '30 m' },
       { value: 30e-6, expected: '0.03 m' },
     ];
@@ -132,7 +132,7 @@ describe('format "find" option', () => {
       { value: 0, expected: '0' },
       { value: 0.5, expected: '512 m' },
       { value: 500, expected: '500' },
-      { value: 1.2 * base ** 1, expected: '1.2 K' },
+      { value: 1.2 * base ** 1, expected: '1.2 k' },
       { value: 1.2 * base ** 2, expected: '1.2 M' },
       { value: 1.2 * base ** 3, expected: '1.2 G' },
       { value: 1.2 * base ** 4, expected: '1.2 T' },
@@ -160,7 +160,7 @@ describe('format "find" option', () => {
       { value: 12e12, expected: '12 T' },
       { value: 12e9, expected: '12 G' },
       { value: 12e6, expected: '12 M' },
-      { value: 12e3, expected: '12 K' },
+      { value: 12e3, expected: '12 k' },
       { value: 12, expected: '12' },
       { value: 12e-3, expected: '12 m' },
       { value: 12e-6, expected: '12 \u00b5' },
@@ -188,7 +188,7 @@ describe('format "find" option', () => {
       { value: 12e12, expected: '12 T' },
       { value: 12e9, expected: '12 G' },
       { value: 12e6, expected: '12 M' },
-      { value: 12e3, expected: '12 K' },
+      { value: 12e3, expected: '12 k' },
       { value: 12, expected: '12' },
       { value: 12e-3, expected: '12 m' },
       { value: 12e-6, expected: '12 \u00b5' },
