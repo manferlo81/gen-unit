@@ -1,4 +1,4 @@
-import type { DeprecatedTableItem } from '../common/deprecated';
+import type { DeprecatedTableItem } from '../common/deprecated-types';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItem, FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';

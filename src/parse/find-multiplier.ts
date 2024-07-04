@@ -1,4 +1,4 @@
-import { type DeprecatedTableItem } from '../common/deprecated';
+import { type DeprecatedTableItem } from '../common/deprecated-types';
 import { error } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';

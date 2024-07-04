@@ -1,13 +1,13 @@
-import type { DeprecatedTableItem } from '../common/deprecated';
+import type { DeprecatedTableItem } from '../common/deprecated-types';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
-import type { DeclarativeFindUnitOption, FindUnitResult } from './types';
+import type { DeclarativeFindUnitOption, FindDivisorItem, FindDivisorItems } from './types';
 
-function transformFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
-  return units.map<FindUnitResult>(({ pre, exp }) => {
+function transformFindUnitArray(units: FindExponentItems, base: number): FindDivisorItems {
+  return units.map<FindDivisorItem>(({ pre, exp }) => {
     return {
       pre,
       div: pow(base, exp),
@@ -15,14 +15,18 @@ function transformFindUnitArray(units: FindExponentItems, base: number): FindUni
   });
 }
 
-function sortFindUnitArray(units: FindExponentItems, base: number): FindUnitResult[] {
+function sortFindUnitArray(units: FindExponentItems, base: number): FindDivisorItems {
   return transformFindUnitArray(units, base).sort(
     (a, b) => (b.div - a.div),
   );
 }
 
-export const unity: FindUnitResult = { pre: '', div: 1 };
+export const unity: FindDivisorItem = { pre: '', div: 1 };
 
+// IMPORTANT TO DEVELOPERS
+// this array has to be sorted from bigger to smaller unit!
+// while using this array internally we skip sorting it as it is expected to be already sorted
+// unlike arrays provided by the user which will be sorted
 const defaultBase1000FormatFindItems: FindExponentItems = [
   exa,
   peta,
@@ -39,7 +43,7 @@ const defaultBase1000FormatFindItems: FindExponentItems = [
   atto,
 ];
 
-export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResult[] | null {
+export function createFindItems(find?: DeclarativeFindUnitOption): FindDivisorItems | null {
 
   if (!find) {
     return null;
@@ -63,7 +67,7 @@ export function createFindItems(find?: DeclarativeFindUnitOption): FindUnitResul
 
 }
 
-export function createFindItems_deprecated(find?: DeclarativeFindUnitOption, deprecatedTable?: DeprecatedTableItem[]): FindUnitResult[] {
+export function createFindItems_deprecated(find?: DeclarativeFindUnitOption, deprecatedTable?: DeprecatedTableItem[]): FindDivisorItems {
 
   const results = createFindItems(find);
 

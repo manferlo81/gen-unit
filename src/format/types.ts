@@ -1,14 +1,15 @@
-import { type FindExponentItems, type FindUnitAdvancedOptions } from '../common/types';
-import { type DeprecatedCreateFormatterOptions } from './deprecated';
+import type { FindExponentItems, FindUnitAdvancedOptions } from '../common/types';
+import type { DeprecatedCreateFormatterOptions } from './deprecated';
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 
-export interface FindUnitResult {
+export interface FindDivisorItem {
   pre: string;
   div: number;
 }
+export type FindDivisorItems = FindDivisorItem[];
 
-export type FindUnitFunction = (value: number) => FindUnitResult;
+export type FindUnitFunction = (value: number) => FindDivisorItem;
 export type DeclarativeFindUnitOption = number | FindExponentItems | FindUnitAdvancedOptions;
 export type FindUnitOption = DeclarativeFindUnitOption | FindUnitFunction;
 

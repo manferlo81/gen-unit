@@ -1,4 +1,4 @@
-import type { DeprecatedTableItem } from '../common/deprecated';
+import type { DeprecatedTableItem } from '../common/deprecated-types';
 
 /** @deprecated */
 export interface DeprecatedCreateFormatterOptions {
@@ -8,4 +8,10 @@ export interface DeprecatedCreateFormatterOptions {
   fixed?: boolean;
   /** @deprecated use "find" option */
   table?: DeprecatedTableItem[];
+}
+
+/** @deprecated */
+export interface FindUnitResult {
+  pre: string;
+  div: number;
 }
