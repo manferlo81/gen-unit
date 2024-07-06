@@ -7,7 +7,7 @@ import { validateMultiplier } from './validate-multiplier';
 
 export function createMulFinder(unit?: string, find?: FindMultiplierOption): FindMultiplierFunction {
 
-  // if find is a function
+  // if "find" is a function
   if (isFunction(find)) {
 
     return (capturedHoleUnit) => {
@@ -15,34 +15,22 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption): Fin
       // find multiplier
       const result = find(capturedHoleUnit);
 
-      // return null if no multiplier found
+      // return null if no multiplier found (null | undefined)
       if (result == null) {
         return null;
       }
 
-      // if multiplier is a number
-      if (isNumber(result)) {
-        return validateMultiplier(result);
-      }
-
-      // throw if multiplier is not an object
-      if (typeof result !== 'object') {
-        throw error(`function should return a non-zero number, null or undefined. got ${result as string}`);
-      }
-
-      // get multiplier from object
-      const { mul: multiplier } = result;
-
-      if (multiplier == null) {
-        return null;
-      }
-
       // throw if multiplier is not a number
-      if (!isNumber(multiplier)) {
-        throw error(`${multiplier} is not a valid multiplier`);
+      if (!isNumber(result)) {
+        const should = 'return a non-zero number, null or undefined';
+        if (typeof result === 'object') {
+          throw error(`Function returning object is no longer supported, ${should}.`);
+        }
+        throw error(`Function should ${should}. Got ${result}`);
       }
 
-      return validateMultiplier(multiplier);
+      // if multiplier is a number
+      return validateMultiplier(result);
 
     };
   }

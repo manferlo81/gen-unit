@@ -189,7 +189,7 @@ describe('parse "find" option', () => {
     ];
 
     optionList.forEach((options) => {
-      expect(() => createParser(options)).toThrow('multiplier is NaN');
+      expect(() => createParser(options)).toThrow('Multiplier is NaN');
     });
 
   });
@@ -207,7 +207,26 @@ describe('parse "find" option', () => {
         find: () => value as never,
       });
 
-      expect(() => parse('10 k')).toThrow('function should return');
+      expect(() => parse('10 k')).toThrow('Function should return');
+
+    });
+
+  });
+
+  test('Should throw on function returning object', () => {
+
+    const values = [
+      {},
+      { mul: 10 },
+    ];
+
+    values.forEach((value) => {
+
+      const parse = createParser({
+        find: () => value as never,
+      });
+
+      expect(() => parse('10 k')).toThrow('Function returning object is no longer supported');
 
     });
 
@@ -229,7 +248,7 @@ describe('parse "find" option', () => {
       find: () => NaN,
     });
 
-    expect(() => parse('10 k')).toThrow('multiplier is NaN');
+    expect(() => parse('10 k')).toThrow('Multiplier is NaN');
 
   });
 

@@ -1,5 +1,5 @@
 import { error } from '../common/error';
-import { isNaN } from '../tools/number';
+import { isFinite } from '../tools/number';
 
 export function validateMultiplier(multiplier: number): number {
 
@@ -9,8 +9,8 @@ export function validateMultiplier(multiplier: number): number {
   }
 
   // throw if multiplier is NaN
-  if (isNaN(multiplier)) {
-    throw error('multiplier is NaN');
+  if (!isFinite(multiplier)) {
+    throw error('Multiplier is NaN');
   }
 
   return multiplier;
