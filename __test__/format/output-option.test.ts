@@ -1,6 +1,22 @@
 import { createFormatter } from '../../src';
 
-describe('format "outout" option', () => {
+describe('format "output" option', () => {
+
+  test('Should throw if invalid "output" option', () => {
+    const invalid = [
+      0,
+      1,
+      '',
+      'string',
+      true,
+      false,
+      [],
+      {},
+    ];
+    invalid.forEach((option) => {
+      expect(() => createFormatter({ output: option as never })).toThrow('Invalid "output" option');
+    });
+  });
 
   test('Should use "output" option', () => {
     const format = createFormatter({
