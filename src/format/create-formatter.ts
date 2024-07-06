@@ -1,10 +1,15 @@
+import { errorRemoved } from '../common/error';
 import { isFunction } from '../tools/is-function';
-import { createUnitFinder_deprecated } from './find-unit';
+import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
 import { createRounder_deprecated } from './round';
 import type { CreateFormatterOptions, FormatFunction, GetUnitFunction } from './types';
 
 export function createFormatter(options: CreateFormatterOptions = {}): FormatFunction {
+
+  if ('table' in options) {
+    throw errorRemoved('table', 'find');
+  }
 
   const {
     unit,
@@ -13,11 +18,10 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
     output,
     dec: deprecatedDec,
     fixed: deprecatedFixed,
-    table: deprecatedTable,
   } = options;
 
   const getUnit: GetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
-  const findUnit = createUnitFinder_deprecated(find, deprecatedTable);
+  const findUnit = createUnitFinder(find);
   const roundNum = createRounder_deprecated(round, deprecatedDec, deprecatedFixed);
   const formatOutput = createFormatOutput(output);
 

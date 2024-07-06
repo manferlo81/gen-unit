@@ -1,4 +1,3 @@
-import type { DeprecatedTableItem } from '../common/deprecated-types';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
@@ -43,46 +42,41 @@ const defaultBase1000FormatFindItems: FindExponentItems = [
   atto,
 ];
 
-export function createFindItems(find?: DeclarativeFindUnitOption): FindDivisorItems | null {
+export function createFindItems(find?: DeclarativeFindUnitOption): FindDivisorItems {
 
   if (!find) {
-    return null;
-  }
-
-  if (isNumber(find)) {
-    return transformFindUnitArray(defaultBase1000FormatFindItems, find);
-  }
-
-  if (isArray(find)) {
-    return sortFindUnitArray(find, 1000);
-  }
-
-  const { find: items, base = 1000 } = find;
-
-  if (items) {
-    return sortFindUnitArray(items, base);
-  }
-
-  return transformFindUnitArray(defaultBase1000FormatFindItems, base);
-
-}
-
-export function createFindItems_deprecated(find?: DeclarativeFindUnitOption, deprecatedTable?: DeprecatedTableItem[]): FindDivisorItems {
-
-  const results = createFindItems(find);
-
-  if (results) return results;
-
-  if (!deprecatedTable) {
     return transformFindUnitArray(
       defaultBase1000FormatFindItems,
       1000,
     );
   }
 
-  return sortFindUnitArray(
-    deprecatedTable.map(({ pre, power }) => ({ pre, exp: power })),
-    10,
+  if (isNumber(find)) {
+    return transformFindUnitArray(
+      defaultBase1000FormatFindItems,
+      find,
+    );
+  }
+
+  if (isArray(find)) {
+    return sortFindUnitArray(
+      find,
+      1000,
+    );
+  }
+
+  const { find: items, base = 1000 } = find;
+
+  if (items) {
+    return sortFindUnitArray(
+      items,
+      base,
+    );
+  }
+
+  return transformFindUnitArray(
+    defaultBase1000FormatFindItems,
+    base,
   );
 
 }
