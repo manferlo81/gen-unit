@@ -1,5 +1,4 @@
 import type { FindExponentItems, FindUnitAdvancedOptions } from '../common/types';
-import type { DeprecatedCreateFormatterOptions } from './deprecated-types';
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 
@@ -23,7 +22,7 @@ export type RoundOption = number | RoundAdvancedOptions | RoundFunction;
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
 
-export interface CreateFormatterOptions extends DeprecatedCreateFormatterOptions {
+export interface CreateFormatterOptions {
   unit?: string | GetUnitFunction;
   find?: FindUnitOption;
   round?: RoundOption;

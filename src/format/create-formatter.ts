@@ -2,7 +2,7 @@ import { errorRemoved } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
-import { createRounder_deprecated } from './round';
+import { createRounder } from './round';
 import type { CreateFormatterOptions, FormatFunction, GetUnitFunction } from './types';
 
 export function createFormatter(options: CreateFormatterOptions = {}): FormatFunction {
@@ -11,18 +11,24 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
     throw errorRemoved('table', 'find');
   }
 
+  if ('dec' in options) {
+    throw errorRemoved('dec', 'round');
+  }
+
+  if ('fixed' in options) {
+    throw errorRemoved('fixed', 'round');
+  }
+
   const {
     unit,
     find,
     round,
     output,
-    dec: deprecatedDec,
-    fixed: deprecatedFixed,
   } = options;
 
   const getUnit: GetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
   const findUnit = createUnitFinder(find);
-  const roundNum = createRounder_deprecated(round, deprecatedDec, deprecatedFixed);
+  const roundNum = createRounder(round);
   const formatOutput = createFormatOutput(output);
 
   return (value: number): string => {

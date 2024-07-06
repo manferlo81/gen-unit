@@ -6,8 +6,13 @@ describe('format "round" option', () => {
     expect(() => createFormatter({ round: { dec: 'not-a-number' } })).toThrow();
   });
 
-  test('Should not throw if "dec" sub-option is a numeric string', () => {
-    expect(() => createFormatter({ round: { dec: '2' } })).not.toThrow();
+  test('Should throw if invalid "round" option', () => {
+    const invalidValues = [
+      'string',
+    ];
+    invalidValues.forEach((invalid) => {
+      expect(() => createFormatter({ round: invalid as never })).toThrow();
+    });
   });
 
   test('Should accept number as round option', () => {
@@ -16,7 +21,7 @@ describe('format "round" option', () => {
   });
 
   test('Should format with given number of decimal points, using number', () => {
-    const format = createFormatter({ dec: 3 });
+    const format = createFormatter({ round: { dec: 3 } });
     expect(format(10.111111)).toBe('10.111');
   });
 
@@ -50,7 +55,7 @@ describe('format "round" option', () => {
     expect(format(123.7e-3)).toBe('124 mg');
   });
 
-  test('Should default to 2 decimal places', () => {
+  test('Should default to 2 decimal places, not fixed', () => {
     const format = createFormatter({});
     expect(format(10.111111)).toBe('10.11');
   });

@@ -1,14 +1,14 @@
-import { error } from '../common/error';
+import { error, errorInvalidOption } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
 import { pow } from '../tools/math';
 import { isFinite, isNaN } from '../tools/number';
 import type { RoundFunction, RoundOption } from './types';
 
-export function createRounder(dec: number, fixed = false): RoundFunction {
+export function createRounderWith(dec: number, fixed = false): RoundFunction {
 
   if (isNaN(dec) || !isFinite(dec) || dec < 0) {
-    throw error(`can't create round function with ${dec} decimal.`);
+    throw error(`Can't create round function with ${dec} decimal.`);
   }
 
   if (fixed) {
@@ -20,7 +20,12 @@ export function createRounder(dec: number, fixed = false): RoundFunction {
 
 }
 
-export function createRounder_deprecated(round?: RoundOption, deprecatedDec?: number | string, deprecatedFixed?: boolean): RoundFunction {
+export function createRounder(round?: RoundOption): RoundFunction {
+
+  // return default rounder if no "round" option
+  if (round == null) {
+    return createRounderWith(2);
+  }
 
   // return user option if it's a function
   if (isFunction(round)) {
@@ -29,22 +34,18 @@ export function createRounder_deprecated(round?: RoundOption, deprecatedDec?: nu
 
   // create rounder with number of decimals provided if it's a number
   if (isNumber(round)) {
-    return createRounder(round);
+    return createRounderWith(round);
   }
 
-  // use deprecated options if no "round" options provided
-  if (!round) {
-    return createRounder(
-      deprecatedDec ? +deprecatedDec : 2,
-      deprecatedFixed,
-    );
+  if (typeof round !== 'object') {
+    throw errorInvalidOption('round');
   }
 
   // get data from advanced round object
   const { dec, fixed } = round;
 
   // return rounder with provided options
-  return createRounder(
+  return createRounderWith(
     dec ? +dec : 2,
     fixed,
   );
