@@ -1,13 +1,5 @@
-import { type DeprecatedTableItem } from '../common/deprecated-types';
-
-/** @deprecated */
-export interface DeprecatedCreateParserOptions {
-  /** @deprecated use "find" option */
-  table?: DeprecatedTableItem[];
-}
-
 /** @deprecated return a number instead */
-export interface MultiplierFound {
+interface MultiplierFound {
   /** @deprecated return a number instead */
   mul: number | null | undefined;
 }

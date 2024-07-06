@@ -1,12 +1,11 @@
-import { type DeprecatedTableItem } from '../common/deprecated-types';
 import { error } from '../common/error';
 import { isFunction } from '../tools/is-function';
 import { isNumber } from '../tools/is-number';
-import { createFindTable_deprecated } from './find-table';
-import { type FindMultiplierFunction, type FindMultiplierOption } from './types';
+import { createFindTable } from './find-table';
+import type { FindMultiplierFunction, FindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';
 
-export function createMulFinder(unit?: string, find?: FindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierFunction {
+export function createMulFinder(unit?: string, find?: FindMultiplierOption): FindMultiplierFunction {
 
   // if find is a function
   if (isFunction(find)) {
@@ -48,7 +47,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption, tabl
     };
   }
 
-  const findTable = createFindTable_deprecated(unit, find, table);
+  const findTable = createFindTable(unit, find);
 
   return (capturedHoleUnit: string) => {
 

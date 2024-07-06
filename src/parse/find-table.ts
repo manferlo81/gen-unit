@@ -1,4 +1,3 @@
-import type { DeprecatedTableItem } from '../common/deprecated-types';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItem, FindExponentItems } from '../common/types';
 import { isArray } from '../tools/is-array';
@@ -74,11 +73,14 @@ function transformItems(items: FindExponentItem[], base: number, unit = ''): Fin
  * @param find "find" option
  * @returns the multiplier find table from "find" option, or null if no "find" option
  */
-export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption): FindMultiplierTable | null {
+export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption): FindMultiplierTable {
 
-  // return null if no "find" option
-  // TODO: once deprecated "table" option removed it should return default find table and remove null form result
-  if (find == null) return null;
+  // return default table if no "find" option
+  if (find == null) return transformItems(
+    defaultBase1000ParseFindItems,
+    1000,
+    unit,
+  );
 
   // use "find" option as base if it's a number
   if (isNumber(find)) return transformItems(defaultBase1000ParseFindItems, find, unit);
@@ -94,37 +96,5 @@ export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierO
 
   // use default items
   return transformItems(defaultBase1000ParseFindItems, base, unit);
-
-}
-
-// TODO: once deprecated "table" option removed, call createFindTable directly and remove this function
-/**
- * creates a multiplier find table from "find" and deprecated "table" options
- *
- * @param unit "unit" option
- * @param find "find" option
- * @param table deprecated "table" option
- * @returns the multiplier find table
- */
-export function createFindTable_deprecated(unit?: string, find?: DeclarativeFindMultiplierOption, table?: DeprecatedTableItem[]): FindMultiplierTable {
-
-  const findTable = createFindTable(unit, find);
-  if (findTable) return findTable;
-
-  // return default table if "table" option not provided
-  if (!table) {
-    return transformItems(
-      defaultBase1000ParseFindItems,
-      1000,
-      unit,
-    );
-  }
-
-  // return table based on the "table" option
-  return transformItems(
-    table.map(({ pre, power }) => ({ pre, exp: power })),
-    10,
-    unit,
-  );
 
 }

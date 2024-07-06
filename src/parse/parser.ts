@@ -1,3 +1,4 @@
+import { errorRemoved } from '../common/error';
 import { isNumber } from '../tools/is-number';
 import { isFinite, isNaN } from '../tools/number';
 import { capture } from './capture';
@@ -6,13 +7,16 @@ import { type CreateParserOptions, type ParseFunction, type ParseInput } from '.
 
 export function createParser(options: CreateParserOptions = {}): ParseFunction {
 
+  if ('table' in options) {
+    throw errorRemoved('table', 'find');
+  }
+
   const {
     unit,
     find,
-    table: deprecatedTable,
   } = options;
 
-  const findMultiplier = createMulFinder(unit, find, deprecatedTable);
+  const findMultiplier = createMulFinder(unit, find);
 
   return (input: ParseInput): number => {
 

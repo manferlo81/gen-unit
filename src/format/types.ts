@@ -1,5 +1,5 @@
 import type { FindExponentItems, FindUnitAdvancedOptions } from '../common/types';
-import type { DeprecatedCreateFormatterOptions } from './deprecated';
+import type { DeprecatedCreateFormatterOptions } from './deprecated-types';
 
 export type GetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 

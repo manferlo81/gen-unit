@@ -1,5 +1,5 @@
-import { type FindExponentItems, type FindUnitAdvancedOptions } from '../common/types';
-import { type DeprecatedCreateParserOptions, type DeprecatedFindMultiplierFunction } from './deprecated';
+import type { FindExponentItems, FindUnitAdvancedOptions } from '../common/types';
+import type { DeprecatedFindMultiplierFunction } from './deprecated-types';
 
 export type BaseFindMultiplierOption = number;
 
@@ -7,7 +7,7 @@ export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null
 export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | FindExponentItems | FindUnitAdvancedOptions;
 export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction | DeprecatedFindMultiplierFunction;
 
-export interface CreateParserOptions extends DeprecatedCreateParserOptions {
+export interface CreateParserOptions {
   unit?: string;
   find?: FindMultiplierOption;
 }
