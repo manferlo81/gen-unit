@@ -1,5 +1,5 @@
 import { errorRemoved } from '../common/error';
-import { isFinite, isNaN, isNumber } from '../tools/is';
+import { isFinite, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createMulFinder } from './find-multiplier';
 import type { CreateParserOptions, ParseFunction, ParseInput } from './types';
@@ -41,9 +41,9 @@ export function createParser(options: CreateParserOptions = {}): ParseFunction {
     // convert string to number
     const asNum = +asString;
 
-    // if number is not NaN & it's finite (not Infinity) return it, otherwise return NaN
-    if (!isNaN(asNum)) {
-      return isFinite(asNum) ? asNum : NaN;
+    // return number if string as number is finite (not NaN or Infinity)
+    if (isFinite(asNum)) {
+      return asNum;
     }
 
     // capture value & unit from string

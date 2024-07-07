@@ -1,11 +1,11 @@
 import { error, errorInvalidOption } from '../common/error';
-import { isFinite, isFunction, isNaN, isNumber, isObject } from '../tools/is';
+import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
 import type { RoundFunction, RoundOption } from './types';
 
 export function createRounderWith(dec: number, fixed = false): RoundFunction {
 
-  if (isNaN(dec) || !isFinite(dec) || dec < 0) {
+  if (!isFinite(dec) || dec < 0) {
     throw error(`Can't create round function with ${dec} decimal.`);
   }
 

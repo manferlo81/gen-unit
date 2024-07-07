@@ -189,7 +189,7 @@ describe('parse "find" option', () => {
     ];
 
     optionList.forEach((options) => {
-      expect(() => createParser(options)).toThrow('Multiplier is NaN');
+      expect(() => createParser(options)).toThrow('is not a valid multiplier');
     });
 
   });
@@ -248,7 +248,7 @@ describe('parse "find" option', () => {
       find: () => NaN,
     });
 
-    expect(() => parse('10 k')).toThrow('Multiplier is NaN');
+    expect(() => parse('10 k')).toThrow('is not a valid multiplier');
 
   });
 
