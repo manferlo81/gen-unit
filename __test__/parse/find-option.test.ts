@@ -2,7 +2,7 @@ import { type FindMultiplierOption, MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
-  test('Should use "find" option as number', () => {
+  test('Should use "find" option as as base if it\'s a number', () => {
 
     const base = 1024;
     const parse = createParser({
@@ -22,7 +22,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as array', () => {
+  test('Should use "find" option as find items if it\'s an array', () => {
 
     const parse = createParser({
       find: [
@@ -42,7 +42,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as object', () => {
+  test('Should use "find" option as advanced options if it\'s an object', () => {
 
     const base = 1024;
     const parse = createParser({
@@ -66,7 +66,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as object, using default units', () => {
+  test('Should use "find" option as object, using default find items', () => {
 
     const base = 1024;
     const parse = createParser({
@@ -118,7 +118,7 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use default base and items if empty object passed', () => {
+  test('Should use "find" option as object, using default base and find items if it\'s an empty object', () => {
 
     const parse = createParser({
       find: {},
@@ -183,9 +183,14 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should throw on invalid multiplier', () => {
+  test('Should throw if function return invalid multiplier', () => {
 
     const invalidMultipliers = [
+      0,
+      -1000,
+      NaN,
+      Infinity,
+      -Infinity,
       true,
       false,
     ];
@@ -195,14 +200,23 @@ describe('parse "find" option', () => {
       const parse = createParser({
         find: () => invalid as never,
       });
-
-      expect(() => parse('10 k')).toThrow('Function should return');
+      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
 
     });
 
   });
 
-  test('Should throw on function returning object', () => {
+  test('Should return NaN if multiplier is null', () => {
+
+    const parse = createParser({
+      find: () => null,
+    });
+
+    expect(parse('10 k')).toBeNaN();
+
+  });
+
+  test('Should throw on deprecated function returning object', () => {
 
     const values = [
       {},
@@ -218,37 +232,6 @@ describe('parse "find" option', () => {
       expect(() => parse('10 k')).toThrow('Function returning object is no longer supported');
 
     });
-
-  });
-
-  test('Should throw if function return invalid multiplier', () => {
-
-    const invalidMultipliers = [
-      0,
-      NaN,
-      -1,
-      Infinity,
-      -Infinity,
-    ];
-
-    invalidMultipliers.forEach((invalid) => {
-
-      const parse = createParser({
-        find: () => invalid,
-      });
-      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
-
-    });
-
-  });
-
-  test('Should return NaN if multiplier is null', () => {
-
-    const parse = createParser({
-      find: () => null,
-    });
-
-    expect(parse('10 k')).toBeNaN();
 
   });
 

@@ -1,9 +1,9 @@
+import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItem, FindExponentItems } from '../common/types';
 import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 import type { DeclarativeFindMultiplierOption } from './types';
-import { validateMultiplier } from './validate-multiplier';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
 
@@ -57,7 +57,10 @@ function transformItems(items: FindExponentItem[], base: number, unit = ''): Fin
 
   return items.reduce<FindMultiplierTable>(
     (result, { pre, exp }) => {
-      const multiplier = validateMultiplier(pow(base, exp));
+      const multiplier = pow(base, exp);
+      if (multiplier <= 0 || !isFinite(multiplier)) {
+        throw error(`${base} to the power of ${exp} is not a valid multiplier`);
+      }
       return populate(result, pre, multiplier);
     },
     {},

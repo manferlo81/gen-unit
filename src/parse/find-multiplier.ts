@@ -2,7 +2,6 @@ import { error } from '../common/error';
 import { isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
 import type { FindMultiplierFunction, FindMultiplierOption } from './types';
-import { validateMultiplier } from './validate-multiplier';
 
 export function createMulFinder(unit?: string, find?: FindMultiplierOption): FindMultiplierFunction {
 
@@ -19,17 +18,27 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption): Fin
         return null;
       }
 
-      // throw if multiplier is not a number
-      if (!isNumber(result)) {
-        const should = 'return a non-zero number, null or undefined';
-        if (isObject(result)) {
-          throw error(`Function returning object is no longer supported, ${should}.`);
-        }
-        throw error(`Function should ${should}. Got ${result}`);
+      if (isObject(result)) {
+        throw error('Function returning object is no longer supported, return a non-zero number, null or undefined.');
       }
 
-      // if multiplier is a number
-      return validateMultiplier(result);
+      if (!isNumber(result) || result <= 0 || !isFinite(result)) {
+        throw error(`${result} is not a valid multiplier`);
+      }
+
+      return result;
+
+      // // throw if multiplier is not a number
+      // if (!isNumber(result)) {
+      //   const should = 'return a non-zero number, null or undefined';
+      //   if (isObject(result)) {
+      //     throw error(`Function returning object is no longer supported, ${should}.`);
+      //   }
+      //   throw error(`Function should ${should}. Got ${result}`);
+      // }
+
+      // // if multiplier is a number
+      // return validateMultiplier(result);
 
     };
   }
