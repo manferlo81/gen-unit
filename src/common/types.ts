@@ -1,11 +1,11 @@
-export interface FindExponentItem {
+export interface ExponentFindItem {
   pre: string;
   exp: number;
 }
 
-export type FindExponentItems = FindExponentItem[];
+export type ExponentFindItems = ExponentFindItem[];
 
 export interface FindUnitAdvancedOptions {
   base?: number;
-  find?: FindExponentItems;
+  find?: ExponentFindItems;
 }

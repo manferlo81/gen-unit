@@ -1,13 +1,13 @@
 import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
-import type { FindExponentItem, FindExponentItems } from '../common/types';
+import type { ExponentFindItem, ExponentFindItems } from '../common/types';
 import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 import type { DeclarativeFindMultiplierOption } from './types';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
 
-export const defaultBase1000ParseFindItems: FindExponentItems = [
+export const defaultBase1000ParseFindItems: ExponentFindItems = [
   exa,
   peta,
   tera,
@@ -39,7 +39,7 @@ function populateMultiplierTable(result: FindMultiplierTable, pre: string, multi
  * @param unit
  * @returns
  */
-function transformItems(items: FindExponentItem[], base: number, unit = ''): FindMultiplierTable {
+function transformItems(items: ExponentFindItem[], base: number, unit = ''): FindMultiplierTable {
 
   const populate: (result: FindMultiplierTable, pre: string, value: number) => FindMultiplierTable = unit ? (
     (result, pre, multiplier) => {

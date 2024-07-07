@@ -1,9 +1,9 @@
-import type { FindExponentItems, FindUnitAdvancedOptions } from '../common/types';
+import type { ExponentFindItems, FindUnitAdvancedOptions } from '../common/types';
 
 export type BaseFindMultiplierOption = number;
 
 export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
-export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | FindExponentItems | FindUnitAdvancedOptions;
+export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | ExponentFindItems | FindUnitAdvancedOptions;
 export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction;
 
 export interface CreateParserOptions {

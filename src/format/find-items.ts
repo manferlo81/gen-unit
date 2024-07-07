@@ -1,11 +1,11 @@
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
-import type { FindExponentItems } from '../common/types';
+import type { ExponentFindItems } from '../common/types';
 import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
-import type { DeclarativeFindUnitOption, FindDivisorItem, FindDivisorItems } from './types';
+import type { DeclarativeFindUnitOption, DivisorFindItem, DivisorFindItems } from './types';
 
-function transformFindUnitArray(units: FindExponentItems, base: number): FindDivisorItems {
-  return units.map<FindDivisorItem>(({ pre, exp }) => {
+function transformFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
+  return units.map<DivisorFindItem>(({ pre, exp }) => {
     return {
       pre,
       div: pow(base, exp),
@@ -13,19 +13,19 @@ function transformFindUnitArray(units: FindExponentItems, base: number): FindDiv
   });
 }
 
-function sortFindUnitArray(units: FindExponentItems, base: number): FindDivisorItems {
+function sortFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
   return transformFindUnitArray(units, base).sort(
     (a, b) => (b.div - a.div),
   );
 }
 
-export const unity: FindDivisorItem = { pre: '', div: 1 };
+export const unity: DivisorFindItem = { pre: '', div: 1 };
 
 // IMPORTANT TO DEVELOPERS
 // this array has to be sorted from bigger to smaller unit!
 // while using this array internally we skip sorting it as it is expected to be already sorted
 // unlike arrays provided by the user which will be sorted
-const defaultBase1000FormatFindItems: FindExponentItems = [
+const defaultBase1000FormatFindItems: ExponentFindItems = [
   exa,
   peta,
   tera,
@@ -41,7 +41,7 @@ const defaultBase1000FormatFindItems: FindExponentItems = [
   atto,
 ];
 
-export function createFindItems(find?: DeclarativeFindUnitOption): FindDivisorItems {
+export function createFindItems(find?: DeclarativeFindUnitOption): DivisorFindItems {
 
   if (!find) {
     return transformFindUnitArray(

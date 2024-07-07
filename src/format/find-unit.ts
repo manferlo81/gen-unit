@@ -1,13 +1,13 @@
 import { error } from '../common/error';
 import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindItems, unity } from './find-items';
-import type { FindDivisorItem, FindUnitFunction, FindUnitOption } from './types';
+import type { DivisorFindItem, FindUnitFunction, FindUnitOption } from './types';
 
 export function createUnitFinder(find?: FindUnitOption): FindUnitFunction {
 
   // return wrapped function if it's a function
   if (isFunction(find)) {
-    return (value): FindDivisorItem => {
+    return (value): DivisorFindItem => {
       const result = find(value);
       if (!isObject(result)) {
         throw error(`${result} is not a valid return value for "find" option`);
@@ -22,7 +22,7 @@ export function createUnitFinder(find?: FindUnitOption): FindUnitFunction {
 
   const findItems = createFindItems(find);
 
-  return (value): FindDivisorItem => {
+  return (value): DivisorFindItem => {
 
     if (!value) {
       return unity;
