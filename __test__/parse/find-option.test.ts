@@ -42,127 +42,191 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as advanced options if it\'s an object', () => {
+  describe('"find" option as object', () => {
 
-    const base = 1024;
-    const parse = createParser({
-      find: {
-        base,
-        find: [
-          { pre: 'k', exp: 1 },
-          { pre: 'm', exp: -1 },
-        ],
-      },
+    test('Should use "find" option as advanced options if it\'s an object', () => {
+
+      const base = 1024;
+      const parse = createParser({
+        find: {
+          base,
+          find: [
+            { pre: 'k', exp: 1 },
+            { pre: 'm', exp: -1 },
+          ],
+        },
+      });
+
+      const values = [
+        { value: '1.2k', expected: 1.2 * base ** 1 },
+        { value: '1.2m', expected: 1.2 * base ** -1 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
     });
 
-    const values = [
-      { value: '1.2k', expected: 1.2 * base ** 1 },
-      { value: '1.2m', expected: 1.2 * base ** -1 },
-    ];
+    test('Should use "find" option as object, using default find items', () => {
 
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
+      const base = 1024;
+      const parse = createParser({
+        find: { base },
+      });
+
+      const values = [
+        { value: '1.2f', expected: 1.2 * base ** -5 },
+        { value: '1.2p', expected: 1.2 * base ** -4 },
+        { value: '1.2n', expected: 1.2 * base ** -3 },
+        { value: '1.2u', expected: 1.2 * base ** -2 },
+        { value: `1.2${MICRO}`, expected: 1.2 * base ** -2 },
+        { value: '1.2m', expected: 1.2 * base ** -1 },
+        { value: '1.2', expected: 1.2 },
+        { value: '1.2k', expected: 1.2 * base },
+        { value: '1.2K', expected: 1.2 * base },
+        { value: '1.2meg', expected: 1.2 * base ** 2 },
+        { value: '1.2M', expected: 1.2 * base ** 2 },
+        { value: '1.2G', expected: 1.2 * base ** 3 },
+        { value: '1.2T', expected: 1.2 * base ** 4 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
+    });
+
+    test('Should use "find" option as object, using default base 1000', () => {
+
+      const parse = createParser({
+        find: {
+          find: [
+            { pre: 'k', exp: 1 },
+            { pre: 'm', exp: -1 },
+          ],
+        },
+      });
+
+      const values = [
+        { value: '1.2k', expected: 1.2 * 1000 },
+        { value: '1.2', expected: 1.2 },
+        { value: '1.2m', expected: 1.2 / 1000 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
+    });
+
+    test('Should use "find" option as object, using default base and find items if it\'s an empty object', () => {
+
+      const parse = createParser({
+        find: {},
+      });
+
+      const values = [
+        { value: '1.2f', expected: 1.2 * 1000 ** -5 },
+        { value: '1.2p', expected: 1.2 * 1000 ** -4 },
+        { value: '1.2n', expected: 1.2 * 1000 ** -3 },
+        { value: '1.2u', expected: 1.2 * 1000 ** -2 },
+        { value: `1.2${MICRO}`, expected: 1.2 * 1000 ** -2 },
+        { value: '1.2m', expected: 1.2 * 1000 ** -1 },
+        { value: '1.2', expected: 1.2 },
+        { value: '1.2k', expected: 1.2 * 1000 },
+        { value: '1.2K', expected: 1.2 * 1000 },
+        { value: '1.2meg', expected: 1.2 * 1000 ** 2 },
+        { value: '1.2M', expected: 1.2 * 1000 ** 2 },
+        { value: '1.2G', expected: 1.2 * 1000 ** 3 },
+        { value: '1.2T', expected: 1.2 * 1000 ** 4 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
     });
 
   });
 
-  test('Should use "find" option as object, using default find items', () => {
+  describe('"find" options as function', () => {
 
-    const base = 1024;
-    const parse = createParser({
-      find: { base },
+    test('Should use "find" option as function returning number', () => {
+
+      const parse = createParser({
+        find: (unit) => unit === 'k' ? 1000 : null,
+      });
+
+      const values = [
+        { value: '1.2k', expected: 1.2e3 },
+        { value: '3.1k', expected: 3.1e3 },
+        { value: '3.1', expected: 3.1 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
+      expect(parse('4.2m')).toBeNaN();
+
     });
 
-    const values = [
-      { value: '1.2f', expected: 1.2 * base ** -5 },
-      { value: '1.2p', expected: 1.2 * base ** -4 },
-      { value: '1.2n', expected: 1.2 * base ** -3 },
-      { value: '1.2u', expected: 1.2 * base ** -2 },
-      { value: `1.2${MICRO}`, expected: 1.2 * base ** -2 },
-      { value: '1.2m', expected: 1.2 * base ** -1 },
-      { value: '1.2', expected: 1.2 },
-      { value: '1.2k', expected: 1.2 * base },
-      { value: '1.2K', expected: 1.2 * base },
-      { value: '1.2meg', expected: 1.2 * base ** 2 },
-      { value: '1.2M', expected: 1.2 * base ** 2 },
-      { value: '1.2G', expected: 1.2 * base ** 3 },
-      { value: '1.2T', expected: 1.2 * base ** 4 },
-    ];
+    test('Should return NaN if find function return null', () => {
 
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
+      const findFunctions = [
+        () => null,
+        () => { /* */ },
+      ];
+
+      findFunctions.forEach((find) => {
+        const parse = createParser({ find } as never);
+        expect(parse('10 k')).toBeNaN();
+      });
+
     });
 
-  });
+    test('Should throw if function return invalid multiplier', () => {
 
-  test('Should use "find" option as object, using default base 1000', () => {
+      const invalidMultipliers = [
+        0,
+        -1000,
+        NaN,
+        Infinity,
+        -Infinity,
+        true,
+        false,
+      ];
 
-    const parse = createParser({
-      find: {
-        find: [
-          { pre: 'k', exp: 1 },
-          { pre: 'm', exp: -1 },
-        ],
-      },
+      invalidMultipliers.forEach((invalid) => {
+
+        const parse = createParser({
+          find: () => invalid as never,
+        });
+        expect(() => parse('10 k')).toThrow('is not a valid multiplier');
+
+      });
+
     });
 
-    const values = [
-      { value: '1.2k', expected: 1.2 * 1000 },
-      { value: '1.2', expected: 1.2 },
-      { value: '1.2m', expected: 1.2 / 1000 },
-    ];
+    test('Should throw on deprecated function returning object', () => {
 
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
+      const values = [
+        {},
+        { mul: 10 },
+      ];
+
+      values.forEach((value) => {
+
+        const parse = createParser({
+          find: () => value as never,
+        });
+
+        expect(() => parse('10 k')).toThrow('Function returning object is no longer supported');
+
+      });
+
     });
-
-  });
-
-  test('Should use "find" option as object, using default base and find items if it\'s an empty object', () => {
-
-    const parse = createParser({
-      find: {},
-    });
-
-    const values = [
-      { value: '1.2f', expected: 1.2 * 1000 ** -5 },
-      { value: '1.2p', expected: 1.2 * 1000 ** -4 },
-      { value: '1.2n', expected: 1.2 * 1000 ** -3 },
-      { value: '1.2u', expected: 1.2 * 1000 ** -2 },
-      { value: `1.2${MICRO}`, expected: 1.2 * 1000 ** -2 },
-      { value: '1.2m', expected: 1.2 * 1000 ** -1 },
-      { value: '1.2', expected: 1.2 },
-      { value: '1.2k', expected: 1.2 * 1000 },
-      { value: '1.2K', expected: 1.2 * 1000 },
-      { value: '1.2meg', expected: 1.2 * 1000 ** 2 },
-      { value: '1.2M', expected: 1.2 * 1000 ** 2 },
-      { value: '1.2G', expected: 1.2 * 1000 ** 3 },
-      { value: '1.2T', expected: 1.2 * 1000 ** 4 },
-    ];
-
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
-    });
-
-  });
-
-  test('Should use "find" option as function returning number', () => {
-
-    const parse = createParser({
-      find: (unit) => unit === 'k' ? 1000 : null,
-    });
-
-    const values = [
-      { value: '1.2k', expected: 1.2e3 },
-      { value: '3.1k', expected: 3.1e3 },
-      { value: '3.1', expected: 3.1 },
-    ];
-
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
-    });
-
-    expect(parse('4.2m')).toBeNaN();
 
   });
 
@@ -179,58 +243,6 @@ describe('parse "find" option', () => {
 
     invalidFindOptions.forEach((options) => {
       expect(() => createParser({ find: options })).toThrow('is not a valid multiplier');
-    });
-
-  });
-
-  test('Should throw if function return invalid multiplier', () => {
-
-    const invalidMultipliers = [
-      0,
-      -1000,
-      NaN,
-      Infinity,
-      -Infinity,
-      true,
-      false,
-    ];
-
-    invalidMultipliers.forEach((invalid) => {
-
-      const parse = createParser({
-        find: () => invalid as never,
-      });
-      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
-
-    });
-
-  });
-
-  test('Should return NaN if multiplier is null', () => {
-
-    const parse = createParser({
-      find: () => null,
-    });
-
-    expect(parse('10 k')).toBeNaN();
-
-  });
-
-  test('Should throw on deprecated function returning object', () => {
-
-    const values = [
-      {},
-      { mul: 10 },
-    ];
-
-    values.forEach((value) => {
-
-      const parse = createParser({
-        find: () => value as never,
-      });
-
-      expect(() => parse('10 k')).toThrow('Function returning object is no longer supported');
-
     });
 
   });

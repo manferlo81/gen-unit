@@ -1,9 +1,16 @@
 import { error } from '../common/error';
-import { isFunction, isNumber, isObject } from '../tools/is';
+import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
 import type { FindMultiplierFunction, FindMultiplierOption } from './types';
 
-export function createMulFinder(unit?: string, find?: FindMultiplierOption): FindMultiplierFunction {
+/**
+ * Creates a function which should return de multiplier based on captured unit
+ *
+ * @param find "find" option
+ * @param unit "unit" option
+ * @returns find multiplier function
+ */
+export function createMulFinder(find?: FindMultiplierOption, unit?: string): FindMultiplierFunction {
 
   // if "find" is a function
   if (isFunction(find)) {
@@ -28,22 +35,10 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption): Fin
 
       return result;
 
-      // // throw if multiplier is not a number
-      // if (!isNumber(result)) {
-      //   const should = 'return a non-zero number, null or undefined';
-      //   if (isObject(result)) {
-      //     throw error(`Function returning object is no longer supported, ${should}.`);
-      //   }
-      //   throw error(`Function should ${should}. Got ${result}`);
-      // }
-
-      // // if multiplier is a number
-      // return validateMultiplier(result);
-
     };
   }
 
-  const findTable = createFindTable(unit, find);
+  const findTable = createFindTable(find, unit);
 
   return (capturedHoleUnit: string) => {
 

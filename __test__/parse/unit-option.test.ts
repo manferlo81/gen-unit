@@ -1,12 +1,12 @@
 import { MICRO, createParser } from '../../src';
 
-describe('parse "unit" option', () => {
+describe('parser "unit" option', () => {
 
   test('Should return NaN on incorrect unit', () => {
 
     const parse = createParser({ unit: 'g' });
 
-    const values = [
+    const invalidValues = [
       '10 x',
       '10 xg',
       '10 gx',
@@ -14,8 +14,8 @@ describe('parse "unit" option', () => {
       '10 Kx',
     ];
 
-    values.forEach((value) => {
-      expect(parse(value)).toBeNaN();
+    invalidValues.forEach((invalid) => {
+      expect(parse(invalid)).toBeNaN();
     });
 
   });
@@ -26,6 +26,7 @@ describe('parse "unit" option', () => {
     const parse = createParser({ unit });
 
     const values = [
+      { value: '10f', expected: 10e-15 },
       { value: '10p', expected: 10e-12 },
       { value: '10n', expected: 10e-9 },
       { value: '10u', expected: 10e-6 },
@@ -37,11 +38,14 @@ describe('parse "unit" option', () => {
       { value: '10M', expected: 10e6 },
       { value: '10G', expected: 10e9 },
       { value: '10T', expected: 10e12 },
+      { value: '10P', expected: 10e15 },
+      { value: '10E', expected: 10e18 },
     ];
 
     values.forEach(({ value, expected }) => {
+      const valueWithUnit = `${value}${unit}`;
       expect(parse(value)).toBeCloseTo(expected);
-      expect(parse(`${value}${unit}`)).toBeCloseTo(expected);
+      expect(parse(valueWithUnit)).toBeCloseTo(expected);
     });
 
   });
@@ -56,7 +60,7 @@ describe('parse "unit" option', () => {
     ];
 
     values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBe(expected);
+      expect(parse(value)).toBeCloseTo(expected);
     });
 
   });
@@ -71,7 +75,7 @@ describe('parse "unit" option', () => {
     ];
 
     values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBe(expected);
+      expect(parse(value)).toBeCloseTo(expected);
     });
 
   });

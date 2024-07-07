@@ -15,7 +15,7 @@ export function createParser(options: CreateParserOptions = {}): ParseFunction {
     find,
   } = options;
 
-  const findMultiplier = createMulFinder(unit, find);
+  const findMultiplier = createMulFinder(find, unit);
 
   return (input: ParseInput): number => {
 

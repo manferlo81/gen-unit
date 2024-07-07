@@ -1,7 +1,7 @@
 import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { ExponentFindItem, ExponentFindItems } from '../common/types';
-import { isArray, isNumber } from '../tools/is';
+import { isArray, isFinite, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 import type { DeclarativeFindMultiplierOption } from './types';
 
@@ -71,11 +71,11 @@ function transformItems(items: ExponentFindItem[], base: number, unit = ''): Fin
 /**
  * creates a multiplier find table based on the "find" option
  *
- * @param unit "unit" option
  * @param find "find" option
+ * @param unit "unit" option
  * @returns the multiplier find table from "find" option, or null if no "find" option
  */
-export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption): FindMultiplierTable {
+export function createFindTable(find?: DeclarativeFindMultiplierOption, unit?: string): FindMultiplierTable {
 
   // return default table if no "find" option
   if (find == null) {
