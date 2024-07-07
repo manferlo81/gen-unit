@@ -1,8 +1,6 @@
 import { error, errorInvalidOption } from '../common/error';
-import { isFunction } from '../tools/is-function';
-import { isNumber } from '../tools/is-number';
+import { isFinite, isFunction, isNaN, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
-import { isFinite, isNaN } from '../tools/number';
 import type { RoundFunction, RoundOption } from './types';
 
 export function createRounderWith(dec: number, fixed = false): RoundFunction {
@@ -37,7 +35,7 @@ export function createRounder(round?: RoundOption): RoundFunction {
     return createRounderWith(round);
   }
 
-  if (typeof round !== 'object') {
+  if (!isObject(round)) {
     throw errorInvalidOption('round');
   }
 

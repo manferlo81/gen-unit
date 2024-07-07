@@ -1,5 +1,5 @@
 import { error } from '../common/error';
-import { isFinite } from '../tools/number';
+import { isFinite } from '../tools/is';
 
 export function validateMultiplier(multiplier: number): number {
 

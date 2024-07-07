@@ -1,7 +1,5 @@
 import { error } from '../common/error';
-import { isFunction } from '../tools/is-function';
-import { isNumber } from '../tools/is-number';
-import { isFinite } from '../tools/number';
+import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindItems, unity } from './find-items';
 import type { FindDivisorItem, FindUnitFunction, FindUnitOption } from './types';
 
@@ -11,7 +9,7 @@ export function createUnitFinder(find?: FindUnitOption): FindUnitFunction {
   if (isFunction(find)) {
     return (value): FindDivisorItem => {
       const result = find(value);
-      if (typeof result !== 'object') {
+      if (!isObject(result)) {
         throw error(`${result} is not a valid return value for "find" option`);
       }
       const { div } = result;

@@ -1,7 +1,6 @@
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { FindExponentItem, FindExponentItems } from '../common/types';
-import { isArray } from '../tools/is-array';
-import { isNumber } from '../tools/is-number';
+import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 import type { DeclarativeFindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';

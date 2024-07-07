@@ -1,6 +1,5 @@
 import { error } from '../common/error';
-import { isFunction } from '../tools/is-function';
-import { isNumber } from '../tools/is-number';
+import { isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
 import type { FindMultiplierFunction, FindMultiplierOption } from './types';
 import { validateMultiplier } from './validate-multiplier';
@@ -23,7 +22,7 @@ export function createMulFinder(unit?: string, find?: FindMultiplierOption): Fin
       // throw if multiplier is not a number
       if (!isNumber(result)) {
         const should = 'return a non-zero number, null or undefined';
-        if (typeof result === 'object') {
+        if (isObject(result)) {
           throw error(`Function returning object is no longer supported, ${should}.`);
         }
         throw error(`Function should ${should}. Got ${result}`);

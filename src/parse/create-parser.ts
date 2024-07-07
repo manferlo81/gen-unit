@@ -1,6 +1,5 @@
 import { errorRemoved } from '../common/error';
-import { isNumber } from '../tools/is-number';
-import { isFinite, isNaN } from '../tools/number';
+import { isFinite, isNaN, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createMulFinder } from './find-multiplier';
 import type { CreateParserOptions, ParseFunction, ParseInput } from './types';

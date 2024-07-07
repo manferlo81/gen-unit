@@ -1,5 +1,5 @@
 import { error } from '../common/error';
-import { isFunction } from '../tools/is-function';
+import { isFunction } from '../tools/is';
 import type { FormatOutputFunction } from './types';
 
 function defaultFormatOutput(value: string | number, pre: string, unit: string): string {

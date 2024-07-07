@@ -1,5 +1,5 @@
 import { errorRemoved } from '../common/error';
-import { isFunction } from '../tools/is-function';
+import { isFunction } from '../tools/is';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
 import { createRounder } from './round';
