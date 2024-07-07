@@ -1,4 +1,4 @@
-import { MICRO, createParser, type CreateParserOptions } from '../../src';
+import { type FindMultiplierOption, MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
@@ -166,45 +166,34 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should throw if find options result in a zero multiplier', () => {
+  test('Should throw if "find" option result in an invalid multiplier', () => {
 
-    const optionList: CreateParserOptions[] = [
-      { find: 0 },
-      { find: { base: 0 } },
-    ];
-
-    optionList.forEach((options) => {
-      expect(() => createParser(options)).toThrow('Multiplier can\'t be zero');
-    });
-
-  });
-
-  test('Should throw if find options result in a NaN multiplier', () => {
-
-    const optionList: CreateParserOptions[] = [
-      { find: NaN },
+    const invalidFindOptions: FindMultiplierOption[] = [
+      0,
+      { base: 0 },
+      NaN,
+      [{ pre: 'k', exp: NaN }],
+      { base: NaN },
       { find: [{ pre: 'k', exp: NaN }] },
-      { find: { base: NaN } },
-      { find: { find: [{ pre: 'k', exp: NaN }] } },
     ];
 
-    optionList.forEach((options) => {
-      expect(() => createParser(options)).toThrow('is not a valid multiplier');
+    invalidFindOptions.forEach((options) => {
+      expect(() => createParser({ find: options })).toThrow('is not a valid multiplier');
     });
 
   });
 
   test('Should throw on invalid multiplier', () => {
 
-    const values = [
+    const invalidMultipliers = [
       true,
       false,
     ];
 
-    values.forEach((value) => {
+    invalidMultipliers.forEach((invalid) => {
 
       const parse = createParser({
-        find: () => value as never,
+        find: () => invalid as never,
       });
 
       expect(() => parse('10 k')).toThrow('Function should return');
@@ -232,23 +221,24 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should throw on zero as multiplier', () => {
+  test('Should throw if function return invalid multiplier', () => {
 
-    const parse = createParser({
-      find: () => 0,
+    const invalidMultipliers = [
+      0,
+      NaN,
+      -1,
+      Infinity,
+      -Infinity,
+    ];
+
+    invalidMultipliers.forEach((invalid) => {
+
+      const parse = createParser({
+        find: () => invalid,
+      });
+      expect(() => parse('10 k')).toThrow('is not a valid multiplier');
+
     });
-
-    expect(() => parse('10 k')).toThrow('Multiplier can\'t be zero');
-
-  });
-
-  test('Should throw on NaN as multiplier', () => {
-
-    const parse = createParser({
-      find: () => NaN,
-    });
-
-    expect(() => parse('10 k')).toThrow('is not a valid multiplier');
 
   });
 

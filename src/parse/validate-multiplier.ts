@@ -3,13 +3,8 @@ import { isFinite } from '../tools/is';
 
 export function validateMultiplier(multiplier: number): number {
 
-  // throw if multiplier is zero
-  if (multiplier === 0) {
-    throw error('Multiplier can\'t be zero');
-  }
-
-  // throw if multiplier is NaN | Infinity
-  if (!isFinite(multiplier)) {
+  // throw if multiplier is negative, zero, NaN  or Infinity
+  if (multiplier <= 0 || !isFinite(multiplier)) {
     throw error(`${multiplier} is not a valid multiplier`);
   }
 

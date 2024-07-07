@@ -75,25 +75,49 @@ function transformItems(items: FindExponentItem[], base: number, unit = ''): Fin
 export function createFindTable(unit?: string, find?: DeclarativeFindMultiplierOption): FindMultiplierTable {
 
   // return default table if no "find" option
-  if (find == null) return transformItems(
-    defaultBase1000ParseFindItems,
-    1000,
-    unit,
-  );
+  if (find == null) {
+    return transformItems(
+      defaultBase1000ParseFindItems,
+      1000,
+      unit,
+    );
+  }
 
   // use "find" option as base if it's a number
-  if (isNumber(find)) return transformItems(defaultBase1000ParseFindItems, find, unit);
+  if (isNumber(find)) {
+    return transformItems(
+      defaultBase1000ParseFindItems,
+      find,
+      unit,
+    );
+  }
 
   // use "find" option as items if it's an array
-  if (isArray(find)) return transformItems(find, 1000, unit);
+  if (isArray(find)) {
+    return transformItems(
+      find,
+      1000,
+      unit,
+    );
+  }
 
   // get items and base from "find" option
   const { find: items, base = 1000 } = find;
 
   // use items if items provided
-  if (items) return transformItems(items, base, unit);
+  if (items) {
+    return transformItems(
+      items,
+      base,
+      unit,
+    );
+  }
 
   // use default items
-  return transformItems(defaultBase1000ParseFindItems, base, unit);
+  return transformItems(
+    defaultBase1000ParseFindItems,
+    base,
+    unit,
+  );
 
 }
