@@ -61,8 +61,6 @@ jobs:
       - npm_publish
 
 workflows:
-  version: 2
-
   workflow:
     jobs:
       - test_and_build:
