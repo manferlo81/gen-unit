@@ -2,7 +2,7 @@ import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, ter
 import type { ExponentFindItems } from '../common/types';
 import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
-import type { DeclarativeFindUnitOption, DivisorFindItem, DivisorFindItems } from './types';
+import type { DeclarativeFormatFindUnitOption, DivisorFindItem, DivisorFindItems } from './types';
 
 function transformFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
   return units.map<DivisorFindItem>(({ pre, exp }) => {
@@ -41,7 +41,7 @@ const defaultBase1000FormatFindItems: ExponentFindItems = [
   atto,
 ];
 
-export function createFindItems(find?: DeclarativeFindUnitOption): DivisorFindItems {
+export function createFindItems(find?: DeclarativeFormatFindUnitOption): DivisorFindItems {
 
   if (!find) {
     return transformFindUnitArray(

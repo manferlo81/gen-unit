@@ -2,9 +2,9 @@ import { errorRemoved } from '../common/error';
 import { isFinite, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createMulFinder } from './find-multiplier';
-import type { CreateParserOptions, ParseFunction, ParseInput } from './types';
+import type { CreateParserOptions, Parser, ParseInput } from './types';
 
-export function createParser(options: CreateParserOptions = {}): ParseFunction {
+export function createParser(options: CreateParserOptions = {}): Parser {
 
   if ('table' in options) {
     throw errorRemoved('table', 'find');

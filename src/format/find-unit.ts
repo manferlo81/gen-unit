@@ -1,9 +1,9 @@
 import { error } from '../common/error';
 import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindItems, unity } from './find-items';
-import type { DivisorFindItem, FindUnitFunction, FindUnitOption } from './types';
+import type { DivisorFindItem, FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
-export function createUnitFinder(find?: FindUnitOption): FindUnitFunction {
+export function createUnitFinder(find?: FormatFindUnitOption): FormatFindUnitFunction {
 
   // return wrapped function if it's a function
   if (isFunction(find)) {

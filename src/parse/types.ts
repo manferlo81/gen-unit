@@ -1,15 +1,14 @@
 import type { ExponentFindItems, FindUnitAdvancedOptions } from '../common/types';
 
-export type BaseFindMultiplierOption = number;
-
-export type FindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
-export type DeclarativeFindMultiplierOption = BaseFindMultiplierOption | ExponentFindItems | FindUnitAdvancedOptions;
-export type FindMultiplierOption = DeclarativeFindMultiplierOption | FindMultiplierFunction;
+export type ParseMultiplierBase = number;
+export type ParseFindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
+export type DeclarativeParseFindMultiplierOption = ParseMultiplierBase | ExponentFindItems | FindUnitAdvancedOptions;
+export type ParseFindMultiplierOption = DeclarativeParseFindMultiplierOption | ParseFindMultiplierFunction;
 
 export interface CreateParserOptions {
   unit?: string;
-  find?: FindMultiplierOption;
+  find?: ParseFindMultiplierOption;
 }
 
 export type ParseInput = unknown;
-export type ParseFunction = (input: ParseInput) => number;
+export type Parser = (input: ParseInput) => number;

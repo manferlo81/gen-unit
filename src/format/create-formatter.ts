@@ -3,9 +3,9 @@ import { isFunction } from '../tools/is';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
 import { createRounder } from './round';
-import type { CreateFormatterOptions, FormatFunction, GetUnitFunction } from './types';
+import type { CreateFormatterOptions, Formatter, FormatGetUnitFunction } from './types';
 
-export function createFormatter(options: CreateFormatterOptions = {}): FormatFunction {
+export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
   if ('table' in options) {
     throw errorRemoved('table', 'find');
@@ -26,7 +26,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): FormatFun
     output,
   } = options;
 
-  const getUnit: GetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
+  const getUnit: FormatGetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
   const findUnit = createUnitFinder(find);
   const roundNum = createRounder(round);
   const formatOutput = createFormatOutput(output);

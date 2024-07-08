@@ -1,7 +1,7 @@
 import { error, errorInvalidOption } from '../common/error';
 import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
-import type { RoundFunction, RoundOption } from './types';
+import type { RoundFunction, FormatRoundOption } from './types';
 
 export function createRounderWith(dec: number, fixed = false): RoundFunction {
 
@@ -18,7 +18,7 @@ export function createRounderWith(dec: number, fixed = false): RoundFunction {
 
 }
 
-export function createRounder(round?: RoundOption): RoundFunction {
+export function createRounder(round?: FormatRoundOption): RoundFunction {
 
   // return default rounder if no "round" option
   if (round == null) {

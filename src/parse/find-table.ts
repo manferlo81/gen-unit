@@ -3,7 +3,7 @@ import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, ter
 import type { ExponentFindItem, ExponentFindItems } from '../common/types';
 import { isArray, isFinite, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
-import type { DeclarativeFindMultiplierOption } from './types';
+import type { DeclarativeParseFindMultiplierOption } from './types';
 
 type FindMultiplierTable = Partial<Record<string, number>>;
 
@@ -75,7 +75,7 @@ function transformItems(items: ExponentFindItem[], base: number, unit = ''): Fin
  * @param unit "unit" option
  * @returns the multiplier find table from "find" option, or null if no "find" option
  */
-export function createFindTable(find?: DeclarativeFindMultiplierOption, unit?: string): FindMultiplierTable {
+export function createFindTable(find?: DeclarativeParseFindMultiplierOption, unit?: string): FindMultiplierTable {
 
   // return default table if no "find" option
   if (find == null) {

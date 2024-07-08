@@ -1,4 +1,4 @@
-import { type FindMultiplierOption, MICRO, createParser } from '../../src';
+import { type ParseFindMultiplierOption, MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
@@ -232,7 +232,7 @@ describe('parse "find" option', () => {
 
   test('Should throw if "find" option result in an invalid multiplier', () => {
 
-    const invalidFindOptions: FindMultiplierOption[] = [
+    const invalidFindOptions: ParseFindMultiplierOption[] = [
       0,
       { base: 0 },
       NaN,

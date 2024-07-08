@@ -1,7 +1,7 @@
 import { error } from '../common/error';
 import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
-import type { FindMultiplierFunction, FindMultiplierOption } from './types';
+import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
 
 /**
  * Creates a function which should return de multiplier based on captured unit
@@ -10,7 +10,7 @@ import type { FindMultiplierFunction, FindMultiplierOption } from './types';
  * @param unit "unit" option
  * @returns find multiplier function
  */
-export function createMulFinder(find?: FindMultiplierOption, unit?: string): FindMultiplierFunction {
+export function createMulFinder(find?: ParseFindMultiplierOption, unit?: string): ParseFindMultiplierFunction {
 
   // if "find" is a function
   if (isFunction(find)) {
