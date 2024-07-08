@@ -1,4 +1,4 @@
-import { errorRemoved } from '../common/error';
+import { errorOptionRemoved } from '../common/error';
 import { isFinite, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createMulFinder } from './find-multiplier';
@@ -7,7 +7,7 @@ import type { CreateParserOptions, Parser, ParseInput } from './types';
 export function createParser(options: CreateParserOptions = {}): Parser {
 
   if ('table' in options) {
-    throw errorRemoved('table', 'find');
+    throw errorOptionRemoved('table', 'find');
   }
 
   const {

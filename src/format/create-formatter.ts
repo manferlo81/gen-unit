@@ -1,4 +1,4 @@
-import { errorRemoved } from '../common/error';
+import { errorOptionRemoved } from '../common/error';
 import { isFunction } from '../tools/is';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
@@ -8,15 +8,15 @@ import type { CreateFormatterOptions, Formatter, FormatGetUnitFunction } from '.
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
   if ('table' in options) {
-    throw errorRemoved('table', 'find');
+    throw errorOptionRemoved('table', 'find');
   }
 
   if ('dec' in options) {
-    throw errorRemoved('dec', 'round');
+    throw errorOptionRemoved('dec', 'round');
   }
 
   if ('fixed' in options) {
-    throw errorRemoved('fixed', 'round');
+    throw errorOptionRemoved('fixed', 'round');
   }
 
   const {

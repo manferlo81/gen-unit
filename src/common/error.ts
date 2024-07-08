@@ -6,6 +6,6 @@ export function errorInvalidOption(option: string) {
   return error(`Invalid "${option}" option`);
 }
 
-export function errorRemoved(removed: string, replacement: string) {
+export function errorOptionRemoved(removed: string, replacement: string) {
   return error(`Option "${removed}" has been removed. Use "${replacement}" option instead.`);
 }

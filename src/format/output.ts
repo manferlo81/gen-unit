@@ -1,4 +1,4 @@
-import { error } from '../common/error';
+import { errorInvalidOption } from '../common/error';
 import { isFunction } from '../tools/is';
 import type { FormatOutputFunction } from './types';
 
@@ -15,7 +15,7 @@ export function createFormatOutput(output?: FormatOutputFunction): FormatOutputF
   }
 
   if (!isFunction(output)) {
-    throw error('Invalid "output" option.');
+    throw errorInvalidOption('output');
   }
 
   return output;
