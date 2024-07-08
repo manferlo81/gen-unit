@@ -26,7 +26,7 @@ describe('generic parse', () => {
     ];
 
     values.forEach((value) => {
-      expect(parse(value as never)).toBeNaN();
+      expect(parse(value)).toBeNaN();
     });
 
   });

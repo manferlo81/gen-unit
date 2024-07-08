@@ -1,13 +1,13 @@
-import type { ExponentFindItems, FindUnitAdvancedOptions } from '../common/types';
+import type { DeclarativeFindUnit } from '../common/types';
+import type { AllowNullish, AllowReturnNullish } from '../tools/helper-types';
 
-export type ParseMultiplierBase = number;
-export type ParseFindMultiplierFunction = (pre: string, unit?: string) => number | null | undefined;
-export type DeclarativeParseFindMultiplierOption = ParseMultiplierBase | ExponentFindItems | FindUnitAdvancedOptions;
-export type ParseFindMultiplierOption = DeclarativeParseFindMultiplierOption | ParseFindMultiplierFunction;
+export type ParseMultiplier = number;
+export type ParseFindMultiplierFunction = (pre: string, unit?: AllowNullish<string>) => AllowReturnNullish<ParseMultiplier>;
+export type ParseFindMultiplierOption = DeclarativeFindUnit | ParseFindMultiplierFunction;
 
 export interface CreateParserOptions {
-  unit?: string;
-  find?: ParseFindMultiplierOption;
+  unit?: AllowNullish<string>;
+  find?: AllowNullish<ParseFindMultiplierOption>;
 }
 
 export type ParseInput = unknown;

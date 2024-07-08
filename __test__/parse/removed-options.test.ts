@@ -7,7 +7,7 @@ describe('parse removed options', () => {
       { name: 'table', value: [] },
     ];
     removedOptions.forEach(({ name, value }) => {
-      expect(() => createParser({ [name]: value } as never)).toThrow(`Option "${name}" has been removed`);
+      expect(() => createParser({ [name]: value })).toThrow(`Option "${name}" has been removed`);
     });
   });
 

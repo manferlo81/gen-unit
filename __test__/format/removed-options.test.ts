@@ -9,7 +9,7 @@ describe('format removed options', () => {
       { name: 'fixed', value: true },
     ];
     removedOptions.forEach(({ name, value }) => {
-      expect(() => createFormatter({ [name]: value } as never)).toThrow(`Option "${name}" has been removed`);
+      expect(() => createFormatter({ [name]: value })).toThrow(`Option "${name}" has been removed`);
     });
   });
 

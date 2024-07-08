@@ -218,7 +218,7 @@ describe('parse "find" option', () => {
       ];
 
       findFunctions.forEach((find) => {
-        const parse = createParser({ find } as never);
+        const parse = createParser({ find });
         expect(parse('10 k')).toBeNaN();
       });
 

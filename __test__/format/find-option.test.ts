@@ -262,7 +262,7 @@ describe('format "find" option', () => {
     values.forEach((value) => {
 
       const format = createFormatter({
-        find: () => value as never,
+        find: () => value,
       });
 
       expect(() => format(10)).toThrow('is not a valid divider');

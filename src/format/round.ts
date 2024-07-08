@@ -1,9 +1,10 @@
 import { error, errorInvalidOption } from '../common/error';
+import { AllowNullish } from '../tools/helper-types';
 import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
 import type { RoundFunction, FormatRoundOption } from './types';
 
-export function createRounderWith(dec: number, fixed = false): RoundFunction {
+export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
   if (!isFinite(dec) || dec < 0) {
     throw error(`Can't create round function with ${dec} decimal.`);
@@ -18,7 +19,7 @@ export function createRounderWith(dec: number, fixed = false): RoundFunction {
 
 }
 
-export function createRounder(round?: FormatRoundOption): RoundFunction {
+export function createRounder(round: AllowNullish<FormatRoundOption>): RoundFunction {
 
   // return default rounder if no "round" option
   if (round == null) {

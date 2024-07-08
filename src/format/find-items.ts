@@ -1,8 +1,9 @@
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
-import type { ExponentFindItems } from '../common/types';
+import type { DeclarativeFindUnit, ExponentFindItems } from '../common/types';
+import type { AllowNullish } from '../tools/helper-types';
 import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
-import type { DeclarativeFormatFindUnitOption, DivisorFindItem, DivisorFindItems } from './types';
+import type { DivisorFindItem, DivisorFindItems } from './types';
 
 function transformFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
   return units.map<DivisorFindItem>(({ pre, exp }) => {
@@ -41,7 +42,7 @@ const defaultBase1000FormatFindItems: ExponentFindItems = [
   atto,
 ];
 
-export function createFindItems(find?: DeclarativeFormatFindUnitOption): DivisorFindItems {
+export function createFindItems(find: AllowNullish<DeclarativeFindUnit>): DivisorFindItems {
 
   if (!find) {
     return transformFindUnitArray(
@@ -64,18 +65,19 @@ export function createFindItems(find?: DeclarativeFormatFindUnitOption): Divisor
     );
   }
 
-  const { find: items, base = 1000 } = find;
+  const { find: items, base } = find;
+  const baseAsNumber = base ?? 1000;
 
   if (items) {
     return sortFindUnitArray(
       items,
-      base,
+      baseAsNumber,
     );
   }
 
   return transformFindUnitArray(
     defaultBase1000FormatFindItems,
-    base,
+    baseAsNumber,
   );
 
 }

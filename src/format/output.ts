@@ -1,17 +1,16 @@
 import { errorInvalidOption } from '../common/error';
+import type { AllowNullish } from '../tools/helper-types';
 import { isFunction } from '../tools/is';
 import type { FormatOutputFunction } from './types';
 
-function defaultFormatOutput(value: string | number, pre: string, unit: string): string {
-  const wholeUnit = `${pre}${unit}`;
-  const spacedUnit = wholeUnit ? ` ${wholeUnit}` : '';
-  return `${value}${spacedUnit}`;
-}
-
-export function createFormatOutput(output?: FormatOutputFunction): FormatOutputFunction {
+export function createFormatOutput(output: AllowNullish<FormatOutputFunction>): FormatOutputFunction {
 
   if (output == null) {
-    return defaultFormatOutput;
+    return (value, pre, unit) => {
+      const wholeUnit = `${pre}${unit}`;
+      const spacedUnit = wholeUnit ? ` ${wholeUnit}` : '';
+      return `${value}${spacedUnit}`;
+    };
   }
 
   if (!isFunction(output)) {

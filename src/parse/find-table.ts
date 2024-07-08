@@ -1,9 +1,9 @@
 import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
-import type { ExponentFindItem, ExponentFindItems } from '../common/types';
+import type { DeclarativeFindUnit, ExponentFindItem, ExponentFindItems, FindUnitBase } from '../common/types';
+import { AllowNullish } from '../tools/helper-types';
 import { isArray, isFinite, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
-import type { DeclarativeParseFindMultiplierOption } from './types';
 
 type FindMultiplierTable = {
   [K in string]?: number;
@@ -33,7 +33,7 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
  * @param base
  * @returns
  */
-function transformItems(items: ExponentFindItem[], base: number): FindMultiplierTable {
+function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMultiplierTable {
 
   return items.reduce<FindMultiplierTable>(
     (result, { pre, exp }) => {
@@ -58,9 +58,9 @@ function transformItems(items: ExponentFindItem[], base: number): FindMultiplier
  * @param unit "unit" option
  * @returns the multiplier find table from "find" option, or null if no "find" option
  */
-export function createFindTable(find?: DeclarativeParseFindMultiplierOption): FindMultiplierTable {
+export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMultiplierTable {
 
-  // return default table if no "find" option
+  // return default table if "find" option is null or undefined
   if (find == null) {
     return transformItems(
       defaultBase1000ParseFindItems,
@@ -85,20 +85,21 @@ export function createFindTable(find?: DeclarativeParseFindMultiplierOption): Fi
   }
 
   // get items and base from "find" option
-  const { find: items, base = 1000 } = find;
+  const { find: items, base } = find;
+  const baseAsNumber = base ?? 1000;
 
   // use items if items provided
   if (items) {
     return transformItems(
       items,
-      base,
+      baseAsNumber,
     );
   }
 
   // use default items
   return transformItems(
     defaultBase1000ParseFindItems,
-    base,
+    baseAsNumber,
   );
 
 }

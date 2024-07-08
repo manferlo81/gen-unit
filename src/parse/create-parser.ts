@@ -15,17 +15,18 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     find,
   } = options;
 
-  const findMultiplier = createMulFinder(find);
   const extractPre: (wholeUnit: string) => string = unit ? (
     (wholeUnit) => {
       if (wholeUnit.endsWith(unit)) {
-        return wholeUnit.slice(0, -unit.length);
+        const unitLength = unit.length;
+        return wholeUnit.slice(0, -unitLength);
       }
       return wholeUnit;
     }
   ) : (
     (wholeUnit) => wholeUnit
   );
+  const findMultiplier = createMulFinder(find);
 
   return (input: ParseInput): number => {
 
