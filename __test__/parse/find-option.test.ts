@@ -152,6 +152,44 @@ describe('parse "find" option', () => {
 
   describe('"find" options as function', () => {
 
+    test('Should receive prefix and unit', () => {
+
+      const find = jest.fn(() => 1);
+      const parse = createParser({ unit: 'g', find });
+
+      const values = [
+        { value: '2.4mg', args: ['m', 'g'] },
+        { value: '2.4m', args: ['m', 'g'] },
+        { value: '3kg', args: ['k', 'g'] },
+        { value: '3k', args: ['k', 'g'] },
+      ];
+
+      values.forEach(({ value, args }) => {
+        parse(value);
+        expect(find).toHaveBeenCalledWith(...args);
+        find.mockReset();
+      });
+
+    });
+
+    test('Should receive prefix', () => {
+
+      const find = jest.fn(() => 1);
+      const parse = createParser({ find });
+
+      const values = [
+        { value: '2.4m', args: ['m', undefined] },
+        { value: '3k', args: ['k', undefined] },
+      ];
+
+      values.forEach(({ value, args }) => {
+        parse(value);
+        expect(find).toHaveBeenCalledWith(...args);
+        find.mockReset();
+      });
+
+    });
+
     test('Should use "find" option as function returning number', () => {
 
       const parse = createParser({

@@ -7,18 +7,17 @@ import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './t
  * Creates a function which should return de multiplier based on captured unit
  *
  * @param find "find" option
- * @param unit "unit" option
  * @returns find multiplier function
  */
-export function createMulFinder(find?: ParseFindMultiplierOption, unit?: string): ParseFindMultiplierFunction {
+export function createMulFinder(find?: ParseFindMultiplierOption): ParseFindMultiplierFunction {
 
   // if "find" is a function
   if (isFunction(find)) {
 
-    return (capturedHoleUnit) => {
+    return (pre, unit) => {
 
       // find multiplier
-      const result = find(capturedHoleUnit);
+      const result = find(pre, unit);
 
       // return null if no multiplier found (null | undefined)
       if (result == null) {
@@ -38,16 +37,16 @@ export function createMulFinder(find?: ParseFindMultiplierOption, unit?: string)
     };
   }
 
-  const findTable = createFindTable(find, unit);
+  const findTable = createFindTable(find);
 
-  return (capturedHoleUnit: string) => {
+  return (pre: string) => {
 
-    // if captured unit equals unit, return 1 as multiplier
-    if (capturedHoleUnit === unit) {
+    // return 1 as multiplier if captured prefix is empty
+    if (!pre) {
       return 1;
     }
 
-    const multiplier = findTable[capturedHoleUnit];
+    const multiplier = findTable[pre];
 
     // return null if not multiplier found
     if (!multiplier) {

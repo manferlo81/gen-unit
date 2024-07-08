@@ -1,7 +1,7 @@
 import type { ExponentFindItems, FindUnitAdvancedOptions } from '../common/types';
 
 export type ParseMultiplierBase = number;
-export type ParseFindMultiplierFunction = (capturedHoleUnit: string) => number | null | undefined;
+export type ParseFindMultiplierFunction = (pre: string, unit?: string) => number | null | undefined;
 export type DeclarativeParseFindMultiplierOption = ParseMultiplierBase | ExponentFindItems | FindUnitAdvancedOptions;
 export type ParseFindMultiplierOption = DeclarativeParseFindMultiplierOption | ParseFindMultiplierFunction;
 

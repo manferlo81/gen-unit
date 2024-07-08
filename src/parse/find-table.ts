@@ -5,7 +5,9 @@ import { isArray, isFinite, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 import type { DeclarativeParseFindMultiplierOption } from './types';
 
-type FindMultiplierTable = Partial<Record<string, number>>;
+type FindMultiplierTable = {
+  [K in string]?: number;
+};
 
 export const defaultBase1000ParseFindItems: ExponentFindItems = [
   exa,
@@ -25,35 +27,13 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
   atto,
 ];
 
-function populateMultiplierTable(result: FindMultiplierTable, pre: string, multiplier: number): FindMultiplierTable {
-  return {
-    ...result,
-    [pre]: multiplier,
-  };
-}
-
 /**
  * transforms find items into
  * @param items
  * @param base
- * @param unit
  * @returns
  */
-function transformItems(items: ExponentFindItem[], base: number, unit = ''): FindMultiplierTable {
-
-  const populate: (result: FindMultiplierTable, pre: string, value: number) => FindMultiplierTable = unit ? (
-    (result, pre, multiplier) => {
-      return populateMultiplierTable(
-        populateMultiplierTable(
-          result,
-          pre,
-          multiplier,
-        ),
-        `${pre}${unit}`,
-        multiplier,
-      );
-    }
-  ) : populateMultiplierTable;
+function transformItems(items: ExponentFindItem[], base: number): FindMultiplierTable {
 
   return items.reduce<FindMultiplierTable>(
     (result, { pre, exp }) => {
@@ -61,7 +41,10 @@ function transformItems(items: ExponentFindItem[], base: number, unit = ''): Fin
       if (multiplier <= 0 || !isFinite(multiplier)) {
         throw error(`${base} to the power of ${exp} is not a valid multiplier`);
       }
-      return populate(result, pre, multiplier);
+      return {
+        ...result,
+        [pre]: multiplier,
+      };
     },
     {},
   );
@@ -75,14 +58,13 @@ function transformItems(items: ExponentFindItem[], base: number, unit = ''): Fin
  * @param unit "unit" option
  * @returns the multiplier find table from "find" option, or null if no "find" option
  */
-export function createFindTable(find?: DeclarativeParseFindMultiplierOption, unit?: string): FindMultiplierTable {
+export function createFindTable(find?: DeclarativeParseFindMultiplierOption): FindMultiplierTable {
 
   // return default table if no "find" option
   if (find == null) {
     return transformItems(
       defaultBase1000ParseFindItems,
       1000,
-      unit,
     );
   }
 
@@ -91,7 +73,6 @@ export function createFindTable(find?: DeclarativeParseFindMultiplierOption, uni
     return transformItems(
       defaultBase1000ParseFindItems,
       find,
-      unit,
     );
   }
 
@@ -100,7 +81,6 @@ export function createFindTable(find?: DeclarativeParseFindMultiplierOption, uni
     return transformItems(
       find,
       1000,
-      unit,
     );
   }
 
@@ -112,7 +92,6 @@ export function createFindTable(find?: DeclarativeParseFindMultiplierOption, uni
     return transformItems(
       items,
       base,
-      unit,
     );
   }
 
@@ -120,7 +99,6 @@ export function createFindTable(find?: DeclarativeParseFindMultiplierOption, uni
   return transformItems(
     defaultBase1000ParseFindItems,
     base,
-    unit,
   );
 
 }

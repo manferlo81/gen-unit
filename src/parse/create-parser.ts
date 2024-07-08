@@ -15,7 +15,17 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     find,
   } = options;
 
-  const findMultiplier = createMulFinder(find, unit);
+  const findMultiplier = createMulFinder(find);
+  const extractPre = unit ? (
+    (wholeUnit: string) => {
+      if (wholeUnit.endsWith(unit)) {
+        return wholeUnit.slice(0, -unit.length);
+      }
+      return wholeUnit;
+    }
+  ) : (
+    (wholeUnit: string) => wholeUnit
+  );
 
   return (input: ParseInput): number => {
 
@@ -30,24 +40,24 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return NaN;
     }
 
-    // convert input (probably array or object) to string
-    const asString = `${input as never}`;
+    // convert input (probably object) to string
+    const inputAsString = `${input as never}`;
 
     // if string is empty ("") return NaN
-    if (!asString) {
+    if (!inputAsString) {
       return NaN;
     }
 
     // convert string to number
-    const asNum = +asString;
+    const inputAsNumber = +inputAsString;
 
     // return number if string as number is finite (not NaN or Infinity)
-    if (isFinite(asNum)) {
-      return asNum;
+    if (isFinite(inputAsNumber)) {
+      return inputAsNumber;
     }
 
     // capture value & unit from string
-    const captureResult = capture(asString);
+    const captureResult = capture(inputAsString);
 
     // if can't capture, return NaN
     if (!captureResult) {
@@ -65,8 +75,10 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return valueAsNum;// === 0 ? 0 : NaN;
     }
 
+    const pre = extractPre(wholeUnit);
+
     // find multiplier
-    const multiplier = findMultiplier(wholeUnit);
+    const multiplier = findMultiplier(pre, unit);
 
     // if can't find multiplier, return NaN
     if (!multiplier) {
