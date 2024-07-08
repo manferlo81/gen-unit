@@ -16,15 +16,15 @@ export function createParser(options: CreateParserOptions = {}): Parser {
   } = options;
 
   const findMultiplier = createMulFinder(find);
-  const extractPre = unit ? (
-    (wholeUnit: string) => {
+  const extractPre: (wholeUnit: string) => string = unit ? (
+    (wholeUnit) => {
       if (wholeUnit.endsWith(unit)) {
         return wholeUnit.slice(0, -unit.length);
       }
       return wholeUnit;
     }
   ) : (
-    (wholeUnit: string) => wholeUnit
+    (wholeUnit) => wholeUnit
   );
 
   return (input: ParseInput): number => {

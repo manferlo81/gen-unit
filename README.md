@@ -25,6 +25,8 @@ yarn add gen-unit
     - ["find" option as a function](#find-option-as-a-function)
 - [createFormatter function](#createformatter)
   - ["unit" option](#unit-option-1)
+    - ["unit" option as a string](#unit-option-as-a-string)
+    - ["unit" option as a function](#unit-option-as-a-function)
   - ["find" option](#find-option-1)
     - ["find" option as an object](#find-option-as-an-object-1)
     - ["find" option as a number](#find-option-as-a-number-1)
@@ -44,9 +46,9 @@ yarn add gen-unit
 Creates a `parse` function using the given options.
 
 ```typescript
-function createParser(options): ParseFunction;
+function createParser(options): Parser;
 
-type ParseFunction = (input: string | number | object) => number;
+type Parser = (input: unknown) => number;
 ```
 
 - ***Options***
@@ -69,8 +71,8 @@ const parse = createParser({
 parse('1'); // => 1
 parse('1 g'); // => 1
 parse('1 mg'); // => 0.001
-parse('1 K'); // => 1000
-parse('1 Kg'); // => 1000
+parse('1 k'); // => 1000
+parse('1 kg'); // => 1000
 parse('1 ms'); // => NaN
 ```
 
@@ -100,7 +102,7 @@ parseSecond('1 ms'); // returns 0.001 (1 millisecond)
 
 ```typescript
 const parse = createParser({
-  unit: 'eg', // assume "eg" is the unit... for some reason
+  unit: 'eg', // assuming "eg" is the unit... for some reason
 });
 
 parse('1 meg'); // => 0.001 (not 1000000)
@@ -123,6 +125,7 @@ find: {
 default: {
   base: 1000,
   find: [
+    { pre: 'a', exp: -6 },
     { pre: 'f', exp: -5 },
     { pre: 'p', exp: -4 },
     { pre: 'n', exp: -3 },
@@ -135,11 +138,17 @@ default: {
     { pre: 'M', exp: 2 },
     { pre: 'G', exp: 3 },
     { pre: 'T', exp: 4 },
+    { pre: 'P', exp: 5 },
+    { pre: 'E', exp: 6 },
   ],
 }
 ```
 
 An object describing the `base` and unit `prefixes` to find the `multiplier`.
+
+- ***notes***
+
+Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
 
 ***example***
 
@@ -176,7 +185,7 @@ const parse = createParser({
 });
 
 parse('2'); // => 2
-parse('2 K'); // => 2048
+parse('2 k'); // => 2048
 parse('2 M'); // => 2097152
 parse('2 G'); // => 2147483648
 ```
@@ -187,20 +196,24 @@ parse('2 G'); // => 2147483648
 find: Array<{ pre: string; exp: number }>;
 ```
 
-An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000).
+An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000) during parsing.
+
+- ***notes***
+
+Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
 
 ***example***
 
 ```typescript
 const parse = createParser({
   find: [
-    { pre: 'K', exp: 1 },
+    { pre: 'k', exp: 1 },
     { pre: 'M', exp: 2 },
   ],
 });
 
 parse('1.3'); // => 1.3
-parse('1.3 K'); // => 1300
+parse('1.3 k'); // => 1300
 parse('1.3 M'); // => 1300000
 parse('1.3 G'); // => NaN because prefix "G" can't be found
 ```
@@ -211,7 +224,7 @@ parse('1.3 G'); // => NaN because prefix "G" can't be found
 find: (pre: string) => number | null;
 ```
 
-A function that returns a non-zero `number` by which the parsed value should be multiplied based on the captured prefix. Return `null` (or `undefined`) if multiplier can't be determined. It will cause the parse function to return `NaN`. If your function returns `zero`, `negative number` or any other invalid multiplier, parse function will throw a `TypeError`.
+A function that should return a non-zero `number` by which the parsed value should be multiplied based on the captured prefix. Return `null` (or `undefined`) if multiplier can't be determined. It will cause the parse function to return `NaN`. If your function returns `zero`, `negative number` or any other invalid multiplier, parse function will throw a `TypeError`.
 
 ***example***
 
@@ -230,6 +243,7 @@ const parse = createParser({
 });
 
 parse('2'); // => 2
+parse('2 k'); // => 2048
 parse('2 K'); // => 2048
 parse('2 M'); // => 2097152
 parse('2 G'); // => NaN
@@ -237,16 +251,16 @@ parse('2 G'); // => NaN
 
 - ***Notes***
 
-Previous version of this library allow this function to return an object `{ mul: number }` containing the multiplier. While this still works it's not recommended as this behavior will be removed in the future.
+Previous version of this library allow this function to return an object `{ mul: number }` containing the multiplier. This behavior has been removed, it will `throw` instead.
 
 ### createFormatter
 
 Creates a `format` function using the given options.
 
 ```typescript
-function createFormatter(options): FormatFunction;
+function createFormatter(options): Formatter;
 
-type FormatFunction = (input) => string;
+type Formatter = (input: number) => string;
 ```
 
 ***Options***
@@ -255,7 +269,7 @@ type FormatFunction = (input) => string;
 
 The `"unit"` option defines the `unit` to be used during formatting.
 
-- ***"unit" option as a string***
+##### "unit" option as a string
 
 ```typescript
 unit: string;
@@ -275,7 +289,7 @@ format(0.0012); // => '1.2 mm'
 format(1200); // => '1.2 Km'
 ```
 
-- ***"unit" option as a function***
+##### "unit" option as a function
 
 ```typescript
 unit: (value: number, rounded: string | number, pre: string) => string;
@@ -294,12 +308,12 @@ const format = createFormatter({
 
 format(100); // => '100 m'
 format(0.0012); // => '1.2 mm'
-format(1200); // => '1.2 Km'
+format(1200); // => '1.2 km'
 ```
 
 #### "find" option
 
-The `"find"` option describes how to find the unit `prefix` asd `divider` based on input value.
+The `"find"` option describes how to find the unit `prefix` and `divider` based on input value.
 
 ##### "find" option as an object
 
@@ -312,16 +326,19 @@ find: {
 default: {
   base: 1000,
   find: [
+    { exp: -6, pre: 'a' },
     { exp: -5, pre: 'f' },
     { exp: -4, pre: 'p' },
     { exp: -3, pre: 'n' },
     { exp: -2, pre: 'µ' },
     { exp: -1, pre: 'm' },
     { exp: 0, pre: '' },
-    { exp: 1, pre: 'K' },
+    { exp: 1, pre: 'k' },
     { exp: 2, pre: 'M' },
     { exp: 3, pre: 'G' },
     { exp: 4, pre: 'T' },
+    { exp: 5, pre: 'P' },
+    { exp: 6, pre: 'E' },
   ],
 }
 ```
@@ -362,17 +379,17 @@ const format = createFormatter({
 });
 
 format(100); // => '100'
-format(2048); // => '2 K'
+format(2048); // => '2 k'
 format(2097152); // => '2 M'
 ```
 
 ##### "find" option as an array
 
 ```typescript
-find: Array<{ exp: number; pre: string }>;
+find: Array<{ pre: string; exp: number }>;
 ```
 
-An `array` of `objects` describing the different unit `prefixes`.
+An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000) during formatting.
 
 ***example***
 
@@ -410,6 +427,7 @@ const format = createFormatter({
   },
 });
 
+format(0.2); // => '0.2'
 format(2); // => '2'
 format(2000); // => '2 K'
 format(2000000); // => '2000 K'
@@ -446,7 +464,7 @@ const format = createFormatter({
 });
 
 format(1.23); // => '1.230'
-format(1230); // => '1.230 K'
+format(1230); // => '1.230 k'
 format(0.00123); // => '1.230 m'
 ```
 
@@ -466,7 +484,8 @@ const format = createFormatter({
 });
 
 format(1.23); // => '1.2'
-format(1230); // => '1.2 K'
+format(1.28); // => '1.3'
+format(1230); // => '1.2 k'
 format(0.00123); // => '1.2 m'
 ```
 
@@ -486,7 +505,8 @@ const format = createFormatter({
 });
 
 format(1.23); // => '1'
-format(1230); // => '1 K'
+format(1.75); // => '2'
+format(1230); // => '1 k'
 format(0.00123); // => '1 m'
 ```
 
@@ -506,7 +526,7 @@ const format = createFormatter({
 })
 
 format(1.23); // => '1.23s'
-format(1230); // => '1.23Ks'
+format(1230); // => '1.23ks'
 format(0.00123); // => '1.23ms'
 ```
 
@@ -528,8 +548,8 @@ function format(input, options): string;
 
 ### MICRO
 
-A constant containing the micro symbol ("µ")
+A constant containing the micro symbol ("µ"). Used internally, exported for convenience.
 
 ## License
 
-[MIT](LICENSE) &copy; [Manuel Fernández](https://github.com/manferlo81)
+[MIT](LICENSE) &copy; 2019-2024 [Manuel Fernández](https://github.com/manferlo81)

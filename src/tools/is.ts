@@ -1,15 +1,15 @@
 import type { AnyFunction, Anything, TypeCheckFunction } from './helper-types';
 
-interface typeofMap {
+interface TypeOfMap {
   number: number;
   object: object;
   function: AnyFunction;
 }
 
-type TypeOfResult = keyof typeofMap;
+type TypeOfResult = keyof TypeOfMap;
 
-function isType<K extends TypeOfResult>(type: K): TypeCheckFunction<typeofMap[K]> {
-  return <T extends typeofMap[K]>(value: unknown): value is T => {
+function isType<K extends TypeOfResult>(type: K): TypeCheckFunction<TypeOfMap[K]> {
+  return <T extends TypeOfMap[K]>(value: unknown): value is T => {
     return typeof value === type;
   };
 }
