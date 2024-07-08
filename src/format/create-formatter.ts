@@ -32,8 +32,8 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
   const formatOutput = createFormatOutput(output);
 
   return (value: number): string => {
-    const unitObj = findUnit(value);
-    const { pre, div: divisor } = unitObj;
+    const item = findUnit(value);
+    const { pre, div: divisor } = item;
     const divided = value / divisor;
     const rounded = roundNum(divided);
     const result = formatOutput(

@@ -66,15 +66,21 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     }
 
     // get value & unit from captured
-    const [valueAsStr, wholeUnit] = captureResult;
-    // convert captured value to number
-    const valueAsNum = +valueAsStr;
+    const [capturedValueAsString, wholeUnit] = captureResult;
 
-    // if value if 0 or NaN
-    if (!valueAsNum) {
-      // return 0 or NaN
-      return valueAsNum;// === 0 ? 0 : NaN;
+    // convert captured value to number
+    const capturedValueAsNumber = +capturedValueAsString;
+
+    // return if value if it's 0 or NaN
+    if (!capturedValueAsNumber) {
+      return capturedValueAsNumber;
     }
+
+    // TODO: It's not necessary to check if captured value is finite
+    // because capture RegExp won't return any Infinite value
+    // if (!isFinite(capturedValueAsNumber)) {
+    //   return NaN;
+    // }
 
     const pre = extractPre(wholeUnit);
 
@@ -86,8 +92,8 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return NaN;
     }
 
-    // return  multiplier
-    return valueAsNum * multiplier;
+    // return value * multiplier
+    return capturedValueAsNumber * multiplier;
 
   };
 

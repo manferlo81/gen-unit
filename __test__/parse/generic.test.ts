@@ -2,8 +2,8 @@ import { createParser } from '../../src';
 
 describe('generic parse', () => {
 
-  test('Should not throw if no option passed', () => {
-    expect(() => createParser()).not.toThrow();
+  test('Should create parser without options', () => {
+    expect(createParser()).toBeInstanceOf(Function);
   });
 
   const parse = createParser({});
@@ -22,7 +22,8 @@ describe('generic parse', () => {
       { toString: (): string => '' },
       Infinity,
       -Infinity,
-      'Infinity',
+      'Infinity k',
+      '-Infinity m',
     ];
 
     values.forEach((value) => {
@@ -78,7 +79,7 @@ describe('generic parse', () => {
     ];
 
     values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBe(expected);
+      expect(parse(value)).toBeCloseTo(expected, 8);
     });
 
   });

@@ -2,6 +2,10 @@ import { createFormatter, MICRO } from '../../src';
 
 describe('generic format', () => {
 
+  test('Should create formatter without options', () => {
+    expect(createFormatter()).toBeInstanceOf(Function);
+  });
+
   const format = createFormatter({});
 
   test('Should format number', () => {
