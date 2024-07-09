@@ -1,8 +1,9 @@
 import { errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isNumber } from '../tools/is';
 import { capture } from './capture';
+import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
-import type { CreateParserOptions, Parser, ParseInput } from './types';
+import type { CreateParserOptions, ParseInput, Parser } from './types';
 
 export function createParser(options: CreateParserOptions = {}): Parser {
 
@@ -15,17 +16,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     find,
   } = options;
 
-  const extractPre: (wholeUnit: string) => string = unit ? (
-    (wholeUnit) => {
-      if (wholeUnit.endsWith(unit)) {
-        const unitLength = unit.length;
-        return wholeUnit.slice(0, -unitLength);
-      }
-      return wholeUnit;
-    }
-  ) : (
-    (wholeUnit) => wholeUnit
-  );
+  const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);
 
   return (input: ParseInput): number => {
