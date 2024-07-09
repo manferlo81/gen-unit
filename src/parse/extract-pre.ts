@@ -1,8 +1,8 @@
-import type { AllowNullish } from '../tools/helper-types';
+import { ParseUnitOption } from './types';
 
 type ExtractPreFunction = (wholeUnit: string) => string;
 
-export function createExtractPre(unit: AllowNullish<string>): ExtractPreFunction {
+export function createExtractPre(unit: ParseUnitOption): ExtractPreFunction {
 
   if (unit) {
     return (wholeUnit) => {

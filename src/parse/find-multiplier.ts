@@ -1,5 +1,4 @@
 import { error } from '../common/error';
-import { AllowNullish } from '../tools/helper-types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
@@ -10,7 +9,7 @@ import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './t
  * @param find "find" option
  * @returns find multiplier function
  */
-export function createMulFinder(find: AllowNullish<ParseFindMultiplierOption>): ParseFindMultiplierFunction {
+export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMultiplierFunction {
 
   // if "find" is a function
   if (isFunction(find)) {

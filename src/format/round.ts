@@ -2,7 +2,7 @@ import { error, errorInvalidOption } from '../common/error';
 import { AllowNullish } from '../tools/helper-types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
-import type { RoundFunction, FormatRoundOption } from './types';
+import type { FormatRoundOption, RoundFunction } from './types';
 
 export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
@@ -19,7 +19,7 @@ export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): R
 
 }
 
-export function createRounder(round: AllowNullish<FormatRoundOption>): RoundFunction {
+export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // return default rounder if no "round" option
   if (round == null) {

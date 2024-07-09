@@ -3,8 +3,14 @@ import { isFiniteNumber, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
-import type { CreateParserOptions, ParseInput, Parser } from './types';
+import type { CreateParserOptions, ParseInput, Parser, ParseUnitOption } from './types';
 
+interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptions<U> {
+  unit: U;
+}
+
+export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser;
+export function createParser(options?: CreateParserOptions): Parser;
 export function createParser(options: CreateParserOptions = {}): Parser {
 
   if ('table' in options) {

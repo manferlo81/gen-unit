@@ -1,8 +1,8 @@
 import type { DeclarativeFindUnit } from '../common/types';
-import { AllowNullish } from '../tools/helper-types';
+import type { AllowNullish } from '../tools/helper-types';
 
 export type FormatGetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
-export type FormatUnitOption = string | FormatGetUnitFunction;
+export type FormatUnitOption = AllowNullish<string | FormatGetUnitFunction>;
 
 export interface DivisorFindItem {
   pre: string;
@@ -11,7 +11,7 @@ export interface DivisorFindItem {
 export type DivisorFindItems = DivisorFindItem[];
 
 export type FormatFindUnitFunction = (value: number) => DivisorFindItem;
-export type FormatFindUnitOption = DeclarativeFindUnit | FormatFindUnitFunction;
+export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction>;
 
 export type RoundDec = number;
 
@@ -21,15 +21,16 @@ export interface FormatRoundAdvancedOptions {
   dec?: AllowNullish<RoundDec | string>;
   fixed?: AllowNullish<boolean>;
 }
-export type FormatRoundOption = RoundDec | FormatRoundAdvancedOptions | RoundFunction;
+export type FormatRoundOption = AllowNullish<RoundDec | FormatRoundAdvancedOptions | RoundFunction>;
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
+export type FormatOutputOption = AllowNullish<FormatOutputFunction>;
 
 export interface CreateFormatterOptions {
-  unit?: AllowNullish<FormatUnitOption>;
-  find?: AllowNullish<FormatFindUnitOption>;
-  round?: AllowNullish<FormatRoundOption>;
-  output?: AllowNullish<FormatOutputFunction>;
+  unit?: FormatUnitOption;
+  find?: FormatFindUnitOption;
+  round?: FormatRoundOption;
+  output?: FormatOutputOption;
 }
 
 export type FormatInput = number;

@@ -1,10 +1,9 @@
 import { error } from '../common/error';
-import type { AllowNullish } from '../tools/helper-types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindItems, unity } from './find-items';
 import type { DivisorFindItem, FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
-export function createUnitFinder(find: AllowNullish<FormatFindUnitOption>): FormatFindUnitFunction {
+export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunction {
 
   // return wrapped function if it's a function
   if (isFunction(find)) {
