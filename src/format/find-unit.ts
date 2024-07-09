@@ -1,6 +1,6 @@
 import { error } from '../common/error';
 import type { AllowNullish } from '../tools/helper-types';
-import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindItems, unity } from './find-items';
 import type { DivisorFindItem, FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
@@ -19,7 +19,7 @@ export function createUnitFinder(find: AllowNullish<FormatFindUnitOption>): Form
 
       const { div } = result;
 
-      if (!isNumber(div) || !isFinite(div) || !div) {
+      if (!isNumber(div) || !isFiniteNumber(div) || !div) {
         throw error(`${div} is not a valid divider`);
       }
 

@@ -1,5 +1,5 @@
 import { errorOptionRemoved } from '../common/error';
-import { isFinite, isNumber } from '../tools/is';
+import { isFiniteNumber, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createMulFinder } from './find-multiplier';
 import type { CreateParserOptions, Parser, ParseInput } from './types';
@@ -33,7 +33,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // if input is of type number (number, NaN or Infinity)
     if (isNumber(input)) {
       // return the number if it's finite (number), otherwise (NaN or Infinity) return NaN
-      return isFinite(input) ? input : NaN;
+      return isFiniteNumber(input) ? input : NaN;
     }
 
     // if input is falsy (false, "", null or undefined) return NaN
@@ -41,7 +41,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return NaN;
     }
 
-    // convert input (probably object) to string
+    // convert input (probably non-empty string or object) to string
     const inputAsString = `${input as never}`;
 
     // if string is empty ("") return NaN
@@ -53,7 +53,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     const inputAsNumber = +inputAsString;
 
     // return number if string as number is finite (not NaN or Infinity)
-    if (isFinite(inputAsNumber)) {
+    if (isFiniteNumber(inputAsNumber)) {
       return inputAsNumber;
     }
 

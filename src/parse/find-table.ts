@@ -2,7 +2,7 @@ import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { DeclarativeFindUnit, ExponentFindItem, ExponentFindItems, FindUnitBase } from '../common/types';
 import { AllowNullish } from '../tools/helper-types';
-import { isArray, isNumber } from '../tools/is';
+import { isArray, isFiniteNumber, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 
 interface MultiplierFindItem {
@@ -39,7 +39,7 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
 function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMultiplierTable {
   return items.map(({ pre, exp }) => {
     const multiplier = pow(base, exp);
-    if (multiplier <= 0 || !isFinite(multiplier)) {
+    if (!isFiniteNumber(multiplier) || multiplier <= 0) {
       throw error(`${base} to the power of ${exp} is not a valid multiplier`);
     }
     return {

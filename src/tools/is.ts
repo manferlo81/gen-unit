@@ -20,4 +20,4 @@ export const isObject = isType('object');
 export const { isArray } = Array as { isArray: TypeCheckFunction<Anything[]> };
 
 export const isNumber = isType('number');
-export const { isFinite } = Number;
+export const { isFinite: isFiniteNumber } = Number;

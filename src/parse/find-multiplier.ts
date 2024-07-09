@@ -1,6 +1,6 @@
 import { error } from '../common/error';
 import { AllowNullish } from '../tools/helper-types';
-import { isFinite, isFunction, isNumber, isObject } from '../tools/is';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { createFindTable } from './find-table';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
 
@@ -29,7 +29,7 @@ export function createMulFinder(find: AllowNullish<ParseFindMultiplierOption>): 
         throw error('Function returning object is no longer supported, return a non-zero number, null or undefined.');
       }
 
-      if (!isNumber(result) || !isFinite(result) || result <= 0) {
+      if (!isNumber(result) || !isFiniteNumber(result) || result <= 0) {
         throw error(`${result} is not a valid multiplier`);
       }
 
