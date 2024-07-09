@@ -2,12 +2,15 @@ import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { DeclarativeFindUnit, ExponentFindItem, ExponentFindItems, FindUnitBase } from '../common/types';
 import { AllowNullish } from '../tools/helper-types';
-import { isArray, isFinite, isNumber } from '../tools/is';
+import { isArray, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 
-type FindMultiplierTable = {
-  [K in string]?: number;
-};
+interface MultiplierFindItem {
+  pre: string;
+  mul: number;
+}
+
+type FindMultiplierTable = MultiplierFindItem[];
 
 export const defaultBase1000ParseFindItems: ExponentFindItems = [
   exa,
@@ -34,21 +37,16 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
  * @returns
  */
 function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMultiplierTable {
-
-  return items.reduce<FindMultiplierTable>(
-    (result, { pre, exp }) => {
-      const multiplier = pow(base, exp);
-      if (multiplier <= 0 || !isFinite(multiplier)) {
-        throw error(`${base} to the power of ${exp} is not a valid multiplier`);
-      }
-      return {
-        ...result,
-        [pre]: multiplier,
-      };
-    },
-    {},
-  );
-
+  return items.map(({ pre, exp }) => {
+    const multiplier = pow(base, exp);
+    if (multiplier <= 0 || !isFinite(multiplier)) {
+      throw error(`${base} to the power of ${exp} is not a valid multiplier`);
+    }
+    return {
+      pre,
+      mul: multiplier,
+    };
+  });
 }
 
 /**

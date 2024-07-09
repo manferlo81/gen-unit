@@ -47,12 +47,14 @@ export function createMulFinder(find: AllowNullish<ParseFindMultiplierOption>): 
       return 1;
     }
 
-    const multiplier = findTable[pre];
+    const item = findTable.find(({ pre: prefix }) => prefix === pre);
 
     // return null if not multiplier found
-    if (!multiplier) {
+    if (!item) {
       return null;
     }
+
+    const { mul: multiplier } = item;
 
     // return multiplier
     return multiplier;
