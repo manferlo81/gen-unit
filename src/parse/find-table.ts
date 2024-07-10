@@ -1,7 +1,7 @@
 import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import type { DeclarativeFindUnit, ExponentFindItem, ExponentFindItems, FindUnitBase } from '../common/types';
-import { AllowNullish } from '../tools/helper-types';
+import type { AllowNullish } from '../tools/helper-types';
 import { isArray, isFiniteNumber, isNumber } from '../tools/is';
 import { pow } from '../tools/math';
 
@@ -31,10 +31,11 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
 ];
 
 /**
- * transforms find items into
- * @param items
- * @param base
- * @returns
+ * transforms find items into a multiplier find table
+ *
+ * @param items find items
+ * @param base base
+ * @returns find multiplier table
  */
 function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMultiplierTable {
   return items.map(({ pre, exp }) => {
@@ -53,8 +54,7 @@ function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMult
  * creates a multiplier find table based on the "find" option
  *
  * @param find "find" option
- * @param unit "unit" option
- * @returns the multiplier find table from "find" option, or null if no "find" option
+ * @returns the multiplier find table from "find" option
  */
 export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMultiplierTable {
 

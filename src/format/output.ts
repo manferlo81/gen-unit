@@ -1,9 +1,8 @@
 import { errorInvalidOption } from '../common/error';
-import type { AllowNullish } from '../tools/helper-types';
 import { isFunction } from '../tools/is';
-import type { FormatOutputFunction } from './types';
+import type { FormatOutputFunction, FormatOutputOption } from './types';
 
-export function createFormatOutput(output: AllowNullish<FormatOutputFunction>): FormatOutputFunction {
+export function createFormatOutput(output: FormatOutputOption): FormatOutputFunction {
 
   if (output == null) {
     return (value, pre, unit) => {

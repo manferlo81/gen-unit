@@ -5,6 +5,11 @@ import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
 
+/**
+ * Create a new parser
+ * @param options parser options
+ * @returns the parser
+ */
 export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser;
 export function createParser(options?: CreateParserOptions): Parser;
 export function createParser(options: CreateParserOptions = {}): Parser {

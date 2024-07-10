@@ -5,6 +5,12 @@ import { createFormatOutput } from './output';
 import { createRounder } from './round';
 import type { CreateFormatterOptions, Formatter, FormatGetUnitFunction } from './types';
 
+/**
+ * Create a new formatter
+ *
+ * @param options create formatter options
+ * @returns formatter
+ */
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
   if ('table' in options) {
