@@ -12,5 +12,9 @@ export interface CreateParserOptions<U extends ParseUnitOption = ParseUnitOption
   find?: ParseFindMultiplierOption<U>;
 }
 
+export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptions<U> {
+  unit: U;
+}
+
 export type ParseInput = unknown;
 export type Parser = (input: ParseInput) => number;

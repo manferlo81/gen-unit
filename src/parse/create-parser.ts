@@ -3,11 +3,7 @@ import { isFiniteNumber, isNumber } from '../tools/is';
 import { capture } from './capture';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
-import type { CreateParserOptions, ParseInput, Parser, ParseUnitOption } from './types';
-
-interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptions<U> {
-  unit: U;
-}
+import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
 
 export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser;
 export function createParser(options?: CreateParserOptions): Parser;
