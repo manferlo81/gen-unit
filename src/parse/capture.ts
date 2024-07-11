@@ -1,4 +1,4 @@
-const reg = /^\s*(-?\d*\.?\d+(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/;
+const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/;
 
 type InputCaptured = [value: string, wholeUnit: string];
 
@@ -13,7 +13,8 @@ export function capture(input: string): InputCaptured | null {
   }
 
   // return captured value & unit
-  const [, value, wholeUnit] = result;
-  return [value, wholeUnit];
+  return result.slice(1, 3) as InputCaptured;
+  // const [, value, wholeUnit] = result;
+  // return [value, wholeUnit];
 
 }

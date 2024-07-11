@@ -34,8 +34,8 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return isFiniteNumber(input) ? input : NaN;
     }
 
-    // if input is falsy (false, "", null or undefined) return NaN
-    if (!input) {
+    // if input is falsy (false, "", null or undefined) or true return NaN
+    if (!input || input === true) {
       return NaN;
     }
 

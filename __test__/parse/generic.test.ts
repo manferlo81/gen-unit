@@ -66,6 +66,8 @@ describe('generic parse', () => {
       { value: '-123.4', expected: -123.4 },
       { value: '.4', expected: 0.4 },
       { value: '-.4', expected: -0.4 },
+      { value: '2.e-1', expected: 0.2 },
+      { value: '-2.e-1', expected: -0.2 },
       { value: '1e3', expected: 1e3 },
       { value: '10e-3', expected: 10e-3 },
       { value: '10e+3', expected: 10e+3 },
