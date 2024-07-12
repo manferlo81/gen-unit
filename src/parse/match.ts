@@ -1,9 +1,25 @@
+import type { AllowNullish } from '../tools/helper-types';
+import { isFunction } from '../tools/is';
+import type { ParseMatchOption } from './types';
+
 type InputCaptured = [value: string, wholeUnit: string];
 type MatchFunction = (input: string) => InputCaptured | null;
 
-export function createMatcher(): MatchFunction {
+function getRegExp(matchOption: AllowNullish<string | RegExp>) {
+  if (matchOption == null) {
+    return /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i;
+  }
+  return new RegExp(matchOption);
+}
 
-  const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/i;
+export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
+
+  if (isFunction(matchOption)) {
+    // TODO: Wrap function to validate results
+    return matchOption;
+  }
+
+  const reg = getRegExp(matchOption);
 
   return (input: string): InputCaptured | null => {
 

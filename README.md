@@ -18,6 +18,10 @@ yarn add gen-unit
 
 - [createParser function](#createparser)
   - ["unit" option](#unit-option)
+  - ["match" option](#match-option)
+    - ["match" option as a RegExp](#match-option-as-a-regexp)
+    - ["match" option as a string](#match-option-as-a-string)
+    - ["match" option as a function](#match-option-as-a-function)
   - ["find" option](#find-option)
     - ["find" option as an object](#find-option-as-an-object)
     - ["find" option as a number](#find-option-as-a-number)
@@ -108,6 +112,70 @@ const parse = createParser({
 parse('1 meg'); // => 0.001 (not 1000000)
 parse('1 megeg'); // => 1000000
 parse('1 Meg'); // => 1000000
+```
+
+#### "match" option
+
+The first step in the `parse` process, it takes the `input` and return a `value`, and the `unit` to be process further down the road, or `null` if the input can't be parsed.
+
+##### "match" option as a RegExp
+
+```typescript
+match: RegExp;
+default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i
+```
+
+A RegExp with two capturing groups, the first to be used as value and the second as unit.
+
+***example***
+
+```typescript
+const parse = createParser({
+  match: /^\s*([\d.]+)\s*([a-z]*)\s*$/i,
+});
+
+parse('1 m'); // => 0.001
+parse('1 k'); // => 1000
+```
+
+##### "match" option as a string
+
+```typescript
+match: string;
+```
+
+A string to be used to create a RegExp. It is expected to have two capturing groups, the first to be used as value and the second as unit.
+
+***example***
+
+```typescript
+const parse = createParser({
+  match: '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$',
+});
+
+parse('1 m'); // => 0.001
+parse('1 k'); // => 1000
+```
+
+##### "match" option as a function
+
+```typescript
+match: (input: string) => [value: string, unit: string];
+```
+
+A function which will receive the input and should return an array of two elements, the first to be used as value and the second as unit.
+
+***example***
+
+```typescript
+const parse = createParser({
+  match(input) {
+    return [input, 'k']
+  },
+});
+
+parse('1'); // => 1000
+parse('2'); // => 2000
 ```
 
 #### "find" option

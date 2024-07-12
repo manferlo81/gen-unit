@@ -1,8 +1,8 @@
 import { errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isNumber } from '../tools/is';
-import { createMatcher } from './match';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
+import { createMatcher } from './match';
 import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
 
 /**
@@ -20,12 +20,13 @@ export function createParser(options: CreateParserOptions = {}): Parser {
 
   const {
     unit,
+    match: matchOption,
     find,
   } = options;
 
   const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);
-  const match = createMatcher();
+  const match = createMatcher(matchOption);
 
   return (input: ParseInput): number => {
 
@@ -70,16 +71,15 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // convert captured value to number
     const capturedValueAsNumber = +capturedValueAsString;
 
-    // return if value if it's 0 or NaN
-    if (!capturedValueAsNumber) {
-      return capturedValueAsNumber;
+    // return NaN if value is not finite
+    if (!isFinite(capturedValueAsNumber)) {
+      return NaN;
     }
 
-    // INFO: It's not necessary to check if captured value is finite
-    // because capture RegExp won't return any Infinite value
-    // if (!isFinite(capturedValueAsNumber)) {
-    //   return NaN;
-    // }
+    // return 0 if value is 0
+    if (capturedValueAsNumber === 0) {
+      return 0;
+    }
 
     const pre = extractPre(wholeUnit);
 
