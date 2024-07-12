@@ -1,4 +1,4 @@
-const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/;
+const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/i;
 
 type InputCaptured = [value: string, wholeUnit: string];
 
