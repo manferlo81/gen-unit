@@ -1,1 +1,4 @@
-*.ts  text  eol=crlf
+[core]
+  safecrlf=true
+  autocrlf=true
+

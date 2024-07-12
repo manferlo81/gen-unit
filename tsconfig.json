@@ -1,19 +1,4 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "lib": [],
-    "esModuleInterop": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist"
-  },
   "include": [
     "src/**/*.ts",
     "__test__/**/*.ts",
@@ -23,5 +8,22 @@
     "node_modules",
     "dist",
     "coverage"
-  ]
+  ],
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": [],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist"
+  }
 }
