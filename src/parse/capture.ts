@@ -1,8 +1,8 @@
-const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/i;
-
 type InputCaptured = [value: string, wholeUnit: string];
 
 export function capture(input: string): InputCaptured | null {
+
+  const reg = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-zA-Z\u00b5]*)\s*$/i;
 
   // execute RegExp against input
   const result = reg.exec(input);
