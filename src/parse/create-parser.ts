@@ -36,7 +36,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return isFiniteNumber(input) ? input : NaN;
     }
 
-    // if input is falsy (false, "", null or undefined) or true return NaN
+    // return NaN if input is falsy (false, '', null or undefined) or true
     if (!input || input === true) {
       return NaN;
     }
@@ -44,7 +44,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // convert input (probably non-empty string or object) to string
     const inputAsString = `${input as never}`;
 
-    // if string is empty ("") return NaN
+    // return NaN if value is empty string ('')
     if (!inputAsString) {
       return NaN;
     }
@@ -60,7 +60,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // capture value & unit from string
     const captured = match(inputAsString);
 
-    // if can't capture, return NaN
+    // return NaN if can't capture value & unit
     if (!captured) {
       return NaN;
     }
@@ -68,25 +68,25 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // get value & unit from captured
     const [capturedValueAsString, wholeUnit] = captured;
 
+    // return NaN if captured value is empty string ('')
+    if (!capturedValueAsString) {
+      return NaN;
+    }
+
     // convert captured value to number
     const capturedValueAsNumber = +capturedValueAsString;
 
     // return NaN if value is not finite
-    if (!isFinite(capturedValueAsNumber)) {
+    if (!isFiniteNumber(capturedValueAsNumber)) {
       return NaN;
-    }
-
-    // return 0 if value is 0
-    if (capturedValueAsNumber === 0) {
-      return 0;
     }
 
     const pre = extractPre(wholeUnit);
 
-    // find multiplier
+    // try to find find multiplier
     const multiplier = findMultiplier(pre, unit);
 
-    // if can't find multiplier, return NaN
+    // return NaN if can't find multiplier
     if (!multiplier) {
       return NaN;
     }

@@ -10,23 +10,35 @@ describe('generic parse', () => {
 
   test('Should return NaN on invalid input', () => {
 
-    const values = [
-      '',
-      '10.3.4',
-      'non-numeric',
-      '10 x',
+    const nonStrings = [
       null,
       undefined,
-      true,
-      false,
-      { toString: (): string => '' },
       Infinity,
       -Infinity,
+    ];
+
+    const strings = [
+      '',
+      'null',
+      'undefined',
+      'true',
+      'false',
+      'non-numeric',
+      '10.3.4',
+      '10 x',
       'Infinity k',
       '-Infinity m',
     ];
 
-    values.forEach((value) => {
+    const invalidValues = [
+      ...nonStrings,
+      ...strings,
+      ...strings.map((value) => ({ toString: () => value })),
+    ];
+
+    const parse = createParser({});
+
+    invalidValues.forEach((value) => {
       expect(parse(value)).toBeNaN();
     });
 
@@ -47,6 +59,8 @@ describe('generic parse', () => {
       1.2e-3,
     ];
 
+    const parse = createParser({});
+
     values.forEach((value) => {
       expect(parse(value)).toBe(value);
     });
@@ -55,27 +69,42 @@ describe('generic parse', () => {
 
   test('Should parse numeric string', () => {
 
+    const numericValues = [
+      '0',
+      '1',
+      '10',
+      '123',
+      '0.0',
+      '0.1',
+      '123.4',
+      '-123.4',
+      '.4',
+      '-.4',
+      '2.e-1',
+      '-2.e-1',
+      '1e3',
+      '1E3',
+      '10e-3',
+      '10E-3',
+      '10e+3',
+      '3e-6',
+      '-123e-6',
+      '123e+6',
+    ];
+
+    numericValues.forEach((value) => {
+      const result = parse(value);
+      expect(result).not.toBeNaN();
+      expect(result).toBeCloseTo(+value, 8);
+    });
+
+  });
+
+  test('Should parse numeric string with unit', () => {
+
     const values = [
-      { value: '0', expected: 0 },
-      { value: '1', expected: 1 },
-      { value: '10', expected: 10 },
-      { value: '123', expected: 123 },
-      { value: '0.0', expected: 0 },
-      { value: '0.1', expected: 0.1 },
-      { value: '123.4', expected: 123.4 },
-      { value: '-123.4', expected: -123.4 },
-      { value: '.4', expected: 0.4 },
-      { value: '-.4', expected: -0.4 },
-      { value: '2.e-1', expected: 0.2 },
-      { value: '-2.e-1', expected: -0.2 },
-      { value: '1e3', expected: 1e3 },
-      { value: '1E3', expected: 1e3 },
-      { value: '10e-3', expected: 10e-3 },
-      { value: '10E-3', expected: 10e-3 },
-      { value: '10e+3', expected: 10e+3 },
-      { value: '3e-6', expected: 3e-6 },
-      { value: '-123e-6', expected: -123e-6 },
-      { value: '123e+6', expected: 123e+6 },
+      { value: '12 k', expected: 12e3 },
+      { value: '12 m', expected: 12e-3 },
       { value: '100e-3 m', expected: 100e-6 },
       { value: '100e-3 K', expected: 100 },
       { value: '-100e3 m', expected: -100 },
@@ -128,6 +157,11 @@ describe('generic parse', () => {
       expect(parse(value)).toBe(0);
     });
 
+  });
+
+  test('Should return NaN if value is zero and unit not found', () => {
+    expect(parse('0x')).toBeNaN();
+    expect(parse('0l')).toBeNaN();
   });
 
 });
