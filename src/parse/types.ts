@@ -5,7 +5,8 @@ export type ParseUnitOption = AllowNullish<string>;
 
 export type InputMatchResults = [value: string, wholeUnit: string];
 export type MatchFunction = (input: string) => InputMatchResults | null;
-export type ParseMatchOption = AllowNullish<RegExp | string | MatchFunction>;
+export type RegExpPattern = RegExp | string;
+export type ParseMatchOption = AllowNullish<RegExpPattern | MatchFunction>;
 
 export type ParseMultiplier = number;
 export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (pre: string, unit: U) => AllowReturnNullish<ParseMultiplier>;

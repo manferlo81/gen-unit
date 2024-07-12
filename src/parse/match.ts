@@ -1,27 +1,36 @@
-import type { AllowNullish } from '../tools/helper-types';
-import { isFunction } from '../tools/is';
-import type { ParseMatchOption } from './types';
-
-type InputCaptured = [value: string, wholeUnit: string];
-type MatchFunction = (input: string) => InputCaptured | null;
-
-function getRegExp(matchOption: AllowNullish<string | RegExp>) {
-  if (matchOption == null) {
-    return /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i;
-  }
-  return new RegExp(matchOption);
-}
+import { error } from '../common/error';
+import { isArray, isFunction } from '../tools/is';
+import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types';
 
 export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
 
   if (isFunction(matchOption)) {
-    // TODO: Wrap function to validate results
-    return matchOption;
+
+    return (input) => {
+
+      const captured = matchOption(input);
+
+      if (captured == null) {
+        return null;
+      }
+
+      // throw if it's not an array
+      if (!isArray<string[]>(captured)) {
+        throw error('match function should return an array of strings');
+      }
+
+      // return array
+      return captured;
+
+    };
+
   }
 
-  const reg = getRegExp(matchOption);
+  const reg = matchOption == null
+    ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i
+    : new RegExp(matchOption);
 
-  return (input: string): InputCaptured | null => {
+  return (input) => {
 
     // execute RegExp against input
     const result = reg.exec(input);
@@ -31,10 +40,11 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
       return null;
     }
 
-    // return captured value & unit
-    return result.slice(1, 3) as InputCaptured;
-    // const [, value, wholeUnit] = result;
-    // return [value, wholeUnit];
+    // get a slice of the result array
+    const resultAsArray = result.slice(1, 3);
+
+    // return array
+    return resultAsArray as InputMatchResults;
 
   };
 

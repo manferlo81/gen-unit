@@ -1,4 +1,4 @@
-import { errorOptionRemoved } from '../common/error';
+import { error, errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isNumber } from '../tools/is';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
@@ -63,6 +63,12 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     // return NaN if can't capture value & unit
     if (!captured) {
       return NaN;
+    }
+
+    const { length } = captured as string[];
+
+    if (length < 2) {
+      throw error(`match result array should have 2 items, got ${length}`);
     }
 
     // get value & unit from captured
