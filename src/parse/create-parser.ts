@@ -1,6 +1,6 @@
 import { errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isNumber } from '../tools/is';
-import { capture } from './capture';
+import { createMatcher } from './match';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
@@ -25,6 +25,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
 
   const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);
+  const match = createMatcher();
 
   return (input: ParseInput): number => {
 
@@ -56,15 +57,15 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     }
 
     // capture value & unit from string
-    const captureResult = capture(inputAsString);
+    const captured = match(inputAsString);
 
     // if can't capture, return NaN
-    if (!captureResult) {
+    if (!captured) {
       return NaN;
     }
 
     // get value & unit from captured
-    const [capturedValueAsString, wholeUnit] = captureResult;
+    const [capturedValueAsString, wholeUnit] = captured;
 
     // convert captured value to number
     const capturedValueAsNumber = +capturedValueAsString;
@@ -74,7 +75,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
       return capturedValueAsNumber;
     }
 
-    // TODO: It's not necessary to check if captured value is finite
+    // INFO: It's not necessary to check if captured value is finite
     // because capture RegExp won't return any Infinite value
     // if (!isFinite(capturedValueAsNumber)) {
     //   return NaN;
