@@ -2,6 +2,48 @@
 
 ## Version History
 
+## [0.1.0](https://github.com/manferlo81/gen-unit/compare/v0.0.6...v0.1.0) (2024-07-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **parse:** find receives the prefix & unit separately instead of whole-unit
+* Types renamed
+* **types:** Some types have been renamed
+* **format:** "dec" option has been removed in favor of "round" option
+* **format:** "fixed" option has been removed in favor of "round" option
+* **format:** "table" option has been removed
+* **parse:** "find" function can't return object
+* **parse:** table option removed
+
+### Features
+
+* Allow parse with MICRO sign (\u00b5) ([759e82b](https://github.com/manferlo81/gen-unit/commit/759e82b164865a44fa75f122bd60babbda017743))
+* createParser throws if find option results in an invalid multiplier ([752a31e](https://github.com/manferlo81/gen-unit/commit/752a31e7ea9416e96a25939465037f0d7c1b4344))
+* **parse:** Added "match" option ([955b6a2](https://github.com/manferlo81/gen-unit/commit/955b6a2a9bab6f1e04ad15df583f3350e65fb1da))
+* Support units atto, peta & exa for parse & format ([99d3b59](https://github.com/manferlo81/gen-unit/commit/99d3b59dd0c63db7611330e9db0a031460ec1c02))
+
+
+### Bug Fixes
+
+* Fix typo on thrown error ([1270c00](https://github.com/manferlo81/gen-unit/commit/1270c0019f34d52fc6ffd8f2cc84411433daeab3))
+* **format:** Show kilo as lower case k ([7f47012](https://github.com/manferlo81/gen-unit/commit/7f47012c3281d782152df2f07fdbe9023269f77d))
+* **format:** Throw on invalid "output" option ([b487559](https://github.com/manferlo81/gen-unit/commit/b487559e83c387f9a9d199a2e7c59f92668b5582))
+* More meaningful errors ([493fd17](https://github.com/manferlo81/gen-unit/commit/493fd17d518c8084ff03b2a30df33115d6949a7e))
+* **parse:** Can parse numeric string containing floating period (ie: 1.e2) ([f0be98b](https://github.com/manferlo81/gen-unit/commit/f0be98b8f7c2a5dae0393c7a08370e92cea8b4d9))
+* **parse:** Case insensitive capture RegExp ([f5cd737](https://github.com/manferlo81/gen-unit/commit/f5cd737fb6847d54f142b7a2a2df06c082ecb7db))
+* **parse:** Don't parse empty string to 0 & make sure unit is valid on 0 value ([20414c5](https://github.com/manferlo81/gen-unit/commit/20414c5a3c213e64899190c45b10e0f12039b35a))
+* **types:** Export common types ([1b528d1](https://github.com/manferlo81/gen-unit/commit/1b528d1c71e27f27e71f75d4c0bda268cafbd3ba))
+
+
+* **format:** Remove deprecated "dec" & "fixed" options ([5cb34b9](https://github.com/manferlo81/gen-unit/commit/5cb34b9ed5d0f9c30a4596e768274e0d6ee95a8c))
+* **format:** Remove table option ([6a93a9f](https://github.com/manferlo81/gen-unit/commit/6a93a9f36edebc3b854166bac4b2cb1ffc7ba8ea))
+* **parse:** No longer support "find" function returning object ([fca327c](https://github.com/manferlo81/gen-unit/commit/fca327c829e4ce1ab0240ffffd5cf0a8d65a987f))
+* **parse:** Remove deprecated table option ([825b6d1](https://github.com/manferlo81/gen-unit/commit/825b6d1b08c34bfb6236fbf7d0cbd36b14637dc9))
+* **parse:** Rewrite find unit function ([04743f6](https://github.com/manferlo81/gen-unit/commit/04743f635b0dacbb0bfba3e3897b5f57a633deb1))
+* Rename types ([f90d90d](https://github.com/manferlo81/gen-unit/commit/f90d90d1924e87bdcc964be52c88cd2f38827095))
+* **types:** Rename types ([04b451c](https://github.com/manferlo81/gen-unit/commit/04b451c65e89daa3cdf026d719f097fb30678210))
+
 ### [0.0.6](https://github.com/manferlo81/gen-unit/compare/v0.0.5...v0.0.6) (2020-05-08)
 
 
