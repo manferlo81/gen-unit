@@ -2,3 +2,8 @@
   safecrlf=true
   autocrlf=true
 
+*         text=auto
+*.js      text
+*.ts      text
+*.json    text
+*.yml     text
