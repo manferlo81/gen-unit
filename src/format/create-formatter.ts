@@ -39,7 +39,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
 
   return (value: number): string => {
     const item = findUnit(value);
-    const { pre, div: divisor } = item;
+    const { pre, mul: divisor } = item;
     const divided = value / divisor;
     const rounded = roundNum(divided);
     const result = formatOutput(

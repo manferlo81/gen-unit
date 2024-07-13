@@ -13,13 +13,13 @@ export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOpt
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = AllowNullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>;
 
 export interface CreateParserOptions<U extends ParseUnitOption = ParseUnitOption> {
-  unit?: U;
-  match?: ParseMatchOption;
-  find?: ParseFindMultiplierOption<U>;
+  readonly unit?: U;
+  readonly match?: ParseMatchOption;
+  readonly find?: ParseFindMultiplierOption<U>;
 }
 
 export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptions<U> {
-  unit: U;
+  readonly unit: U;
 }
 
 export type ParseInput = unknown;

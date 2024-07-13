@@ -1,20 +1,15 @@
 import { errorInvalidOption } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import { transformFindItems } from '../common/transform-items';
-import type { DeclarativeFindUnit, ExponentFindItems } from '../common/types';
+import type { DeclarativeFindUnit, ExponentFindItems, MultiplierFindItem, MultiplierFindItems } from '../common/types';
 import type { AllowNullish } from '../tools/helper-types';
 import { isArray, isNumber, isObject } from '../tools/is';
-import type { DivisorFindItem, DivisorFindItems } from './types';
-
-function transformExponentItems(items: ExponentFindItems, base: number): DivisorFindItems {
-  return transformFindItems(items, base).map(({ pre, mul: div }) => ({ pre, div }));
-}
 
 function sortExponentItems(units: ExponentFindItems): ExponentFindItems {
   return units.sort((a, b) => b.exp - a.exp);
 }
 
-export const unity: DivisorFindItem = { pre: '', div: 1 };
+export const unity: MultiplierFindItem = { pre: '', mul: 1 };
 
 // IMPORTANT TO DEVELOPERS
 // this array has to be sorted from bigger to smaller unit!
@@ -36,49 +31,58 @@ const defaultBase1000FormatFindItems: ExponentFindItems = [
   atto,
 ];
 
-export function createFindItems(find: AllowNullish<DeclarativeFindUnit>): DivisorFindItems {
+export function createFindItems(find: AllowNullish<DeclarativeFindUnit>): MultiplierFindItems {
 
-  if (!find) {
-    return transformExponentItems(
+  // return default items "find" option is null or undefined
+  if (find == null) {
+    return transformFindItems(
       defaultBase1000FormatFindItems,
       1000,
     );
   }
 
   if (isNumber(find)) {
-    return transformExponentItems(
+    // TODO: check for base validity
+    return transformFindItems(
       defaultBase1000FormatFindItems,
       find,
     );
   }
 
   if (isArray(find)) {
-    return transformExponentItems(
+    return transformFindItems(
       sortExponentItems(find),
       1000,
     );
   }
 
+  // throw if "find" option is not an object at this point
   if (!isObject(find)) {
     throw errorInvalidOption('find');
   }
 
+  // get sub-options
   const { find: items, base } = find;
+
+  // normalize base
   const baseAsNumber = base ?? 1000;
 
+  // return default items with given base if no items provided
   if (items == null) {
-    return transformExponentItems(
+    return transformFindItems(
       defaultBase1000FormatFindItems,
       baseAsNumber,
     );
   }
 
+  // throw if items is not an array at this point
   if (!isArray(items)) {
-    // TODO: Give more descriptive error
+    // TODO: Throw more descriptive error
     throw errorInvalidOption('find');
   }
 
-  return transformExponentItems(
+  // return items based on option
+  return transformFindItems(
     sortExponentItems(items),
     baseAsNumber,
   );

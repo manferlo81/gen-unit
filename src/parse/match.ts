@@ -27,7 +27,7 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
   }
 
   const reg = matchOption == null
-    ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i
+    ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
     : new RegExp(matchOption);
 
   return (input) => {
@@ -41,10 +41,10 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
     }
 
     // get a slice of the result array
-    const resultAsArray = result.slice(1, 3);
+    const resultAsArray = result.slice(1, 3) as InputMatchResults;
 
     // return array
-    return resultAsArray as InputMatchResults;
+    return resultAsArray;
 
   };
 

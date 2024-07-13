@@ -1,24 +1,24 @@
 import type { AllowNullish } from '../tools/helper-types';
 
 interface BaseFindItem {
-  pre: string;
+  readonly pre: string;
 }
 
 export interface ExponentFindItem extends BaseFindItem {
-  exp: number;
+  readonly exp: number;
 }
 export type ExponentFindItems = ExponentFindItem[];
 
 export interface MultiplierFindItem extends BaseFindItem {
-  mul: number;
+  readonly mul: number;
 }
 export type MultiplierFindItems = MultiplierFindItem[];
 
 export type FindUnitBase = number;
 
 export interface FindUnitAdvancedOptions {
-  base?: AllowNullish<FindUnitBase>;
-  find?: AllowNullish<ExponentFindItems>;
+  readonly base?: AllowNullish<FindUnitBase>;
+  readonly find?: AllowNullish<ExponentFindItems>;
 }
 
 export type DeclarativeFindUnit = FindUnitBase | ExponentFindItems | FindUnitAdvancedOptions;

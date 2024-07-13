@@ -1,1 +1,1 @@
-export const MICRO = '\u00b5';
+export const MICRO = '\xb5';

@@ -122,7 +122,7 @@ The first step in the `parse` process, it takes the `input` and return a `value`
 
 ```typescript
 match: RegExp;
-default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\u00b5]*)\s*$/i
+default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
 ```
 
 A RegExp with two capturing groups, the first to be used as value and the second as unit.
@@ -477,10 +477,10 @@ format(2000000); // => '2000 K'
 ##### "find" option as a function
 
 ```typescript
-find: (value: number) => { div: number; pre: string };
+find: (value: number) => { pre: string; mul: number };
 ```
 
-A `function` that `returns` an `object` describing the unit `prefix`.
+A `function` that `returns` an `object` describing the unit `prefix` (`pre`) and `multiplier` (`mul`).
 
 ***example***
 
@@ -488,9 +488,9 @@ A `function` that `returns` an `object` describing the unit `prefix`.
 const format = createFormatter({
   find: (value) => {
     if (value >= 1000) {
-      return { pre: 'K', div: 1000 };
+      return { pre: 'K', mul: 1000 };
     } else {
-      return { pre: '', div: 1 };
+      return { pre: '', mul: 1 };
     }
   },
 });
@@ -500,6 +500,10 @@ format(2); // => '2'
 format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
+
+- ***Deprecation Notice***
+
+Previous version of this library require a result in the form `{ pre: string; div: number }`. This is now deprecated and it will be removed in the future. Use `{ pre: string; mul: number }` instead.
 
 #### "round" option
 

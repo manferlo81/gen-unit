@@ -1,14 +1,24 @@
 import { error } from '../common/error';
+import { MultiplierFindItem } from '../common/types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import { DivisorFindItem } from './deprecated-types';
 import { createFindItems, unity } from './find-items';
-import type { DivisorFindItem, FormatFindUnitFunction, FormatFindUnitOption } from './types';
+import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
+
+function handleDeprecatedResult(result: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
+  if ('mul' in result) {
+    return result;
+  }
+  const { pre, div: mul } = result;
+  return { pre, mul };
+}
 
 export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunction {
 
   // return wrapped function if it's a function
   if (isFunction(find)) {
 
-    return (value): DivisorFindItem => {
+    return (value) => {
 
       const result = find(value);
 
@@ -16,21 +26,26 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
         throw error(`${result} is not a valid return value for "find" option`);
       }
 
-      const { div } = result;
+      const { pre, mul } = handleDeprecatedResult(result);
 
-      if (!isNumber(div) || !isFiniteNumber(div) || !div) {
-        throw error(`${div} is not a valid divider`);
+      if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) {
+        throw error(`${mul} is not a valid multiplier`);
       }
 
-      return result;
+      return { pre, mul };
 
     };
 
   }
 
   const findItems = createFindItems(find);
+  const { length: itemsLength } = findItems;
 
-  return (value): DivisorFindItem => {
+  if (itemsLength === 0) {
+    return () => unity;
+  }
+
+  return (value) => {
 
     if (!value) {
       return unity;
@@ -38,15 +53,15 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
     const absolute = Math.abs(value);
 
-    const lastIndex = findItems.length - 1;
+    const lastIndex = itemsLength - 1;
     for (let i = 0; i < lastIndex; i++) {
       const item = findItems[i];
-      if (absolute >= item.div) {
+      if (absolute >= item.mul) {
         return item;
       }
     }
 
-    return lastIndex >= 0 ? findItems[lastIndex] : unity;
+    return findItems[lastIndex];
 
   };
 
