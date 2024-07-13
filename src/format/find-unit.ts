@@ -1,11 +1,13 @@
 import { error } from '../common/error';
+import { createFindTable } from '../common/find-table';
 import { MultiplierFindItem } from '../common/types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import { defaultBase1000FormatExpItems, unity } from './default-items';
 import { DivisorFindItem } from './deprecated-types';
-import { createFindItems, unity } from './find-items';
+import { sortFormatExponentItems } from './sort-items';
 import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
-function handleDeprecatedResult(result: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
+function deprecated_handleResult(result: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
   if ('mul' in result) {
     return result;
   }
@@ -26,7 +28,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
         throw error(`${result} is not a valid return value for "find" option`);
       }
 
-      const { pre, mul } = handleDeprecatedResult(result);
+      const { pre, mul } = deprecated_handleResult(result);
 
       if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) {
         throw error(`${mul} is not a valid multiplier`);
@@ -38,8 +40,13 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
   }
 
-  const findItems = createFindItems(find);
-  const { length: itemsLength } = findItems;
+  const findTable = createFindTable(
+    find,
+    defaultBase1000FormatExpItems,
+    sortFormatExponentItems,
+  );
+
+  const { length: itemsLength } = findTable;
 
   if (itemsLength === 0) {
     return () => unity;
@@ -55,13 +62,13 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
     const lastIndex = itemsLength - 1;
     for (let i = 0; i < lastIndex; i++) {
-      const item = findItems[i];
+      const item = findTable[i];
       if (absolute >= item.mul) {
         return item;
       }
     }
 
-    return findItems[lastIndex];
+    return findTable[lastIndex];
 
   };
 

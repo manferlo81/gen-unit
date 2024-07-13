@@ -1,6 +1,7 @@
 import { error } from '../common/error';
+import { createFindTable } from '../common/find-table';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
-import { createFindTable } from './find-table';
+import { defaultBase1000ParseExpItems } from './default-items';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
 
 /**
@@ -37,7 +38,14 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
     };
   }
 
-  const findTable = createFindTable(find);
+  const findTable = createFindTable(
+    find,
+    defaultBase1000ParseExpItems,
+  );
+
+  if (findTable.length == 0) {
+    return () => null;
+  }
 
   return (pre: string) => {
 

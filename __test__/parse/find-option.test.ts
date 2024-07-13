@@ -57,6 +57,22 @@ describe('parse "find" option', () => {
 
   });
 
+  test('Should return NaN if "find" option is an empty array', () => {
+
+    const parse = createParser({
+      find: [],
+    });
+
+    const values = [
+      '1k',
+    ];
+
+    values.forEach((value) => {
+      expect(parse(value)).toBeNaN();
+    });
+
+  });
+
   describe('"find" option as object', () => {
 
     test('Should throw on invalid "find" items', () => {
