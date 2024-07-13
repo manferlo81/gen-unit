@@ -4,11 +4,14 @@ import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { pow } from '../tools/math';
 import type { FormatRoundOption, RoundFunction } from './types';
 
-export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
-
+function validateNumberOfDecimals(dec: number): number {
   if (!isFiniteNumber(dec) || dec < 0) {
     throw error(`Can't create round function with ${dec} decimal.`);
   }
+  return dec;
+}
+
+export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
   if (fixed) {
     return (num: number): string => num.toFixed(dec);
@@ -33,7 +36,9 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // create rounder with number of decimals provided if it's a number
   if (isNumber(round)) {
-    return createRounderWith(round);
+    return createRounderWith(
+      validateNumberOfDecimals(round),
+    );
   }
 
   if (!isObject(round)) {
@@ -57,7 +62,7 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // return rounder with provided options
   return createRounderWith(
-    dec,
+    validateNumberOfDecimals(dec),
     fixed,
   );
 
