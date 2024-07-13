@@ -4,7 +4,6 @@
 
 ## [0.1.0](https://github.com/manferlo81/gen-unit/compare/v0.0.6...v0.1.0) (2024-07-12)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **parse:** find receives the prefix & unit separately instead of whole-unit
@@ -23,7 +22,6 @@
 * **parse:** Added "match" option ([955b6a2](https://github.com/manferlo81/gen-unit/commit/955b6a2a9bab6f1e04ad15df583f3350e65fb1da))
 * Support units atto, peta & exa for parse & format ([99d3b59](https://github.com/manferlo81/gen-unit/commit/99d3b59dd0c63db7611330e9db0a031460ec1c02))
 
-
 ### Bug Fixes
 
 * Fix typo on thrown error ([1270c00](https://github.com/manferlo81/gen-unit/commit/1270c0019f34d52fc6ffd8f2cc84411433daeab3))
@@ -35,7 +33,6 @@
 * **parse:** Don't parse empty string to 0 & make sure unit is valid on 0 value ([20414c5](https://github.com/manferlo81/gen-unit/commit/20414c5a3c213e64899190c45b10e0f12039b35a))
 * **types:** Export common types ([1b528d1](https://github.com/manferlo81/gen-unit/commit/1b528d1c71e27f27e71f75d4c0bda268cafbd3ba))
 
-
 * **format:** Remove deprecated "dec" & "fixed" options ([5cb34b9](https://github.com/manferlo81/gen-unit/commit/5cb34b9ed5d0f9c30a4596e768274e0d6ee95a8c))
 * **format:** Remove table option ([6a93a9f](https://github.com/manferlo81/gen-unit/commit/6a93a9f36edebc3b854166bac4b2cb1ffc7ba8ea))
 * **parse:** No longer support "find" function returning object ([fca327c](https://github.com/manferlo81/gen-unit/commit/fca327c829e4ce1ab0240ffffd5cf0a8d65a987f))
@@ -46,7 +43,6 @@
 
 ### [0.0.6](https://github.com/manferlo81/gen-unit/compare/v0.0.5...v0.0.6) (2020-05-08)
 
-
 ### Features
 
 * **format:** Option "find" as number ([2fb3ab7](https://github.com/manferlo81/gen-unit/commit/2fb3ab7db02a21edba4cfc6666b0ea4e9f9bd624))
@@ -55,13 +51,11 @@
 * **parse:** Find Multiplier can return an object ([1c284f1](https://github.com/manferlo81/gen-unit/commit/1c284f196d172583c154ebde3b7f28c88bbbf69f))
 * Advanced "find" options ([e8f1fc6](https://github.com/manferlo81/gen-unit/commit/e8f1fc6454e7b636903927e3d9798c0fea524d8d))
 
-
 ### Bug Fixes
 
 * **parse:** Return NaN on empty string & Infinity ([a6dd26b](https://github.com/manferlo81/gen-unit/commit/a6dd26bf064328ff4bd1b48b56ebfc06651ce3e5))
 
 ### [0.0.5](https://github.com/manferlo81/gen-unit/compare/v0.0.4...v0.0.5) (2020-02-24)
-
 
 ### Bug Fixes
 
@@ -69,13 +63,11 @@
 
 ### [0.0.4](https://github.com/manferlo81/gen-unit/compare/v0.0.3...v0.0.4) (2020-02-16)
 
-
 ### Bug Fixes
 
 * **format:** format negative number ([89b6c59](https://github.com/manferlo81/gen-unit/commit/89b6c59efe6c08e7926b684e2f05cce2bf4d155e))
 
 ### [0.0.3](https://github.com/manferlo81/gen-unit/compare/v0.0.2...v0.0.3) (2020-02-15)
-
 
 ### Features
 
@@ -91,7 +83,6 @@
 * **parse:** support exponential numeric string ([06536ae](https://github.com/manferlo81/gen-unit/commit/06536aeb6d0a1fcd10379b2629142c910b123911))
 * **parser:** return NaN instead of null ([b8bb18c](https://github.com/manferlo81/gen-unit/commit/b8bb18cf919e5ec4f6aba2c48a582a4d8988651c))
 
-
 ### Bug Fixes
 
 * extra space when no unit (format) [#13](https://github.com/manferlo81/gen-unit/issues/13) ([b317a2d](https://github.com/manferlo81/gen-unit/commit/b317a2d74df5c50ca158d596885aa5ec5884774e))
@@ -99,13 +90,11 @@
 
 ### [0.0.2](https://github.com/manferlo81/gen-unit/compare/v0.0.1...v0.0.2) (2019-10-25)
 
-
 ### Documentation
 
 * very basic documentation ([0771191](https://github.com/manferlo81/gen-unit/commit/077119188767ad2d9ee0d1458519f2bb1bae7a88))
 
 ### 0.0.1 (2019-10-25)
-
 
 ### Features
 

@@ -2,6 +2,21 @@ import { type ParseFindMultiplierOption, MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
+  test('Should throw on invalid "find" option', () => {
+    const invalidFindOptions = [
+      true,
+      false,
+      '',
+      'string',
+    ];
+    invalidFindOptions.forEach((invalid) => {
+      const create = () => createParser({
+        find: invalid as never,
+      });
+      expect(create).toThrow();
+    });
+  });
+
   test('Should use "find" option as as base if it\'s a number', () => {
 
     const base = 1024;
@@ -43,6 +58,23 @@ describe('parse "find" option', () => {
   });
 
   describe('"find" option as object', () => {
+
+    test('Should throw on invalid "find" items', () => {
+      const invalidItems = [
+        true,
+        false,
+        '',
+        'string',
+      ];
+      invalidItems.forEach((invalid) => {
+        const create = () => createParser({
+          find: {
+            find: invalid as never,
+          },
+        });
+        expect(create).toThrow();
+      });
+    });
 
     test('Should use "find" option as advanced options if it\'s an object', () => {
 

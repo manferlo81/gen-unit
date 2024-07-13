@@ -1,8 +1,9 @@
+import { errorInvalidOption } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
 import { transformFindItems } from '../common/transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, MultiplierFindItems } from '../common/types';
 import type { AllowNullish } from '../tools/helper-types';
-import { isArray, isNumber } from '../tools/is';
+import { isArray, isNumber, isObject } from '../tools/is';
 
 export const defaultBase1000ParseFindItems: ExponentFindItems = [
   exa,
@@ -54,21 +55,32 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): Multip
     );
   }
 
+  // throw if "find" option is not an object at this point
+  if (!isObject(find)) {
+    throw errorInvalidOption('find');
+  }
+
   // get items and base from "find" option
   const { find: items, base } = find;
   const baseAsNumber = base ?? 1000;
 
-  // use items if items provided
-  if (items) {
+  // return default items with given base if no items provided
+  if (items == null) {
     return transformFindItems(
-      items,
+      defaultBase1000ParseFindItems,
       baseAsNumber,
     );
   }
 
-  // use default items
+  // throw if items is not an array at this point
+  if (!isArray(items)) {
+    // TODO: Throw more descriptive error
+    throw errorInvalidOption('find');
+  }
+
+  // use items if items provided
   return transformFindItems(
-    defaultBase1000ParseFindItems,
+    items,
     baseAsNumber,
   );
 
