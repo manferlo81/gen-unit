@@ -1,23 +1,17 @@
+import { errorInvalidOption } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
+import { transformFindItems } from '../common/transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems } from '../common/types';
 import type { AllowNullish } from '../tools/helper-types';
-import { isArray, isNumber } from '../tools/is';
-import { pow } from '../tools/math';
+import { isArray, isNumber, isObject } from '../tools/is';
 import type { DivisorFindItem, DivisorFindItems } from './types';
 
-function transformFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
-  return units.map<DivisorFindItem>(({ pre, exp }) => {
-    return {
-      pre,
-      div: pow(base, exp),
-    };
-  });
+function transformExponentItems(items: ExponentFindItems, base: number): DivisorFindItems {
+  return transformFindItems(items, base).map(({ pre, mul: div }) => ({ pre, div }));
 }
 
-function sortFindUnitArray(units: ExponentFindItems, base: number): DivisorFindItems {
-  return transformFindUnitArray(units, base).sort(
-    (a, b) => (b.div - a.div),
-  );
+function sortExponentItems(units: ExponentFindItems): ExponentFindItems {
+  return units.sort((a, b) => b.exp - a.exp);
 }
 
 export const unity: DivisorFindItem = { pre: '', div: 1 };
@@ -45,38 +39,47 @@ const defaultBase1000FormatFindItems: ExponentFindItems = [
 export function createFindItems(find: AllowNullish<DeclarativeFindUnit>): DivisorFindItems {
 
   if (!find) {
-    return transformFindUnitArray(
+    return transformExponentItems(
       defaultBase1000FormatFindItems,
       1000,
     );
   }
 
   if (isNumber(find)) {
-    return transformFindUnitArray(
+    return transformExponentItems(
       defaultBase1000FormatFindItems,
       find,
     );
   }
 
   if (isArray(find)) {
-    return sortFindUnitArray(
-      find,
+    return transformExponentItems(
+      sortExponentItems(find),
       1000,
     );
+  }
+
+  if (!isObject(find)) {
+    throw errorInvalidOption('find');
   }
 
   const { find: items, base } = find;
   const baseAsNumber = base ?? 1000;
 
-  if (items) {
-    return sortFindUnitArray(
-      items,
+  if (items == null) {
+    return transformExponentItems(
+      defaultBase1000FormatFindItems,
       baseAsNumber,
     );
   }
 
-  return transformFindUnitArray(
-    defaultBase1000FormatFindItems,
+  if (!isArray(items)) {
+    // TODO: Give more descriptive error
+    throw errorInvalidOption('find');
+  }
+
+  return transformExponentItems(
+    sortExponentItems(items),
     baseAsNumber,
   );
 

@@ -1,16 +1,8 @@
-import { error } from '../common/error';
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/find-items';
-import type { DeclarativeFindUnit, ExponentFindItem, ExponentFindItems, FindUnitBase } from '../common/types';
+import { transformFindItems } from '../common/transform-items';
+import type { DeclarativeFindUnit, ExponentFindItems, MultiplierFindItems } from '../common/types';
 import type { AllowNullish } from '../tools/helper-types';
-import { isArray, isFiniteNumber, isNumber } from '../tools/is';
-import { pow } from '../tools/math';
-
-interface MultiplierFindItem {
-  pre: string;
-  mul: number;
-}
-
-type FindMultiplierTable = MultiplierFindItem[];
+import { isArray, isNumber } from '../tools/is';
 
 export const defaultBase1000ParseFindItems: ExponentFindItems = [
   exa,
@@ -31,36 +23,16 @@ export const defaultBase1000ParseFindItems: ExponentFindItems = [
 ];
 
 /**
- * transforms find items into a multiplier find table
- *
- * @param items find items
- * @param base base
- * @returns find multiplier table
- */
-function transformItems(items: ExponentFindItem[], base: FindUnitBase): FindMultiplierTable {
-  return items.map(({ pre, exp }) => {
-    const multiplier = pow(base, exp);
-    if (!isFiniteNumber(multiplier) || multiplier <= 0) {
-      throw error(`${base} to the power of ${exp} is not a valid multiplier`);
-    }
-    return {
-      pre,
-      mul: multiplier,
-    };
-  });
-}
-
-/**
  * creates a multiplier find table based on the "find" option
  *
  * @param find "find" option
  * @returns the multiplier find table from "find" option
  */
-export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMultiplierTable {
+export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): MultiplierFindItems {
 
   // return default table if "find" option is null or undefined
   if (find == null) {
-    return transformItems(
+    return transformFindItems(
       defaultBase1000ParseFindItems,
       1000,
     );
@@ -68,7 +40,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMu
 
   // use "find" option as base if it's a number
   if (isNumber(find)) {
-    return transformItems(
+    return transformFindItems(
       defaultBase1000ParseFindItems,
       find,
     );
@@ -76,7 +48,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMu
 
   // use "find" option as items if it's an array
   if (isArray(find)) {
-    return transformItems(
+    return transformFindItems(
       find,
       1000,
     );
@@ -88,14 +60,14 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>): FindMu
 
   // use items if items provided
   if (items) {
-    return transformItems(
+    return transformFindItems(
       items,
       baseAsNumber,
     );
   }
 
   // use default items
-  return transformItems(
+  return transformFindItems(
     defaultBase1000ParseFindItems,
     baseAsNumber,
   );
