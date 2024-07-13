@@ -8,15 +8,14 @@ export type FormatUnitOption = AllowNullish<string | FormatGetUnitFunction>;
 export type FormatFindUnitFunction = (value: number) => MultiplierFindItem;
 export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction | DeprecatedFormatFindUnitFunction>;
 
-export type RoundDec = number;
+export type RoundDecimals = number;
 
 export type RoundFunction = (num: number) => (string | number);
 export interface FormatRoundAdvancedOptions {
-  // FIXME: don't allow string here
-  readonly dec?: AllowNullish<RoundDec | string>;
+  readonly dec?: AllowNullish<RoundDecimals>;
   readonly fixed?: AllowNullish<boolean>;
 }
-export type FormatRoundOption = AllowNullish<RoundDec | FormatRoundAdvancedOptions | RoundFunction>;
+export type FormatRoundOption = AllowNullish<RoundDecimals | FormatRoundAdvancedOptions | RoundFunction>;
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
 export type FormatOutputOption = AllowNullish<FormatOutputFunction>;

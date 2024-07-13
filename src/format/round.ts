@@ -43,9 +43,21 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
   // get data from advanced round object
   const { dec, fixed } = round;
 
+  if (dec == null) {
+    return createRounderWith(
+      2,
+      fixed,
+    );
+  }
+
+  if (!isNumber(dec)) {
+    // TODO: throw more descriptive error
+    throw errorInvalidOption('round');
+  }
+
   // return rounder with provided options
   return createRounderWith(
-    dec ? +dec : 2,
+    dec,
     fixed,
   );
 
