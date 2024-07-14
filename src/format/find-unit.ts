@@ -4,7 +4,7 @@ import { MultiplierFindItem } from '../common/types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { defaultBase1000FormatExpItems, unity } from './default-items';
 import { DivisorFindItem } from './deprecated-types';
-import { sortFormatExponentItems } from './sort-items';
+import { validateFormatItems } from './user-items';
 import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
 function deprecated_handleResult(result: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
@@ -43,7 +43,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
   const findTable = createFindTable(
     find,
     defaultBase1000FormatExpItems,
-    sortFormatExponentItems,
+    validateFormatItems,
   );
 
   const { length: itemsLength } = findTable;

@@ -3,6 +3,7 @@ import { createFindTable } from '../common/find-table';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { defaultBase1000ParseExpItems } from './default-items';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
+import { validateParseItems } from './user-items';
 
 /**
  * Creates a function which should return de multiplier based on captured unit
@@ -41,6 +42,7 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
   const findTable = createFindTable(
     find,
     defaultBase1000ParseExpItems,
+    validateParseItems,
   );
 
   if (findTable.length == 0) {

@@ -1,7 +1,7 @@
 import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/exp-items';
-import type { ExponentFindItems } from '../common/types';
+import { validateParseItems } from './user-items';
 
-export const defaultBase1000ParseExpItems: ExponentFindItems = [
+export const defaultBase1000ParseExpItems = validateParseItems([
   exa,
   peta,
   tera,
@@ -17,4 +17,4 @@ export const defaultBase1000ParseExpItems: ExponentFindItems = [
   pico,
   femto,
   atto,
-];
+]);

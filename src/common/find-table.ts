@@ -4,7 +4,7 @@ import { errorInvalidOption } from './error';
 import { transformFindItems } from './transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, MultiplierFindItems } from './types';
 
-export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, sort?: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
+export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, validateItems: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
 
   // return default table if "find" option is null or undefined
   if (find == null) {
@@ -25,7 +25,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
   // use "find" option as items if it's an array
   if (isArray(find)) {
     return transformFindItems(
-      sort ? sort(find) : find,
+      validateItems(find),
       1000,
     );
   }
@@ -57,7 +57,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
 
   // return items based on option
   return transformFindItems(
-    sort ? sort(items) : items,
+    validateItems(items),
     baseAsNumber,
   );
 

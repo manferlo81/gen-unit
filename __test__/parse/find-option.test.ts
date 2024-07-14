@@ -1,23 +1,26 @@
-import { type ParseFindMultiplierOption, MICRO, createParser } from '../../src';
+import { type ParseFindMultiplierOption, ExponentFindItems, MICRO, createParser } from '../../src';
 
 describe('parse "find" option', () => {
 
   test('Should throw on invalid "find" option', () => {
+
     const invalidFindOptions = [
       true,
       false,
       '',
       'string',
     ];
+
     invalidFindOptions.forEach((invalid) => {
       const create = () => createParser({
         find: invalid as never,
       });
-      expect(create).toThrow();
+      expect(create).toThrow('Invalid "find" option');
     });
+
   });
 
-  test('Should use "find" option as as base if it\'s a number', () => {
+  test('Should use "find" option as base if it\'s a number', () => {
 
     const base = 1024;
     const parse = createParser({
@@ -37,38 +40,70 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as find items if it\'s an array', () => {
+  describe('"find" option as array', () => {
 
-    const parse = createParser({
-      find: [
-        { pre: 'k', exp: 1 },
-        { pre: 'm', exp: -1 },
-      ],
+    test('Should throw if items has duplicates', () => {
+
+      const itemsWithDuplicates: ExponentFindItems[] = [
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'k', exp: 2 },
+        ],
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'M', exp: 2 },
+          { pre: 'M', exp: 3 },
+          { pre: 'T', exp: 4 },
+        ],
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'M', exp: 2 },
+          { pre: 'G', exp: 3 },
+          { pre: 'G', exp: 4 },
+        ],
+      ];
+
+      itemsWithDuplicates.forEach((find) => {
+        const create = () => createParser({ find });
+        expect(create).toThrow('Duplicated prefix');
+      });
+
     });
 
-    const values = [
-      { value: '1.2k', expected: 1.2 * 1000 ** 1 },
-      { value: '1.2m', expected: 1.2 * 1000 ** -1 },
-    ];
+    test('Should use "find" option as find items if it\'s an array', () => {
 
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
+      const parse = createParser({
+        find: [
+          { pre: 'k', exp: 1 },
+          { pre: 'm', exp: -1 },
+        ],
+      });
+
+      const values = [
+        { value: '1.2k', expected: 1.2 * 1000 ** 1 },
+        { value: '1.2m', expected: 1.2 * 1000 ** -1 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
     });
 
-  });
+    test('Should return NaN if "find" option is an empty array', () => {
 
-  test('Should return NaN if "find" option is an empty array', () => {
+      const parse = createParser({
+        find: [],
+      });
 
-    const parse = createParser({
-      find: [],
-    });
+      const values = [
+        '1k',
+      ];
 
-    const values = [
-      '1k',
-    ];
+      values.forEach((value) => {
+        expect(parse(value)).toBeNaN();
+      });
 
-    values.forEach((value) => {
-      expect(parse(value)).toBeNaN();
     });
 
   });
@@ -90,6 +125,34 @@ describe('parse "find" option', () => {
         });
         expect(create).toThrow();
       });
+    });
+
+    test('Should throw if items has duplicates', () => {
+
+      const itemsWithDuplicates: ExponentFindItems[] = [
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'k', exp: 2 },
+        ],
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'M', exp: 2 },
+          { pre: 'M', exp: 3 },
+          { pre: 'T', exp: 4 },
+        ],
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'M', exp: 2 },
+          { pre: 'G', exp: 3 },
+          { pre: 'G', exp: 4 },
+        ],
+      ];
+
+      itemsWithDuplicates.forEach((find) => {
+        const create = () => createParser({ find: { find } });
+        expect(create).toThrow('Duplicated prefix');
+      });
+
     });
 
     test('Should use "find" option as advanced options if it\'s an object', () => {
