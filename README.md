@@ -187,12 +187,12 @@ The `"find"` option describes how to find the multiplier which is the `number` b
 ```typescript
 find: {
   base?: number;
-  find?: Array<{ pre: string; exp: number }>;
+  items?: Array<{ pre: string; exp: number }>;
 };
 
 default: {
   base: 1000,
-  find: [
+  items: [
     { pre: 'a', exp: -6 },
     { pre: 'f', exp: -5 },
     { pre: 'p', exp: -4 },
@@ -224,7 +224,7 @@ Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty 
 const parse = createParser({
   find: {
     base: 1024,
-    find: [
+    items: [
       { pre: 'K', exp: 1 },
       { pre: 'M', exp: 2 },
     ],
@@ -388,12 +388,12 @@ The `"find"` option describes how to find the unit `prefix` and `divider` based 
 ```typescript
 find: {
   base?: number;
-  find?: Array<{ exp: number; pre: string }>;
+  items?: Array<{ exp: number; pre: string }>;
 }
 
 default: {
   base: 1000,
-  find: [
+  items: [
     { exp: -6, pre: 'a' },
     { exp: -5, pre: 'f' },
     { exp: -4, pre: 'p' },
@@ -419,7 +419,7 @@ default: {
 const format = createFormatter({
   find: {
     base: 1024,
-    find: [
+    items: [
       { exp: 0, pre: '' },
       { exp: 1, pre: 'K' },
     ],

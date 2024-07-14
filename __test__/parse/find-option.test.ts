@@ -111,20 +111,23 @@ describe('parse "find" option', () => {
   describe('"find" option as object', () => {
 
     test('Should throw on invalid "find" items', () => {
+
       const invalidItems = [
         true,
         false,
         '',
         'string',
       ];
+
       invalidItems.forEach((invalid) => {
         const create = () => createParser({
           find: {
-            find: invalid as never,
+            items: invalid as never,
           },
         });
         expect(create).toThrow();
       });
+
     });
 
     test('Should throw if items has duplicates', () => {
@@ -149,7 +152,7 @@ describe('parse "find" option', () => {
       ];
 
       itemsWithDuplicates.forEach((find) => {
-        const create = () => createParser({ find: { find } });
+        const create = () => createParser({ find: { items: find } });
         expect(create).toThrow('Duplicated prefix');
       });
 
@@ -161,7 +164,7 @@ describe('parse "find" option', () => {
       const parse = createParser({
         find: {
           base,
-          find: [
+          items: [
             { pre: 'k', exp: 1 },
             { pre: 'm', exp: -1 },
           ],
@@ -212,7 +215,7 @@ describe('parse "find" option', () => {
 
       const parse = createParser({
         find: {
-          find: [
+          items: [
             { pre: 'k', exp: 1 },
             { pre: 'm', exp: -1 },
           ],
@@ -251,6 +254,29 @@ describe('parse "find" option', () => {
         { value: '1.2M', expected: 1.2 * 1000 ** 2 },
         { value: '1.2G', expected: 1.2 * 1000 ** 3 },
         { value: '1.2T', expected: 1.2 * 1000 ** 4 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
+    });
+
+    test('Should use deprecated find sub-option', () => {
+
+      const parse = createParser({
+        find: {
+          find: [
+            { pre: 'k', exp: 1 },
+            { pre: 'm', exp: -1 },
+          ],
+        },
+      });
+
+      const values = [
+        { value: '1.2k', expected: 1.2 * 1000 },
+        { value: '1.2', expected: 1.2 },
+        { value: '1.2m', expected: 1.2 / 1000 },
       ];
 
       values.forEach(({ value, expected }) => {
@@ -387,7 +413,7 @@ describe('parse "find" option', () => {
       NaN,
       [{ pre: 'k', exp: NaN }],
       { base: NaN },
-      { find: [{ pre: 'k', exp: NaN }] },
+      { items: [{ pre: 'k', exp: NaN }] },
     ];
 
     invalidFindOptions.forEach((options) => {

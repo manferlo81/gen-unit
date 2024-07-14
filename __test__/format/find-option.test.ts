@@ -3,7 +3,21 @@ import { createFormatter, ExponentFindItems, MICRO } from '../../src';
 describe('format "find" option', () => {
 
   test('Should throw on invalid "find" option', () => {
-    expect(() => createFormatter({ find: true as never })).toThrow('Invalid "find" option');
+
+    const invalidFindOptions = [
+      true,
+      false,
+      '',
+      'string',
+    ];
+
+    invalidFindOptions.forEach((invalid) => {
+      const create = () => createFormatter({
+        find: invalid as never,
+      });
+      expect(create).toThrow('Invalid "find" option');
+    });
+
   });
 
   test('Should use default units with base 1000', () => {
@@ -20,7 +34,7 @@ describe('format "find" option', () => {
       { value: 12e3, expected: '12 k' },
       { value: 12, expected: '12' },
       { value: 12e-3, expected: '12 m' },
-      { value: 12e-6, expected: '12 \u00b5' },
+      { value: 12e-6, expected: '12 \xb5' },
       { value: 12e-9, expected: '12 n' },
       { value: 12e-12, expected: '12 p' },
       { value: 12e-15, expected: '12 f' },
@@ -122,6 +136,16 @@ describe('format "find" option', () => {
 
     });
 
+    test('Should default to unity if array empty', () => {
+
+      const format = createFormatter({
+        find: [],
+      });
+
+      expect(format(100)).toBe('100');
+
+    });
+
   });
 
   describe('"find" option as object', () => {
@@ -130,13 +154,16 @@ describe('format "find" option', () => {
 
       const invalid = [
         true,
+        false,
+        '',
+        'string',
       ];
 
       invalid.forEach((invalid) => {
         const create = () => createFormatter({
           find: {
             base: 1000,
-            find: invalid as never,
+            items: invalid as never,
           },
         });
         expect(create).toThrow('Invalid "find" option');
@@ -149,7 +176,7 @@ describe('format "find" option', () => {
       const format = createFormatter({
         find: {
           base: 10,
-          find: [
+          items: [
             { pre: 'm', exp: -3 },
             { pre: 'k', exp: 3 },
             { pre: '', exp: 0 },
@@ -176,7 +203,7 @@ describe('format "find" option', () => {
 
       const format = createFormatter({
         find: {
-          find: [
+          items: [
             { pre: 'm', exp: -1 },
             { pre: 'k', exp: 1 },
             { pre: '', exp: 0 },
@@ -255,15 +282,32 @@ describe('format "find" option', () => {
 
     });
 
-  });
+    test('Should use deprecated find sub-option', () => {
 
-  test('Should default to unity if array empty', () => {
+      const format = createFormatter({
+        find: {
+          find: [
+            { pre: 'm', exp: -1 },
+            { pre: 'k', exp: 1 },
+            { pre: '', exp: 0 },
+          ],
+        },
+      });
 
-    const format = createFormatter({
-      find: [],
+      const values = [
+        { value: 0, expected: '0' },
+        { value: 3, expected: '3' },
+        { value: 30e3, expected: '30 k' },
+        { value: 30e6, expected: '30000 k' },
+        { value: 30e-3, expected: '30 m' },
+        { value: 30e-6, expected: '0.03 m' },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(format(value)).toBe(expected);
+      });
+
     });
-
-    expect(format(100)).toBe('100');
 
   });
 

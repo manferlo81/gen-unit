@@ -1,8 +1,17 @@
 import type { AllowNullish } from '../tools/helper-types';
 import { isArray, isNumber, isObject } from '../tools/is';
+import { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
 import { errorInvalidOption } from './error';
 import { transformFindItems } from './transform-items';
-import type { DeclarativeFindUnit, ExponentFindItems, MultiplierFindItems } from './types';
+import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types';
+
+function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omit<FindUnitAdvancedOptions, keyof DeprecatedFindUnitAdvancedOptions> {
+  if (('items' in find) || !('find' in find)) {
+    return find;
+  }
+  const { find: items, base } = find;
+  return { items, base };
+}
 
 export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, validateItems: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
 
@@ -36,7 +45,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
   }
 
   // get items and base from "find" option
-  const { find: items, base } = find;
+  const { items, base } = deprecated_transformAdvancedOptions(find);
 
   // normalize base
   const baseAsNumber = base ?? 1000;
