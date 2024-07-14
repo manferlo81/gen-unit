@@ -1,4 +1,4 @@
-import { createFormatter, MICRO } from '../../src';
+import { createFormatter, ExponentFindItems, MICRO } from '../../src';
 
 describe('format "find" option', () => {
 
@@ -61,27 +61,65 @@ describe('format "find" option', () => {
 
   });
 
-  test('Should use "find" option as array of exponents with base 1000', () => {
+  describe('"find" option as array', () => {
 
-    const format = createFormatter({
-      find: [
-        { pre: 'm', exp: -1 },
-        { pre: 'k', exp: 1 },
-        { pre: '', exp: 0 },
-      ],
+    test('Should throw if items has duplicates', () => {
+
+      const itemsWithDuplicates: ExponentFindItems[] = [
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'K', exp: 1 },
+        ],
+        [
+          { pre: 'k', exp: 1 },
+          { pre: 'K', exp: 1 },
+          { pre: 'M', exp: 2 },
+          { pre: 'G', exp: 3 },
+        ],
+        [
+          { pre: '', exp: 0 },
+          { pre: 'k', exp: 1 },
+          { pre: 'K', exp: 1 },
+          { pre: 'M', exp: 2 },
+        ],
+        [
+          { pre: 'm', exp: -1 },
+          { pre: '', exp: 0 },
+          { pre: 'k', exp: 1 },
+          { pre: 'K', exp: 1 },
+        ],
+      ];
+
+      itemsWithDuplicates.forEach((find) => {
+        const create = () => createFormatter({ find });
+        expect(create).toThrow('Duplicated exponent');
+      });
+
     });
 
-    const values = [
-      { value: 0, expected: '0' },
-      { value: 3, expected: '3' },
-      { value: 30e3, expected: '30 k' },
-      { value: 30e6, expected: '30000 k' },
-      { value: 30e-3, expected: '30 m' },
-      { value: 30e-6, expected: '0.03 m' },
-    ];
+    test('Should use "find" option as array of exponents with base 1000', () => {
 
-    values.forEach(({ value, expected }) => {
-      expect(format(value)).toBe(expected);
+      const format = createFormatter({
+        find: [
+          { pre: 'm', exp: -1 },
+          { pre: 'k', exp: 1 },
+          { pre: '', exp: 0 },
+        ],
+      });
+
+      const values = [
+        { value: 0, expected: '0' },
+        { value: 3, expected: '3' },
+        { value: 30e3, expected: '30 k' },
+        { value: 30e6, expected: '30000 k' },
+        { value: 30e-3, expected: '30 m' },
+        { value: 30e-6, expected: '0.03 m' },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(format(value)).toBe(expected);
+      });
+
     });
 
   });
