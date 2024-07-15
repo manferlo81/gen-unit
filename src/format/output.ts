@@ -1,5 +1,5 @@
-import { errorInvalidOption } from '../common/error';
-import { isFunction, isObject } from '../tools/is';
+import { error, errorInvalidOption } from '../common/error';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import type { FormatOutputFunction, FormatOutputOption } from './types';
 
 function createOutputFormatter(space: string): FormatOutputFunction {
@@ -10,11 +10,13 @@ function createOutputFormatter(space: string): FormatOutputFunction {
   };
 }
 
+const oneSpace = ' ';
+
 export function createFormatOutput(output: FormatOutputOption): FormatOutputFunction {
 
   // return default formatter
   if (output == null) {
-    return createOutputFormatter(' ');
+    return createOutputFormatter(oneSpace);
   }
 
   // return option if it's a function
@@ -30,8 +32,15 @@ export function createFormatOutput(output: FormatOutputOption): FormatOutputFunc
   // get sub-options
   const { space } = output;
 
+  if (isNumber(space)) {
+    if (!isFiniteNumber(space) || space < 0) {
+      throw error(`Can't format output with ${space} spaces`);
+    }
+    return createOutputFormatter(oneSpace.repeat(space));
+  }
+
   // normalize space
-  const normalizedSpace = space ?? ' ';
+  const normalizedSpace = space ?? oneSpace;
 
   // return formatter base on advanced option
   return createOutputFormatter(normalizedSpace);

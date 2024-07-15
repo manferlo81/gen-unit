@@ -21,6 +21,21 @@ describe('format "output" option', () => {
 
   describe('"output" option as object', () => {
 
+    test('Should default to 1 space if nullish space given or none provided', () => {
+
+      const spaces = [
+        null,
+        undefined,
+      ];
+
+      expect(oneStepFormat(10e3, { output: {} })).toBe('10 k');
+
+      spaces.forEach((space) => {
+        expect(oneStepFormat(10e3, { output: { space } })).toBe('10 k');
+      });
+
+    });
+
     test('Should format with given space', () => {
 
       const spaces = [
@@ -35,17 +50,41 @@ describe('format "output" option', () => {
 
     });
 
-    test('Should default to 1 space if nullish space given or none provided', () => {
+    test('Should throw on invalid number of spaces', () => {
 
-      const spaces = [
-        null,
-        undefined,
+      const invalidSpaces = [
+        -1,
+        NaN,
+        Infinity,
+        -Infinity,
+        0 / 0,
+        0 / +0,
+        0 / -0,
+        1 / 0,
+        1 / +0,
+        1 / -0,
+        -1 / 0,
+        -1 / +0,
+        -1 / -0,
       ];
 
-      expect(oneStepFormat(10e3, { output: {} })).toBe('10 k');
+      invalidSpaces.forEach((space) => {
+        const create = () => createFormatter({ output: { space } });
+        expect(create).toThrow('Can\'t format output with');
+      });
+
+    });
+
+    test('Should format with given number of spaces', () => {
+
+      const spaces = [
+        0,
+        1,
+        2,
+      ];
 
       spaces.forEach((space) => {
-        expect(oneStepFormat(10e3, { output: { space } })).toBe('10 k');
+        expect(oneStepFormat(10e3, { output: { space } })).toBe(`10${' '.repeat(space)}k`);
       });
 
     });
