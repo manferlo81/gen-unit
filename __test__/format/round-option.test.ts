@@ -34,6 +34,7 @@ describe('format "round" option', () => {
       const create = () => createFormatter({
         round: invalid,
       });
+      expect(create).toThrow(RangeError);
       expect(create).toThrow('Can\'t create round function with');
     });
 
@@ -109,6 +110,7 @@ describe('format "round" option', () => {
             dec: invalid,
           },
         });
+        expect(create).toThrow(RangeError);
         expect(create).toThrow('Can\'t create round function with');
       });
 

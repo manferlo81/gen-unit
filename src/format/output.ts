@@ -1,4 +1,4 @@
-import { error, errorInvalidOption } from '../common/error';
+import { errorInvalidOption, rangeError } from '../common/error';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import type { FormatOutputFunction, FormatOutputOption } from './types';
 
@@ -34,7 +34,7 @@ export function createFormatOutput(output: FormatOutputOption): FormatOutputFunc
 
   if (isNumber(space)) {
     if (!isFiniteNumber(space) || space < 0) {
-      throw error(`Can't format output with ${space} spaces`);
+      throw rangeError(`Can't format output with ${space} spaces`);
     }
     return createOutputFormatter(oneSpace.repeat(space));
   }

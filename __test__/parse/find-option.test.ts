@@ -125,7 +125,7 @@ describe('parse "find" option', () => {
             items: invalid as never,
           },
         });
-        expect(create).toThrow();
+        expect(create).toThrow('Invalid "find" option');
       });
 
     });
@@ -374,12 +374,11 @@ describe('parse "find" option', () => {
       ];
 
       invalidMultipliers.forEach((invalid) => {
-
         const parse = createParser({
           find: () => invalid as never,
         });
+        expect(() => parse('10 k')).toThrow(RangeError);
         expect(() => parse('10 k')).toThrow('is not a valid multiplier');
-
       });
 
     });
@@ -417,7 +416,9 @@ describe('parse "find" option', () => {
     ];
 
     invalidFindOptions.forEach((options) => {
-      expect(() => createParser({ find: options })).toThrow('is not a valid multiplier');
+      const create = () => createParser({ find: options });
+      expect(create).toThrow(RangeError);
+      expect(create).toThrow('is not a valid multiplier');
     });
 
   });

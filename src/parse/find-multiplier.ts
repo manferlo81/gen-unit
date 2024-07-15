@@ -1,4 +1,4 @@
-import { error } from '../common/error';
+import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import { defaultBase1000ParseExpItems } from './default-items';
@@ -31,7 +31,7 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
       }
 
       if (!isNumber(result) || !isFiniteNumber(result) || result <= 0) {
-        throw error(`${result} is not a valid multiplier`);
+        throw rangeError(`${result} is not a valid multiplier`);
       }
 
       return result;

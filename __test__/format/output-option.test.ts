@@ -70,6 +70,7 @@ describe('format "output" option', () => {
 
       invalidSpaces.forEach((space) => {
         const create = () => createFormatter({ output: { space } });
+        expect(create).toThrow(RangeError);
         expect(create).toThrow('Can\'t format output with');
       });
 

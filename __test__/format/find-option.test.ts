@@ -354,7 +354,7 @@ describe('format "find" option', () => {
 
     });
 
-    test('Should throw on invalid find function result multiplier', () => {
+    test('Should throw on invalid find function resulting multiplier', () => {
 
       const values = [
         { pre: '', mul: 0 },
@@ -370,6 +370,7 @@ describe('format "find" option', () => {
           find: () => value,
         });
 
+        expect(() => format(10)).toThrow(RangeError);
         expect(() => format(10)).toThrow('is not a valid multiplier');
 
       });

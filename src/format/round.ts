@@ -1,11 +1,11 @@
-import { error, errorInvalidOption } from '../common/error';
+import { errorInvalidOption, rangeError } from '../common/error';
 import type { AllowNullish } from '../tools/helper-types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {
   if (!isFiniteNumber(dec) || dec < 0) {
-    throw error(`Can't create round function with ${dec} decimal.`);
+    throw rangeError(`Can't create round function with ${dec} decimal.`);
   }
   return dec;
 }

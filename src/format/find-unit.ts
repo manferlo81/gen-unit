@@ -1,4 +1,4 @@
-import { error } from '../common/error';
+import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
 import { MultiplierFindItem } from '../common/types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
@@ -31,7 +31,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
       const { pre, mul } = deprecated_handleResult(result);
 
       if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) {
-        throw error(`${mul} is not a valid multiplier`);
+        throw rangeError(`${mul} is not a valid multiplier`);
       }
 
       return { pre, mul };
