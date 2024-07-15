@@ -1,4 +1,4 @@
-import { createFormatter } from '../../src';
+import { createFormatter, CreateFormatterOptions, format as oneStepFormat } from '../../src';
 
 describe('format "output" option', () => {
 
@@ -30,12 +30,22 @@ describe('format "output" option', () => {
       ];
 
       spaces.forEach((space) => {
-        const format = createFormatter({
-          output: {
-            space,
-          },
-        });
-        expect(format(10e3)).toBe(`10${space}k`);
+        expect(oneStepFormat(10e3, { output: { space } })).toBe(`10${space}k`);
+      });
+
+    });
+
+    test('Should default to 1 space if nullish space given or none provided', () => {
+
+      const spaces = [
+        null,
+        undefined,
+      ];
+
+      expect(oneStepFormat(10e3, { output: {} })).toBe('10 k');
+
+      spaces.forEach((space) => {
+        expect(oneStepFormat(10e3, { output: { space } })).toBe('10 k');
       });
 
     });
@@ -45,26 +55,26 @@ describe('format "output" option', () => {
   describe('"output" option as function', () => {
 
     test('Should use "output" option', () => {
-      const format = createFormatter({
+      const options: CreateFormatterOptions = {
         output: (value, pre) => `${value}--${pre}`,
-      });
-      expect(format(10e-3)).toBe('10--m');
+      };
+      expect(oneStepFormat(10e-3, options)).toBe('10--m');
     });
 
     test('Should use "output" option with unit', () => {
-      const format = createFormatter({
+      const options: CreateFormatterOptions = {
         unit: 'g',
         output: (value, pre, unit) => `${value}-${pre}-${unit}`,
-      });
-      expect(format(10e-3)).toBe('10-m-g');
+      };
+      expect(oneStepFormat(10e-3, options)).toBe('10-m-g');
     });
 
     test('Should use returned number and convert it to string', () => {
-      const format = createFormatter({
+      const options: CreateFormatterOptions = {
         unit: 'g',
         output: (value) => value,
-      });
-      expect(format(10e-3)).toBe('10');
+      };
+      expect(oneStepFormat(10e-3, options)).toBe('10');
     });
 
   });

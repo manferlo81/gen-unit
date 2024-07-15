@@ -19,7 +19,7 @@ export type FormatRoundOption = AllowNullish<RoundDecimals | FormatRoundAdvanced
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
 export interface FormatOutputAdvancedOption {
-  readonly space?: string;
+  readonly space?: AllowNullish<string>;
 }
 export type FormatOutputOption = AllowNullish<FormatOutputFunction | FormatOutputAdvancedOption>;
 
