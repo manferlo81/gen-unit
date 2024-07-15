@@ -41,6 +41,8 @@ yarn add gen-unit
     - ["round" option as a number](#round-option-as-a-number)
     - ["round" option as a function](#round-option-as-a-function)
   - ["output" option](#output-option)
+    - ["output" option as an object](#output-option-as-an-object)
+    - ["output" option as a function](#output-option-as-a-function)
 - [parse function](#parse)
 - [format function](#format)
 - [MICRO constant](#micro)
@@ -55,7 +57,7 @@ function createParser(options): Parser;
 type Parser = (input: unknown) => number;
 ```
 
-- ***Options***
+***Options***
 
 #### "unit" option
 
@@ -74,15 +76,16 @@ const parse = createParser({
 
 parse('1'); // => 1
 parse('1 g'); // => 1
+parse('1 m'); // => 0.001
 parse('1 mg'); // => 0.001
 parse('1 k'); // => 1000
 parse('1 kg'); // => 1000
-parse('1 ms'); // => NaN
+parse('1 ms'); // => NaN because "s" is not recognized as unit
 ```
 
-- ***Precedence***
+***Precedence***
 
-This option takes precedence over any prefix or prefixed unit.
+This option takes precedence over any `prefix` or `prefixed unit`.
 
 ***examples***
 
@@ -109,23 +112,32 @@ const parse = createParser({
   unit: 'eg', // assuming "eg" is the unit... for some reason
 });
 
-parse('1 meg'); // => 0.001 (not 1000000)
-parse('1 megeg'); // => 1000000
-parse('1 Meg'); // => 1000000
+parse('1 meg'); // => 0.001 (not 1000000), it's interpreted as 1 milli-eg
+parse('1 megeg'); // => 1000000, it's interpreted as 1 mega-eg
+parse('1 Meg'); // => 1000000, it's interpreted as 1 mega-eg because capital "M" parses as mega
 ```
 
 #### "match" option
 
-The first step in the `parse` process, it takes the `input` and return a `value`, and the `unit` to be process further down the road, or `null` if the input can't be parsed.
+```typescript
+match: RegExp | string | MatchFunction | null | undefined;
+
+type MatchFunction = (input: string) => [value: string, unit: string] | null | undefined;
+
+default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
+```
+
+Defines the first step in the `parse` process, it takes the `input` and should turn it into an `array` with `two elements` with the `value`, and the `unit` to be process further down the road, or `null` (or `undefined`) if the `input` can't be parsed.
 
 ##### "match" option as a RegExp
 
 ```typescript
 match: RegExp;
+
 default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
 ```
 
-A RegExp with two capturing groups, the first to be used as value and the second as unit.
+A RegExp with `two capturing groups`, the first to be used as `value` and the second as `unit`. If the RegExp has less than `two capturing groups`, parse function will `throw`.
 
 ***example***
 
@@ -144,7 +156,7 @@ parse('1 k'); // => 1000
 match: string;
 ```
 
-A string to be used to create a RegExp. It is expected to have two capturing groups, the first to be used as value and the second as unit.
+A string to be used to create a RegExp. It is expected to have `two capturing groups`, the first to be used as `value` and the second as `unit`.
 
 ***example***
 
@@ -160,10 +172,10 @@ parse('1 k'); // => 1000
 ##### "match" option as a function
 
 ```typescript
-match: (input: string) => [value: string, unit: string];
+match: (input: string) => [value: string, unit: string] | null | undefined;
 ```
 
-A function which will receive the input and should return an array of two elements, the first to be used as value and the second as unit.
+A function which will receive the `input` and should return an `array` of `two elements`, the first to be used as `value` and the second as `unit`, or `null` (or `undefined`) if the input can't be parsed.
 
 ***example***
 
@@ -214,7 +226,7 @@ default: {
 
 An object describing the `base` and unit `prefixes` to find the `multiplier`.
 
-- ***notes***
+***notes***
 
 Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
 
@@ -266,7 +278,7 @@ find: Array<{ pre: string; exp: number }>;
 
 An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000) during parsing.
 
-- ***notes***
+***notes***
 
 Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
 
@@ -317,7 +329,7 @@ parse('2 M'); // => 2097152
 parse('2 G'); // => NaN
 ```
 
-- ***Notes***
+***Notes***
 
 Previous version of this library allow this function to return an object `{ mul: number }` containing the multiplier. This behavior has been removed, it will `throw` instead.
 
@@ -501,7 +513,7 @@ format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
 
-- ***Deprecation Notice***
+***Deprecation Notice***
 
 Previous version of this library require a result in the form `{ pre: string; div: number }`. This is now deprecated and it will be removed in the future. Use `{ pre: string; mul: number }` instead.
 
@@ -584,18 +596,60 @@ format(0.00123); // => '1 m'
 
 #### "output" option
 
-A `function` to format the final output.
+```typescript
+output: FormatOutputFunction | FormatOutputAdvancedOption | null | undefined;
+
+type FormatOutputFunction = (value: string | number, prefix: string, unit: string) => (string | number);
+
+interface FormatOutputAdvancedOption {
+  space: string;
+}
+```
+
+##### "output" option as an object
 
 ```typescript
-output: (value: string | number, pre: string, unit: string) => (string | number);
+output: {
+  space?: string;
+}
+
+default {
+  space: ' ';
+}
 ```
 
 ***example***
 
 ```typescript
 const format = createFormatter({
-  output: (value, pre) => `${value}${pre}s`,
+  output: {
+    space: '-', // unrealistic, for demonstration only
+  },
 })
+
+format(1.23); // => '1.23'
+format(1230); // => '1.23-k'
+format(0.00123); // => '1.23-m'
+```
+
+##### "output" option as a function
+
+A `function` to format the final output.
+
+```typescript
+output: (value: string | number, prefix: string, unit: string) => (string | number);
+```
+
+***example***
+
+```typescript
+const format = createFormatter({
+  unit: 'x',
+  output: (value, pre) => {
+    // ignore original unit and hardcode one
+    return `${value}${pre}s`;
+  },
+});
 
 format(1.23); // => '1.23s'
 format(1230); // => '1.23ks'

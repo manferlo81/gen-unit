@@ -1,6 +1,6 @@
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
 import type { AllowNullish } from '../tools/helper-types';
-import { DeprecatedFormatFindUnitFunction } from './deprecated-types';
+import type { DeprecatedFormatFindUnitFunction } from './deprecated-types';
 
 export type FormatGetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
 export type FormatUnitOption = AllowNullish<string | FormatGetUnitFunction>;
@@ -18,7 +18,10 @@ export interface FormatRoundAdvancedOptions {
 export type FormatRoundOption = AllowNullish<RoundDecimals | FormatRoundAdvancedOptions | RoundFunction>;
 
 export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
-export type FormatOutputOption = AllowNullish<FormatOutputFunction>;
+export interface FormatOutputAdvancedOption {
+  readonly space?: string;
+}
+export type FormatOutputOption = AllowNullish<FormatOutputFunction | FormatOutputAdvancedOption>;
 
 export interface CreateFormatterOptions {
   readonly unit?: FormatUnitOption;
