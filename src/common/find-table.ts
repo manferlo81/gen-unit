@@ -6,7 +6,7 @@ import { transformFindItems } from './transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types';
 
 function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omit<FindUnitAdvancedOptions, keyof DeprecatedFindUnitAdvancedOptions> {
-  if (('items' in find) || !('find' in find)) {
+  if ('items' in find || !('find' in find)) {
     return find;
   }
   const { find: items, base } = find;

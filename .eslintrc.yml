@@ -38,14 +38,17 @@ rules:
     - error
     - single
 
+  "@stylistic/js/linebreak-style":
+    - error
+    - windows
+
   "@stylistic/js/comma-dangle": "off"
   "@stylistic/ts/comma-dangle":
     - error
     - always-multiline
 
-  "@stylistic/js/linebreak-style":
-    - error
-    - windows
+  "@stylistic/js/no-extra-parens": "off"
+  "@stylistic/ts/no-extra-parens": error
 
   no-useless-rename: error
   object-shorthand: error
@@ -61,5 +64,5 @@ rules:
     - default: array-simple
       readonly: array-simple
 
-  "@stylistic/ts/member-delimiter-style": "error"
+  "@stylistic/ts/member-delimiter-style": error
   "@typescript-eslint/restrict-template-expressions": "off"

@@ -316,7 +316,9 @@ describe('format "find" option', () => {
     test('Should pass value to find function', () => {
 
       const format = createFormatter({
-        find: (value: number) => (value >= 1 ? { pre: 's', mul: 1 } : { pre: 'ms', mul: 1e-3 }),
+        find: (value: number) => {
+          return value >= 1 ? { pre: 's', mul: 1 } : { pre: 'ms', mul: 1e-3 };
+        },
       });
 
       const values = [

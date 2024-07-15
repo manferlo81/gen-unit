@@ -32,7 +32,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
     output,
   } = options;
 
-  const getUnit: FormatGetUnitFunction = isFunction(unit) ? unit : (): string => (unit ?? '');
+  const getUnit: FormatGetUnitFunction = isFunction(unit) ? unit : (): string => unit ?? '';
   const findUnit = createUnitFinder(find);
   const roundNum = createRounder(round);
   const formatOutput = createFormatOutput(output);
