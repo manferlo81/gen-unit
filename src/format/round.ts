@@ -1,7 +1,6 @@
 import { error, errorInvalidOption } from '../common/error';
 import type { AllowNullish } from '../tools/helper-types';
 import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
-import { pow } from '../tools/math';
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {
@@ -14,11 +13,16 @@ function validateNumberOfDecimals(dec: number): number {
 export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
   if (fixed) {
-    return (num: number): string => num.toFixed(dec);
+    return (num: number): string => {
+      return num.toFixed(dec);
+    };
   }
 
-  const roundMultiplier = pow(10, dec);
-  return (num: number): number => Math.round(num * roundMultiplier) / roundMultiplier;
+  const roundMultiplier = 10 ** dec;
+
+  return (num: number): number => {
+    return Math.round(num * roundMultiplier) / roundMultiplier;
+  };
 
 }
 
