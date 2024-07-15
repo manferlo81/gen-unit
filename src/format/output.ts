@@ -1,5 +1,5 @@
 import { errorInvalidOption, rangeError } from '../common/error';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
 import type { FormatOutputFunction, FormatOutputOption } from './types';
 
 function createOutputFormatter(space: string): FormatOutputFunction {

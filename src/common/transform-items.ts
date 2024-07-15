@@ -1,4 +1,4 @@
-import { isFiniteNumber } from '../tools/is';
+import { isFiniteNumber } from './is';
 import { rangeError } from './error';
 import type { ExponentFindItems, MultiplierFindItems } from './types';
 

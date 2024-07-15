@@ -1,4 +1,4 @@
-import type { AllowNullish } from '../tools/helper-types';
+import type { AllowNullish } from './helper-types';
 import type { ExponentFindItems } from './types';
 
 /** @deprecated */

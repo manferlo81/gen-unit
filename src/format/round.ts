@@ -1,6 +1,6 @@
 import { errorInvalidOption, rangeError } from '../common/error';
-import type { AllowNullish } from '../tools/helper-types';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import type { AllowNullish } from '../common/helper-types';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {

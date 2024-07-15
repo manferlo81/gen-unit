@@ -1,5 +1,5 @@
 import { error, errorOptionRemoved } from '../common/error';
-import { isFiniteNumber, isNumber } from '../tools/is';
+import { isFiniteNumber, isNumber } from '../common/is';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import { createMatcher } from './match';

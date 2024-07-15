@@ -1,6 +1,6 @@
-import type { AllowNullish } from '../tools/helper-types';
-import { isArray, isNumber, isObject } from '../tools/is';
-import { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
+import type { AllowNullish } from './helper-types';
+import { isArray, isNumber, isObject } from './is';
+import type { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
 import { errorInvalidOption } from './error';
 import { transformFindItems } from './transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types';

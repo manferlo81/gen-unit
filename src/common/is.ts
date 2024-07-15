@@ -1,4 +1,4 @@
-import type { AnyFunction, Anything, TypeCheckFunction } from './helper-types';
+import type { AnyArray, AnyFunction, TypeCheckFunction } from './helper-types';
 
 interface TypeOfMap {
   number: number;
@@ -17,7 +17,7 @@ function isType<K extends TypeOfResult>(type: K): TypeCheckFunction<TypeOfMap[K]
 export const isFunction = isType('function');
 
 export const isObject = isType('object');
-export const { isArray } = Array as { isArray: TypeCheckFunction<Anything[]> };
+export const { isArray } = Array as { isArray: TypeCheckFunction<AnyArray> };
 
 export const isNumber = isType('number');
 export const { isFinite: isFiniteNumber } = Number;

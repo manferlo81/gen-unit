@@ -1,5 +1,5 @@
 import type { DeclarativeFindUnit } from '../common/types';
-import type { AllowNullish, AllowReturnNullish } from '../tools/helper-types';
+import type { AllowNullish, AllowReturnNullish } from '../common/helper-types';
 
 export type ParseUnitOption = AllowNullish<string>;
 

@@ -1,6 +1,6 @@
 import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
 import { defaultBase1000ParseExpItems } from './default-items';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
 import { validateParseItems } from './user-items';

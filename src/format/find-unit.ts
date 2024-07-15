@@ -1,9 +1,9 @@
 import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
-import { MultiplierFindItem } from '../common/types';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../tools/is';
+import type { MultiplierFindItem } from '../common/types';
+import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
 import { defaultBase1000FormatExpItems, unity } from './default-items';
-import { DivisorFindItem } from './deprecated-types';
+import type { DivisorFindItem } from './deprecated-types';
 import { validateFormatItems } from './user-items';
 import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
 
