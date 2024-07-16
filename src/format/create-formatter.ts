@@ -47,7 +47,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
       pre,
       getUnit(divided, rounded, pre),
     );
-    return `${result}`;
+    return `${result as unknown}`;
   };
 
 }

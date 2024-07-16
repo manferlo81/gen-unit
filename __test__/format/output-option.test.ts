@@ -109,12 +109,18 @@ describe('format "output" option', () => {
       expect(oneStepFormat(10e-3, options)).toBe('10-m-g');
     });
 
-    test('Should use returned number and convert it to string', () => {
-      const options: CreateFormatterOptions = {
-        unit: 'g',
-        output: (value) => value,
-      };
-      expect(oneStepFormat(10e-3, options)).toBe('10');
+    test('Should use invalid returned value and convert it to string anyway', () => {
+      const invalidFunctions = [
+        (value: string | number) => value,
+        (value: string | number) => ({ toString: () => value }),
+      ];
+      invalidFunctions.forEach((invalid) => {
+        const options: CreateFormatterOptions = {
+          unit: 'g',
+          output: invalid as never,
+        };
+        expect(oneStepFormat(10e-3, options)).toBe('10');
+      });
     });
 
   });

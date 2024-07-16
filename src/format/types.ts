@@ -17,7 +17,7 @@ export interface FormatRoundAdvancedOptions {
 }
 export type FormatRoundOption = AllowNullish<RoundDecimals | FormatRoundAdvancedOptions | RoundFunction>;
 
-export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => (string | number);
+export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string;
 export interface FormatOutputAdvancedOption {
   readonly space?: AllowNullish<string | number>;
 }
