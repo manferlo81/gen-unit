@@ -1,4 +1,4 @@
-import { createFormatter, CreateFormatterOptions, format as oneStepFormat } from '../../src';
+import { createFormatter, CreateFormatterOptions, CreateFormatterOptionsWithUnit, format as oneStepFormat } from '../../src';
 
 describe('format "output" option', () => {
 
@@ -102,7 +102,7 @@ describe('format "output" option', () => {
     });
 
     test('Should use "output" option with unit', () => {
-      const options: CreateFormatterOptions = {
+      const options: CreateFormatterOptionsWithUnit<'g'> = {
         unit: 'g',
         output: (value, pre, unit) => `${value}-${pre}-${unit}`,
       };

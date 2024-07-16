@@ -4,7 +4,7 @@ import type { DeprecatedFormatGetUnitFunction } from './deprecated-types';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
 import { createRounder } from './round';
-import type { CreateFormatterOptions, Formatter } from './types';
+import type { CreateFormatterOptions, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types';
 
 /**
  * Create a new formatter
@@ -12,6 +12,8 @@ import type { CreateFormatterOptions, Formatter } from './types';
  * @param options create formatter options
  * @returns formatter
  */
+export function createFormatter<U extends FormatUnitOption>(options: CreateFormatterOptionsWithUnit<U>): Formatter;
+export function createFormatter(options?: CreateFormatterOptions): Formatter;
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
   if ('table' in options) {

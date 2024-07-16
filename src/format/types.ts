@@ -2,10 +2,10 @@ import type { AllowNullish } from '../common/helper-types';
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
 import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from './deprecated-types';
 
-export type FormatUnitOption = AllowNullish<string | DeprecatedFormatGetUnitFunction>;
+export type FormatUnitOption = AllowNullish<string>;
 
 export type FormatFindUnitFunction = (value: number) => MultiplierFindItem;
-export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction | DeprecatedFormatFindUnitFunction>;
+export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction> | DeprecatedFormatFindUnitFunction;
 
 export type RoundDecimals = number;
 
@@ -16,17 +16,24 @@ export interface FormatRoundAdvancedOptions {
 }
 export type FormatRoundOption = AllowNullish<RoundDecimals | FormatRoundAdvancedOptions | RoundFunction>;
 
-export type FormatOutputFunction = (value: string | number, pre: string, unit: string) => string;
+export type FormatOutputFunction<U extends string = string> = (value: string | number, pre: string, unit: U) => string;
 export interface FormatOutputAdvancedOption {
   readonly space?: AllowNullish<string | number>;
 }
-export type FormatOutputOption = AllowNullish<FormatOutputFunction | FormatOutputAdvancedOption>;
+export type FormatOutputOption<U extends string = string> = AllowNullish<FormatOutputFunction<U> | FormatOutputAdvancedOption>;
 
-export interface CreateFormatterOptions {
-  readonly unit?: FormatUnitOption;
+interface CreateFormatterOptionsBase<U extends string> {
   readonly find?: FormatFindUnitOption;
   readonly round?: FormatRoundOption;
-  readonly output?: FormatOutputOption;
+  readonly output?: FormatOutputOption<U>;
+}
+
+export interface CreateFormatterOptions extends CreateFormatterOptionsBase<string> {
+  readonly unit?: FormatUnitOption | DeprecatedFormatGetUnitFunction;
+}
+
+export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends CreateFormatterOptionsBase<U extends string ? U : string> {
+  readonly unit: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>;
 }
 
 export type FormatInput = number;

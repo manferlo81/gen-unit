@@ -12,4 +12,4 @@ export type DivisorFindItems = DivisorFindItem[];
 export type DeprecatedFormatFindUnitFunction = (value: number) => DivisorFindItem;
 
 /** @deprecated */
-export type DeprecatedFormatGetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
+export type DeprecatedFormatGetUnitFunction<U extends string = string> = (value: number, rounded: string | number, pre: string) => U;
