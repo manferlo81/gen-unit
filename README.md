@@ -17,6 +17,7 @@ yarn add gen-unit
 ## API
 
 - `createParser` [function](#the-createparser-function)
+- `createParser` [options](#createparser-options)
   - `unit` [option](#the-unit-option)
   - `match` [option](#the-match-option)
     - `match` [option as a RegExp](#match-option-as-a-regexp)
@@ -28,6 +29,7 @@ yarn add gen-unit
     - `find` [option as an array](#find-option-as-an-array)
     - `find` [option as a function](#find-option-as-a-function)
 - `createFormatter` [function](#the-createformatter-function)
+- `createFormatter` [options](#createformatter-options)
   - `unit` [option](#the-unit-option-1)
   - `find` [option](#the-find-option-1)
     - `find` [option as an object](#find-option-as-an-object-1)
@@ -47,7 +49,7 @@ yarn add gen-unit
 
 ### The `createParser` function
 
-Creates a `parse` function using the given options.
+Creates a `parse` function using the given [options](#createparser-options).
 
 ```typescript
 function createParser(options): Parser;
@@ -55,7 +57,7 @@ function createParser(options): Parser;
 type Parser = (input: unknown) => number;
 ```
 
-***Options***
+### `createParser` options
 
 #### The `unit` option
 
@@ -118,7 +120,7 @@ parse('1 Meg'); // => 1000000, it's interpreted as 1 mega-eg because capital "M"
 #### The `match` option
 
 ```typescript
-match: RegExp | string | MatchFunction | null | undefined;
+match: RegExp | string | MatchFunction;
 
 type MatchFunction = (input: string) => [value: string, unit: string] | null | undefined;
 
@@ -224,7 +226,7 @@ default: {
 
 An object describing the `base` and unit `prefixes` to find the `multiplier`.
 
-***notes***
+***Notes***
 
 Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
 
@@ -299,7 +301,7 @@ parse('1.3 G'); // => NaN because prefix "G" can't be found
 ##### `find` option as a function
 
 ```typescript
-find: (pre: string) => number | null;
+find: (pre: string) => number | null | undefined;
 ```
 
 A function that should return a non-zero `number` by which the parsed value should be multiplied based on the captured prefix. Return `null` (or `undefined`) if multiplier can't be determined. It will cause the parse function to return `NaN`. If your function returns `zero`, `negative number` or any other invalid multiplier, parse function will throw a `TypeError`.
@@ -333,7 +335,7 @@ Previous version of this library allow this function to return an object `{ mul:
 
 ### The `createFormatter` function
 
-Creates a `format` function using the given options.
+Creates a `format` function using the given [options](#createformatter-options).
 
 ```typescript
 function createFormatter(options): Formatter;
@@ -341,7 +343,7 @@ function createFormatter(options): Formatter;
 type Formatter = (input: number) => string;
 ```
 
-***Options***
+### `createFormatter` options
 
 #### The `unit` option
 
@@ -365,7 +367,7 @@ format(1200); // => '1.2 Km'
 
 #### The `find` option
 
-The `find` option describes how to find the unit `prefix` and `divider` based on input value.
+Describes how to find the unit `prefix` and `divider` based on input value.
 
 ##### `find` option as an object
 
@@ -485,10 +487,6 @@ format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
 
-***Deprecation Notice***
-
-Previous version of this library require a result in the form `{ pre: string; div: number }`. This is now deprecated and it will be removed in the future. Use `{ pre: string; mul: number }` instead.
-
 #### The `round` option
 
 Describes how to `round` the output value before final `format`.
@@ -507,7 +505,7 @@ default: {
 };
 ```
 
-An `object` describing how to format the value.
+An `object` describing how to `round` the value before final format. Describes the number of decimal (`dec`) and whether or not the output should have a fixed number of decimal (`fixed`).
 
 ***Example***
 
@@ -551,7 +549,7 @@ format(0.00123); // => '1.2 m'
 round: (num: number) => (string | number);
 ```
 
-A `function` that `returns` a rounded value.
+A `function` which `returns` the rounded value.
 
 ***Example***
 
@@ -568,10 +566,12 @@ format(0.00123); // => '1 m'
 
 #### The `output` option
 
-```typescript
-output: FormatOutputFunction | FormatOutputAdvancedOption | null | undefined;
+Describes the final output format.
 
-type FormatOutputFunction = (value: string | number, prefix: string, unit: string) => (string | number);
+```typescript
+output: FormatOutputFunction | FormatOutputAdvancedOption;
+
+type FormatOutputFunction = (value: string | number, prefix: string, unit: string) => string;
 
 interface FormatOutputAdvancedOption {
   space: string;
@@ -609,7 +609,7 @@ format(0.00123); // => '1.23-m'
 A `function` to format the final output.
 
 ```typescript
-output: (value: string | number, prefix: string, unit: string) => (string | number);
+output: (value: string | number, prefix: string, unit: string) => string;
 ```
 
 ***Example***
@@ -630,7 +630,7 @@ format(0.00123); // => '1.23ms'
 
 ### The `parse` function
 
-A convenient function to parse an input in one step. I will internally call `createParser` then will call the newly created parser.
+A convenient function to parse an `input` in one step. I will internally call `createParser` then will call the newly created parser. See `createParser` [options](#createparser-options).
 
 ```typescript
 function parse(input, options): number;
@@ -638,7 +638,7 @@ function parse(input, options): number;
 
 ### The `format` function
 
-A convenient function to format a `number` in one step. It wil internally call `createFormatter` then will call the newly created formatter.
+A convenient function to format a `number` in one step. It wil internally call `createFormatter` then will call the newly created formatter. See `createFormatter` [options](#createformatter-options).
 
 ```typescript
 function format(input, options): string;
