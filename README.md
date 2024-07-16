@@ -24,17 +24,17 @@ yarn add gen-unit
     - `match` [option as a string](#match-option-as-a-string)
     - `match` [option as a function](#match-option-as-a-function)
   - `find` [option](#the-find-option)
-    - `find` [option as an object](#find-option-as-an-object)
     - `find` [option as a number](#find-option-as-a-number)
     - `find` [option as an array](#find-option-as-an-array)
+    - `find` [option as an object](#find-option-as-an-object)
     - `find` [option as a function](#find-option-as-a-function)
 - `createFormatter` [function](#the-createformatter-function)
 - `createFormatter` [options](#createformatter-options)
   - `unit` [option](#the-unit-option-1)
   - `find` [option](#the-find-option-1)
-    - `find` [option as an object](#find-option-as-an-object-1)
     - `find` [option as a number](#find-option-as-a-number-1)
     - `find` [option as an array](#find-option-as-an-array-1)
+    - `find` [option as an object](#find-option-as-an-object-1)
     - `find` [option as a function](#find-option-as-a-function-1)
   - `round` [option](#the-round-option)
     - `round` [option as an object](#round-option-as-an-object)
@@ -194,6 +194,55 @@ parse('2'); // => 2000
 
 The `find` option describes how to find the multiplier which is the `number` by which the parsed value should be multiplied.
 
+##### `find` option as a number
+
+```typescript
+find: number;
+```
+
+A number to be used as `base` during parsing.
+
+***Example***
+
+```typescript
+const parse = createParser({
+  find: 1024,
+});
+
+parse('2'); // => 2
+parse('2 k'); // => 2048
+parse('2 M'); // => 2097152
+parse('2 G'); // => 2147483648
+```
+
+##### `find` option as an array
+
+```typescript
+find: Array<{ pre: string; exp: number }>;
+```
+
+An `array` of `objects` describing `prefixes` and `exponents` to use with the default `base` (1000) to find the `multiplier` to be used during parsing. Every item should have a unique `pre`, if there are duplicates `createParser` will `throw`.
+
+***notes***
+
+Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
+
+***Example***
+
+```typescript
+const parse = createParser({
+  find: [
+    { pre: 'k', exp: 1 },
+    { pre: 'M', exp: 2 },
+  ],
+});
+
+parse('1.3'); // => 1.3
+parse('1.3 k'); // => 1300
+parse('1.3 M'); // => 1300000
+parse('1.3 G'); // => NaN because prefix "G" can't be found
+```
+
 ##### `find` option as an object
 
 ```typescript
@@ -224,7 +273,7 @@ default: {
 }
 ```
 
-An object describing the `base` and unit `prefixes` to find the `multiplier`.
+An object describing the `base` and a series of `objects` describing `prefixes` and `exponents` to find the `multiplier` to be used during parsing. Every item in `items` array should have a unique `pre`, if there are duplicates `createParser` will `throw`.
 
 ***Notes***
 
@@ -247,55 +296,6 @@ parse('1'); // => 1
 parse('1 K'); // => 1024
 parse('1 M'); // => 1048576
 parse('1 G'); // => NaN
-```
-
-##### `find` option as a number
-
-```typescript
-find: number;
-```
-
-A number to be used as `base` during parsing.
-
-***Example***
-
-```typescript
-const parse = createParser({
-  find: 1024,
-});
-
-parse('2'); // => 2
-parse('2 k'); // => 2048
-parse('2 M'); // => 2097152
-parse('2 G'); // => 2147483648
-```
-
-##### `find` option as an array
-
-```typescript
-find: Array<{ pre: string; exp: number }>;
-```
-
-An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000) during parsing.
-
-***notes***
-
-Note that `empty prefix` (`{ pre: '', exp: 0 }`) is not necessary, as an `empty prefix` will result in `multiplier = 1`
-
-***Example***
-
-```typescript
-const parse = createParser({
-  find: [
-    { pre: 'k', exp: 1 },
-    { pre: 'M', exp: 2 },
-  ],
-});
-
-parse('1.3'); // => 1.3
-parse('1.3 k'); // => 1300
-parse('1.3 M'); // => 1300000
-parse('1.3 G'); // => NaN because prefix "G" can't be found
 ```
 
 ##### `find` option as a function
@@ -369,6 +369,49 @@ format(1200); // => '1.2 Km'
 
 Describes how to find the unit `prefix` and `divider` based on input value.
 
+##### `find` option as a number
+
+```typescript
+find: number;
+```
+
+A `number` to be used as `base` during formatting.
+
+***Example***
+
+```typescript
+const format = createFormatter({
+  find: 1024,
+});
+
+format(100); // => '100'
+format(2048); // => '2 k'
+format(2097152); // => '2 M'
+```
+
+##### `find` option as an array
+
+```typescript
+find: Array<{ pre: string; exp: number }>;
+```
+
+An `array` of `objects` describing `prefixes` and `exponents` to use with the default `base` (1000) to find the `prefix` and `multiplier` to be used during formatting. Every item should have a unique `exp`, if there are duplicates `createFormatter` will `throw`.
+
+***Example***
+
+```typescript
+const format = createFormatter({
+  find: [
+    { exp: 0, pre: '' },
+    { exp: 1, pre: 'K' },
+  ],
+});
+
+format(2); // => '2'
+format(2000); // => '2 K'
+format(2000000); // => '2000 K'
+```
+
 ##### `find` option as an object
 
 ```typescript
@@ -397,7 +440,7 @@ default: {
 }
 ```
 
-<!-- Description here -->
+An object describing the `base` and a series of `objects` describing `prefixes` and `exponents` to find the `prefix` and `multiplier` to be used during formatting. Every item in `items` array should have a unique `exp`, if there are duplicates `createFormatter` will `throw`.
 
 ***Example***
 
@@ -415,49 +458,6 @@ const format = createFormatter({
 format(100); // => '100'
 format(2048); // => '2 K'
 format(2097152); // => '2048 K'
-```
-
-##### `find` option as a number
-
-```typescript
-find: number;
-```
-
-A `number` to be used as `base` during formatting.
-
-***Example***
-
-```typescript
-const format = createFormatter({
-  find: 1024,
-});
-
-format(100); // => '100'
-format(2048); // => '2 k'
-format(2097152); // => '2 M'
-```
-
-##### `find` option as an array
-
-```typescript
-find: Array<{ pre: string; exp: number }>;
-```
-
-An `array` of `objects` describing the different units `prefixes` as `exponents` to use with the default `base` (1000) during formatting.
-
-***Example***
-
-```typescript
-const format = createFormatter({
-  find: [
-    { exp: 0, pre: '' },
-    { exp: 1, pre: 'K' },
-  ],
-});
-
-format(2); // => '2'
-format(2000); // => '2 K'
-format(2000000); // => '2000 K'
 ```
 
 ##### `find` option as a function
