@@ -4,7 +4,7 @@ import type { DeclarativeFindUnit } from '../common/types';
 export type ParseUnitOption = AllowNullish<string>;
 
 export type InputMatchResults = [value: string, wholeUnit: string];
-export type MatchFunction = (input: string) => InputMatchResults | null;
+export type MatchFunction = (input: string) => AllowNullish<InputMatchResults>;
 export type RegExpPattern = RegExp | string;
 export type ParseMatchOption = AllowNullish<RegExpPattern | MatchFunction>;
 

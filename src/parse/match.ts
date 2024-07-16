@@ -10,8 +10,9 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
 
       const captured = matchOption(input);
 
+      // return undefined if nullish return by function
       if (isNullish(captured)) {
-        return null;
+        return;
       }
 
       // throw if it's not an array
@@ -35,9 +36,9 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
     // execute RegExp against input
     const result = reg.exec(input);
 
-    // if it doesn't match, return null
+    // return undefined if it doesn't match
     if (!result) {
-      return null;
+      return;
     }
 
     // get a slice of the result array

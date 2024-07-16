@@ -1,4 +1,4 @@
-import { createParser, type MatchFunction } from '../../src';
+import { createParser, parse, type MatchFunction } from '../../src';
 
 describe('parse "match" option', () => {
 
@@ -62,25 +62,52 @@ describe('parse "match" option', () => {
       expect(parse('anything')).toBeCloseTo(10);
     });
 
-    test('Should return NaN if "match" option as function returns null', () => {
-      const parse = createParser({
-        match: () => null,
+    test('Should return NaN if "match" option as function returns nullish', () => {
+
+      const nullishReturningFunction = [
+        () => null,
+        () => undefined,
+        () => { /**/ },
+      ];
+
+      nullishReturningFunction.forEach((match) => {
+        expect(parse('1k', { match })).toBeNaN();
       });
-      expect(parse('1k')).toBeNaN();
+
     });
 
     test('Should throw if "match" option as function returns non array', () => {
-      const parse = createParser({
-        match: () => ({}) as never,
+
+      const nonArrayReturningFunction = [
+        () => ({}),
+        () => '',
+        () => 'string',
+        () => 0,
+        () => 1,
+        () => NaN,
+        () => Infinity,
+        () => true,
+        () => false,
+      ];
+
+      nonArrayReturningFunction.forEach((match) => {
+        expect(() => parse('1k', { match } as never)).toThrow('match function should return an array of strings');
       });
-      expect(() => parse('1k')).toThrow('match function should return an array of strings');
+
     });
 
     test('Should throw if "match" option as function returns array with less than 2 items', () => {
-      const parse = createParser({
-        match: () => ['10'] as never,
+
+      const invalidArrayReturningFunctions = [
+        [],
+        ['10'],
+      ];
+
+      invalidArrayReturningFunctions.forEach((result) => {
+        const match = () => result as never;
+        const { length } = result;
+        expect(() => parse('1k', { match })).toThrow(`match result array should have 2 items, got ${length}`);
       });
-      expect(() => parse('1k')).toThrow('match result array should have 2 items, got 1');
     });
 
     test('Should receive input as argument', () => {
