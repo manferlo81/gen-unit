@@ -4,9 +4,26 @@ describe('format "unit" option', () => {
 
   describe('"unit" option as string', () => {
 
-    test('Should format number using given unit', () => {
+    test('Should format non finite number using unit', () => {
+
+      const notFiniteValues = [
+        NaN,
+        Infinity,
+        -Infinity,
+      ];
 
       const format = createFormatter({ unit: 'g' });
+
+      notFiniteValues.forEach((value) => {
+        expect(format(value)).toBe(`${value}`);
+      });
+
+    });
+
+    test('Should format number using given unit', () => {
+
+      const unit = 'g';
+      const format = createFormatter({ unit });
 
       const values = [
         { value: 0, expected: '0 ' },
@@ -23,7 +40,7 @@ describe('format "unit" option', () => {
       ];
 
       values.forEach(({ value, expected }) => {
-        expect(format(value)).toBe(`${expected}g`);
+        expect(format(value)).toBe(`${expected}${unit}`);
       });
 
     });

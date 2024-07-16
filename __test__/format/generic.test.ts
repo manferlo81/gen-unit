@@ -8,6 +8,20 @@ describe('generic format', () => {
 
   const format = createFormatter({});
 
+  test('Should format non finite number', () => {
+
+    const notFiniteValues = [
+      NaN,
+      Infinity,
+      -Infinity,
+    ];
+
+    notFiniteValues.forEach((value) => {
+      expect(format(value)).toBe(`${value}`);
+    });
+
+  });
+
   test('Should format number', () => {
 
     const values = [

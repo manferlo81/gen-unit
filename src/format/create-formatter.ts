@@ -1,5 +1,5 @@
 import { errorOptionRemoved } from '../common/error';
-import { isFunction } from '../common/is';
+import { isFiniteNumber, isFunction } from '../common/is';
 import type { DeprecatedFormatGetUnitFunction } from './deprecated-types';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
@@ -42,6 +42,9 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
   const formatOutput = createFormatOutput(output);
 
   return (value: number): string => {
+    if (!isFiniteNumber(value)) {
+      return `${value}`;
+    }
     const item = findUnit(value);
     const { pre, mul: divisor } = item;
     const divided = value / divisor;

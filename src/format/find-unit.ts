@@ -54,7 +54,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
   return (value) => {
 
-    if (!value) {
+    if (value === 0) {
       return unity;
     }
 
