@@ -1,10 +1,10 @@
-import type { AllowNullish } from '../common/helper-types';
+import type { AllowNullish, AllowReturnNullish } from '../common/helper-types';
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
 import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from './deprecated-types';
 
 export type FormatUnitOption = AllowNullish<string>;
 
-export type FormatFindUnitFunction = (value: number) => MultiplierFindItem;
+export type FormatFindUnitFunction = (value: number) => AllowReturnNullish<MultiplierFindItem>;
 export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction> | DeprecatedFormatFindUnitFunction;
 
 export type RoundDecimals = number;

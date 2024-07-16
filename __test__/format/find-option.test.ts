@@ -1,4 +1,4 @@
-import { createFormatter, ExponentFindItems, MICRO } from '../../src';
+import { createFormatter, ExponentFindItems, format, MICRO } from '../../src';
 
 describe('format "find" option', () => {
 
@@ -386,6 +386,20 @@ describe('format "find" option', () => {
       });
 
       expect(format(10)).toBe('5 x');
+
+    });
+
+    test('Should interpret returning nullish as unity', () => {
+
+      const nullishReturningFunctions = [
+        () => null,
+        () => undefined,
+        () => { /* */ },
+      ];
+
+      nullishReturningFunctions.forEach((find) => {
+        expect(format(10000, { find })).toBe('10000');
+      });
 
     });
 

@@ -41,13 +41,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
   const roundNum = createRounder(round);
   const formatOutput = createFormatOutput(output);
 
-  return (value: number): string => {
-    if (!isFiniteNumber(value)) {
-      return `${value}`;
-    }
-    const item = findUnit(value);
-    const { pre, mul: divisor } = item;
-    const divided = value / divisor;
+  const formatWithPre = (divided: number, pre: string) => {
     const rounded = roundNum(divided);
     const computedUnit = getUnit(divided, rounded, pre);
     const result = formatOutput(
@@ -56,6 +50,18 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
       computedUnit,
     );
     return `${result as unknown}`;
+  };
+
+  return (value: number): string => {
+    if (!isFiniteNumber(value)) {
+      return `${value}`;
+    }
+    const item = findUnit(value);
+    if (item == null) {
+      return formatWithPre(value, '');
+    }
+    const { pre, mul: divisor } = item;
+    return formatWithPre(value / divisor, pre);
   };
 
 }
