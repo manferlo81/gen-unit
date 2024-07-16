@@ -1,9 +1,8 @@
-import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
 import type { AllowNullish } from '../common/helper-types';
-import type { DeprecatedFormatFindUnitFunction } from './deprecated-types';
+import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
+import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from './deprecated-types';
 
-export type FormatGetUnitFunction = (value: number, rounded: string | number, pre: string) => string;
-export type FormatUnitOption = AllowNullish<string | FormatGetUnitFunction>;
+export type FormatUnitOption = AllowNullish<string | DeprecatedFormatGetUnitFunction>;
 
 export type FormatFindUnitFunction = (value: number) => MultiplierFindItem;
 export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction | DeprecatedFormatFindUnitFunction>;
