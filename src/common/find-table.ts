@@ -1,7 +1,7 @@
-import type { AllowNullish } from './helper-types';
-import { isArray, isNumber, isObject } from './is';
 import type { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
 import { errorInvalidOption } from './error';
+import type { AllowNullish } from './helper-types';
+import { isArray, isNullish, isNumber, isObject } from './is';
 import { transformFindItems } from './transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types';
 
@@ -16,7 +16,7 @@ function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omi
 export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, validateItems: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
 
   // return default table if "find" option is null or undefined
-  if (find == null) {
+  if (isNullish(find)) {
     return transformFindItems(
       defaultItems,
       1000,
@@ -51,7 +51,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
   const baseAsNumber = base ?? 1000;
 
   // return default items with given base if no items provided
-  if (items == null) {
+  if (isNullish(items)) {
     return transformFindItems(
       defaultItems,
       baseAsNumber,

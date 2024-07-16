@@ -1,11 +1,11 @@
 import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
+import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import type { MultiplierFindItem } from '../common/types';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
 import { defaultBase1000FormatExpItems } from './default-items';
 import type { DivisorFindItem } from './deprecated-types';
-import { validateFormatItems } from './user-items';
 import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
+import { validateFormatItems } from './user-items';
 
 function deprecated_handleResult(result: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
   if ('mul' in result) {
@@ -24,7 +24,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
       const result = find(value);
 
-      if (result == null) {
+      if (isNullish(result)) {
         return;
       }
 

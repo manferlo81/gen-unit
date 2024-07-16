@@ -9,7 +9,5 @@ export type AnyArray = Anything[];
 
 export type TypeCheckFunction<B> = <T extends B>(value: unknown) => value is T;
 
-export type AllowNull<T> = T | null;
-export type AllowNullish<T> = AllowNull<T> | undefined;
-
-export type AllowReturnNullish<T> = AllowNullish<T> | Void;
+export type Nullish = null | undefined | Void;
+export type AllowNullish<T> = T | Nullish;

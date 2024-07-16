@@ -1,6 +1,6 @@
 import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
+import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import { defaultBase1000ParseExpItems } from './default-items';
 import type { ParseFindMultiplierFunction, ParseFindMultiplierOption } from './types';
 import { validateParseItems } from './user-items';
@@ -21,9 +21,9 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
       // find multiplier
       const result = find(pre, unit);
 
-      // return null if no multiplier found (null | undefined)
-      if (result == null) {
-        return null;
+      // return undefined if no multiplier found (null | undefined)
+      if (isNullish(result)) {
+        return;
       }
 
       if (isObject(result)) {
@@ -58,9 +58,9 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
 
     const item = findTable.find(({ pre: prefix }) => prefix === pre);
 
-    // return null if not multiplier found
+    // return undefined if not multiplier found
     if (!item) {
-      return null;
+      return;
     }
 
     const { mul: multiplier } = item;

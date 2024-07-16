@@ -1,5 +1,5 @@
 import { errorInvalidOption, rangeError } from '../common/error';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
+import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import type { FormatOutputFunction, FormatOutputOption } from './types';
 
 function createOutputFormatter(space: string): FormatOutputFunction {
@@ -15,7 +15,7 @@ const oneSpace = ' ';
 export function createFormatOutput(output: FormatOutputOption): FormatOutputFunction {
 
   // return default formatter
-  if (output == null) {
+  if (isNullish(output)) {
     return createOutputFormatter(oneSpace);
   }
 

@@ -1,4 +1,4 @@
-import type { AnyArray, AnyFunction, TypeCheckFunction } from './helper-types';
+import type { AnyArray, AnyFunction, Nullish, TypeCheckFunction } from './helper-types';
 
 interface TypeOfMap {
   number: number;
@@ -12,6 +12,10 @@ function isType<K extends TypeOfResult>(type: K): TypeCheckFunction<TypeOfMap[K]
   return <T extends TypeOfMap[K]>(value: unknown): value is T => {
     return typeof value === type;
   };
+}
+
+export function isNullish(value: unknown): value is Nullish {
+  return value == null;
 }
 
 export const isFunction = isType('function');

@@ -1,5 +1,5 @@
 import { error } from '../common/error';
-import { isArray, isFunction } from '../common/is';
+import { isArray, isFunction, isNullish } from '../common/is';
 import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types';
 
 export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
@@ -10,7 +10,7 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
 
       const captured = matchOption(input);
 
-      if (captured == null) {
+      if (isNullish(captured)) {
         return null;
       }
 
@@ -26,7 +26,7 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
 
   }
 
-  const reg = matchOption == null
+  const reg = isNullish(matchOption)
     ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
     : new RegExp(matchOption);
 

@@ -1,5 +1,5 @@
 import { errorOptionRemoved } from '../common/error';
-import { isFiniteNumber, isFunction } from '../common/is';
+import { isFiniteNumber, isFunction, isNullish } from '../common/is';
 import type { DeprecatedFormatGetUnitFunction } from './deprecated-types';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
@@ -57,7 +57,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
       return `${value}`;
     }
     const item = findUnit(value);
-    if (item == null) {
+    if (isNullish(item)) {
       return formatWithPre(value, '');
     }
     const { pre, mul: divisor } = item;

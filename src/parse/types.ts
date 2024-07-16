@@ -1,5 +1,5 @@
+import type { AllowNullish } from '../common/helper-types';
 import type { DeclarativeFindUnit } from '../common/types';
-import type { AllowNullish, AllowReturnNullish } from '../common/helper-types';
 
 export type ParseUnitOption = AllowNullish<string>;
 
@@ -9,7 +9,7 @@ export type RegExpPattern = RegExp | string;
 export type ParseMatchOption = AllowNullish<RegExpPattern | MatchFunction>;
 
 export type ParseMultiplier = number;
-export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (pre: string, unit: U) => AllowReturnNullish<ParseMultiplier>;
+export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (pre: string, unit: U) => AllowNullish<ParseMultiplier>;
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = AllowNullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>;
 
 interface CreateParserOptionsBase<U extends ParseUnitOption> {

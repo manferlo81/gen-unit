@@ -1,6 +1,6 @@
 import { errorInvalidOption, rangeError } from '../common/error';
 import type { AllowNullish } from '../common/helper-types';
-import { isFiniteNumber, isFunction, isNumber, isObject } from '../common/is';
+import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {
@@ -29,7 +29,7 @@ export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): R
 export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // return default rounder if no "round" option
-  if (round == null) {
+  if (isNullish(round)) {
     return createRounderWith(2);
   }
 
@@ -52,7 +52,7 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
   // get data from advanced round object
   const { dec, fixed } = round;
 
-  if (dec == null) {
+  if (isNullish(dec)) {
     return createRounderWith(
       2,
       fixed,
