@@ -3,7 +3,7 @@ import { isFiniteNumber, isNumber } from '../common/is';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import { createMatcher } from './match';
-import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
+import type { CreateParserOptions, CreateParserOptionsWithoutUnit, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
 
 /**
  * Create a new parser
@@ -11,8 +11,9 @@ import type { CreateParserOptions, CreateParserOptionsWithUnit, ParseInput, Pars
  * @returns the parser
  */
 export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser;
-export function createParser(options?: CreateParserOptions): Parser;
-export function createParser(options: CreateParserOptions = {}): Parser {
+export function createParser(options: CreateParserOptionsWithoutUnit): Parser;
+export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser;
+export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 
   if ('table' in options) {
     throw errorOptionRemoved('table', 'find');
@@ -22,7 +23,7 @@ export function createParser(options: CreateParserOptions = {}): Parser {
     unit,
     match: matchOption,
     find,
-  } = options;
+  } = options as CreateParserOptions;
 
   const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);

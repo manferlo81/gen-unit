@@ -28,13 +28,13 @@ interface CreateFormatterOptionsBase<U extends string> {
   readonly output?: FormatOutputOption<U>;
 }
 
-export interface CreateFormatterOptions extends CreateFormatterOptionsBase<string> {
-  readonly unit?: FormatUnitOption | DeprecatedFormatGetUnitFunction;
-}
+export type CreateFormatterOptionsWithoutUnit = CreateFormatterOptionsBase<string>;
 
 export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends CreateFormatterOptionsBase<U extends string ? U : string> {
   readonly unit: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>;
 }
+
+export type CreateFormatterOptions = Partial<CreateFormatterOptionsWithUnit<FormatUnitOption>>;
 
 export type FormatInput = number;
 export type Formatter = (value: FormatInput) => string;

@@ -17,13 +17,13 @@ interface CreateParserOptionsBase<U extends ParseUnitOption> {
   readonly find?: ParseFindMultiplierOption<U>;
 }
 
-export interface CreateParserOptions extends CreateParserOptionsBase<ParseUnitOption> {
-  readonly unit?: ParseUnitOption;
-}
+export type CreateParserOptionsWithoutUnit = CreateParserOptionsBase<undefined>;
 
 export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptionsBase<U> {
   readonly unit: U;
 }
+
+export type CreateParserOptions = Partial<CreateParserOptionsWithUnit<ParseUnitOption>>;
 
 export type ParseInput = unknown;
 export type Parser = (input: ParseInput) => number;

@@ -4,7 +4,7 @@ import type { DeprecatedFormatGetUnitFunction } from './deprecated-types';
 import { createUnitFinder } from './find-unit';
 import { createFormatOutput } from './output';
 import { createRounder } from './round';
-import type { CreateFormatterOptions, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types';
+import type { CreateFormatterOptions, CreateFormatterOptionsWithoutUnit, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types';
 
 /**
  * Create a new formatter
@@ -13,6 +13,7 @@ import type { CreateFormatterOptions, CreateFormatterOptionsWithUnit, Formatter,
  * @returns formatter
  */
 export function createFormatter<U extends FormatUnitOption>(options: CreateFormatterOptionsWithUnit<U>): Formatter;
+export function createFormatter(options: CreateFormatterOptionsWithoutUnit): Formatter;
 export function createFormatter(options?: CreateFormatterOptions): Formatter;
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
@@ -45,10 +46,11 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
     const { pre, mul: divisor } = item;
     const divided = value / divisor;
     const rounded = roundNum(divided);
+    const computedUnit = getUnit(divided, rounded, pre);
     const result = formatOutput(
       rounded,
       pre,
-      getUnit(divided, rounded, pre),
+      computedUnit,
     );
     return `${result as unknown}`;
   };
