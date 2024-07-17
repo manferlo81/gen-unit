@@ -12,12 +12,12 @@ export function createExtractPre(unit: ParseUnitOption): ExtractPrefixFunction {
       return wholeUnit.slice(0, -unitLength);
     }
 
-    // return whole unit
+    // return whole unit as prefix
     return wholeUnit;
 
   };
 
-  // return whole unit
+  // return whole unit as prefix
   return (wholeUnit) => wholeUnit;
 
 }

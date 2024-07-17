@@ -5,7 +5,7 @@ import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types
 export function createMatcher(match: ParseMatchOption): MatchFunction {
 
   // return wrapped function if match option is a function
-  // wrap function to test for invalid result
+  // wrap function to test for result validity
   if (isFunction(match)) return (input) => {
 
     // call user function
@@ -32,6 +32,7 @@ export function createMatcher(match: ParseMatchOption): MatchFunction {
     ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
     : new RegExp(match);
 
+  // return input match function
   return (input) => {
 
     // execute RegExp against input

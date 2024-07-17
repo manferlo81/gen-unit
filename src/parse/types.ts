@@ -9,7 +9,7 @@ export type RegExpPattern = RegExp | string;
 export type ParseMatchOption = AllowNullish<RegExpPattern | MatchFunction>;
 
 export type ParseMultiplier = number;
-export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (pre: string, unit: U) => AllowNullish<ParseMultiplier>;
+export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (prefix: string, unit: U) => AllowNullish<ParseMultiplier>;
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = AllowNullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>;
 
 interface CreateParserOptionsBase<U extends ParseUnitOption> {

@@ -4,18 +4,26 @@ import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../co
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {
+
+  // throw if number of decimals is invalid
   if (!isFiniteNumber(dec) || dec < 0) throw rangeError(`Can't create round function with ${dec} decimal.`);
+
+  // return valid number of decimals
   return dec;
+
 }
 
 export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
+  // return fixed rounder function if fixed member set
   if (fixed) return (num: number): string => {
     return num.toFixed(dec);
   };
 
+  // compute round multiplier
   const roundMultiplier = 10 ** dec;
 
+  // return regular rounder function
   return (num: number): number => {
     return Math.round(num * roundMultiplier) / roundMultiplier;
   };
@@ -24,13 +32,13 @@ export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boole
 
 export function createRounder(round: FormatRoundOption): RoundFunction {
 
-  // return default rounder if no "round" option
+  // return default rounder if round option is nullish
   if (isNullish(round)) return createRounderFromOptions(2);
 
   // return user option if it's a function
   if (isFunction(round)) return round;
 
-  // create rounder with number of decimals provided if it's a number
+  // return rounder with round option as number of decimals if it's a number
   if (isNumber(round)) return createRounderFromOptions(
     validateNumberOfDecimals(round),
   );
@@ -38,15 +46,16 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
   // throw if round option is not an object at this point
   if (!isObject(round)) throw errorInvalidOption('round');
 
-  // get data from advanced round object
+  // get members from advanced round option
   const { dec, fixed } = round;
 
   if (isNullish(dec)) return createRounderFromOptions(2, fixed);
 
   // TODO: throw more descriptive error
+  // throw if dec member is not a number
   if (!isNumber(dec)) throw errorInvalidOption('round');
 
-  // return rounder with provided options
+  // return rounder based on advanced options
   return createRounderFromOptions(
     validateNumberOfDecimals(dec),
     fixed,

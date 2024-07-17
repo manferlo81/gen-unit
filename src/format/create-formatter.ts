@@ -8,9 +8,14 @@ import type { CreateFormatterOptions, CreateFormatterOptionsWithoutUnit, CreateF
 
 /** @deprecated */
 function deprecated_createGetUnit(unit: FormatUnitOption | DeprecatedFormatGetUnitFunction): DeprecatedFormatGetUnitFunction {
+
+  // return unit option if it's a function (deprecated)
   if (isFunction(unit)) return unit;
+
+  // return a function returning normalized unit
   const normalizedUnit = unit ?? '';
   return () => normalizedUnit;
+
 }
 
 /**

@@ -33,10 +33,10 @@ export function createOutputFormatter(output: FormatOutputOption): FormatOutputF
   // throw if option is not an object at this point
   if (!isObject(output)) throw errorInvalidOption('output');
 
-  // get sub-options
+  // get option members
   const { space } = output;
 
-  // if space sub-option is a number
+  // if space member is a number
   if (isNumber(space)) {
 
     // throw if it's invalid number of spaces

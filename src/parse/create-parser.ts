@@ -1,5 +1,5 @@
 import { error, errorOptionRemoved } from '../common/error';
-import { isFiniteNumber, isNumber } from '../common/is';
+import { isFiniteNumber, isNullish, isNumber } from '../common/is';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import { createMatcher } from './match';
@@ -30,6 +30,7 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
   const findMultiplier = createMulFinder(find);
   const matchInput = createMatcher(match);
 
+  // return parser function
   return (input: ParseInput): number => {
 
     // if input is of type number (number, NaN or Infinity)
@@ -49,7 +50,7 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     // convert input (probably non-empty string or object) to string
     const inputAsString = `${input as never}`;
 
-    // return NaN if value is empty string ('')
+    // return NaN if input as string is empty ('')
     if (!inputAsString) return NaN;
 
     // convert string to number
@@ -58,10 +59,10 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     // return number if string as number is finite (not NaN or Infinity)
     if (isFiniteNumber(inputAsNumber)) return inputAsNumber;
 
-    // capture value & unit from string
+    // capture value and unit from string
     const captured = matchInput(inputAsString);
 
-    // return NaN if can't capture value & unit
+    // return NaN if can't capture value and unit
     if (!captured) return NaN;
 
     // get captured array length
@@ -70,7 +71,7 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     // throw if captured array has less that 2 items
     if (length < 2) throw error(`Match result array should have 2 items, got ${length}`);
 
-    // get value & unit from captured
+    // get value and unit from captured array
     const [capturedValueAsString, wholeUnit] = captured;
 
     // return NaN if captured value is empty string ('')
@@ -79,7 +80,7 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     // convert captured value to number
     const capturedValueAsNumber = +capturedValueAsString;
 
-    // return NaN if value is not finite
+    // return NaN if captured value as number is not finite
     if (!isFiniteNumber(capturedValueAsNumber)) return NaN;
 
     // extract prefix from whole unit
@@ -89,9 +90,9 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     const multiplier = findMultiplier(pre, unit);
 
     // return NaN if can't find multiplier
-    if (!multiplier) return NaN;
+    if (isNullish(multiplier)) return NaN;
 
-    // return value * multiplier
+    // return parsed value
     return capturedValueAsNumber * multiplier;
 
   };

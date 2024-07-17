@@ -13,6 +13,7 @@ function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omi
 
   // handle deprecated option
   // use deprecated 'find' member as modern 'items' member
+  // return modern option based on deprecated option
   const { find: items, base } = find;
   return { items, base };
 

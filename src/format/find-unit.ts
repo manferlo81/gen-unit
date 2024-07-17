@@ -14,6 +14,7 @@ function deprecated_handleResult(item: MultiplierFindItem | DivisorFindItem): Mu
   if ('mul' in item) return item;
 
   // use deprecated 'div' member as modern 'mul' member
+  // return modern item based on deprecated item
   const { pre, div: mul } = item;
   return { pre, mul };
 
@@ -21,35 +22,32 @@ function deprecated_handleResult(item: MultiplierFindItem | DivisorFindItem): Mu
 
 export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunction {
 
-  // return wrapped function if option it's a function
-  if (isFunction(find)) {
+  // return wrapped user function if option it's a function
+  // wrap function to test for result validity
+  if (isFunction(find)) return (value) => {
 
-    return (value) => {
+    // call user function
+    const result = find(value);
 
-      // call user function
-      const result = find(value);
+    // return undefined if user function returns nullish
+    if (isNullish(result)) return;
 
-      // return undefined if user function returns nullish
-      if (isNullish(result)) return;
+    // throw if user function return non-object
+    if (!isObject(result)) throw error(`${result} is not a valid return value for "find" option`);
 
-      // throw if user function return non-object
-      if (!isObject(result)) throw error(`${result} is not a valid return value for "find" option`);
+    // normalize result for deprecated result
+    // get prefix and multiplier
+    const { pre, mul } = deprecated_handleResult(result);
 
-      // normalize result for deprecated result
-      // get prefix and multiplier
-      const { pre, mul } = deprecated_handleResult(result);
+    // throw if multiplier is invalid
+    if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) throw rangeError(`${mul} is not a valid multiplier`);
 
-      // throw if multiplier is invalid
-      if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) throw rangeError(`${mul} is not a valid multiplier`);
+    // return prefix and multiplier
+    return { pre, mul };
 
-      // return prefix and multiplier
-      return { pre, mul };
+  };
 
-    };
-
-  }
-
-  // create table based on option
+  // create find table
   const findTable = createFindTable(
     find,
     defaultBase1000FormatExpItems,
