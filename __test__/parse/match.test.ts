@@ -17,7 +17,7 @@ describe('parse "match" option', () => {
       const parse = createParser({
         match: /^\s*([\d.]+)\s*[a-z]*\s*$/i,
       });
-      expect(() => parse('10m')).toThrow('match result array should have 2 items, got 1');
+      expect(() => parse('10m')).toThrow('Match result array should have 2 items, got 1');
     });
 
   });
@@ -36,7 +36,7 @@ describe('parse "match" option', () => {
       const parse = createParser({
         match: '^\\s*[\\d.]+\\s*[a-z]*\\s*$',
       });
-      expect(() => parse('10 x')).toThrow('match result array should have 2 items, got 0');
+      expect(() => parse('10 x')).toThrow('Match result array should have 2 items, got 0');
     });
 
   });
@@ -91,7 +91,7 @@ describe('parse "match" option', () => {
       ];
 
       nonArrayReturningFunction.forEach((match) => {
-        expect(() => parse('1k', { match } as never)).toThrow('match function should return an array of strings');
+        expect(() => parse('1k', { match } as never)).toThrow('Match function should return an array of strings');
       });
 
     });
@@ -106,7 +106,7 @@ describe('parse "match" option', () => {
       invalidArrayReturningFunctions.forEach((result) => {
         const match = () => result as never;
         const { length } = result;
-        expect(() => parse('1k', { match })).toThrow(`match result array should have 2 items, got ${length}`);
+        expect(() => parse('1k', { match })).toThrow(`Match result array should have 2 items, got ${length}`);
       });
     });
 

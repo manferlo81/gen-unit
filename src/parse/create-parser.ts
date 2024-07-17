@@ -6,28 +6,29 @@ import { createMatcher } from './match';
 import type { CreateParserOptions, CreateParserOptionsWithoutUnit, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types';
 
 /**
- * Create a new parser
+ * Create a parser function
+ *
  * @param options parser options
- * @returns the parser
  */
 export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser;
 export function createParser(options: CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 
+  // throw if deprecated table option present
   if ('table' in options) {
     throw errorOptionRemoved('table', 'find');
   }
 
   const {
     unit,
-    match: matchOption,
+    match,
     find,
   } = options as CreateParserOptions;
 
   const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);
-  const match = createMatcher(matchOption);
+  const matchInput = createMatcher(match);
 
   return (input: ParseInput): number => {
 
@@ -59,17 +60,19 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     }
 
     // capture value & unit from string
-    const captured = match(inputAsString);
+    const captured = matchInput(inputAsString);
 
     // return NaN if can't capture value & unit
     if (!captured) {
       return NaN;
     }
 
+    // get captured array length
     const { length } = captured as string[];
 
+    // throw if captured array has less that 2 items
     if (length < 2) {
-      throw error(`match result array should have 2 items, got ${length}`);
+      throw error(`Match result array should have 2 items, got ${length}`);
     }
 
     // get value & unit from captured

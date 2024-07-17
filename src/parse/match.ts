@@ -2,13 +2,13 @@ import { error } from '../common/error';
 import { isArray, isFunction, isNullish } from '../common/is';
 import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types';
 
-export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
+export function createMatcher(match: ParseMatchOption): MatchFunction {
 
-  if (isFunction(matchOption)) {
+  if (isFunction(match)) {
 
     return (input) => {
 
-      const captured = matchOption(input);
+      const captured = match(input);
 
       // return undefined if nullish return by function
       if (isNullish(captured)) {
@@ -16,8 +16,8 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
       }
 
       // throw if it's not an array
-      if (!isArray<string[]>(captured)) {
-        throw error('match function should return an array of strings');
+      if (!isArray(captured)) {
+        throw error('Match function should return an array of strings');
       }
 
       // return array
@@ -27,9 +27,9 @@ export function createMatcher(matchOption: ParseMatchOption): MatchFunction {
 
   }
 
-  const reg = isNullish(matchOption)
+  const reg = isNullish(match)
     ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
-    : new RegExp(matchOption);
+    : new RegExp(match);
 
   return (input) => {
 

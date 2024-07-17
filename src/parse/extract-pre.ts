@@ -1,19 +1,13 @@
 import type { ParseUnitOption } from './types';
 
-type ExtractPreFunction = (wholeUnit: string) => string;
+type ExtractPrefixFunction = (wholeUnit: string) => string;
 
-/**
- * Create a extractPre function
- *
- * @param unit parser "unit" options
- * @returns extractPre function
- */
-export function createExtractPre(unit: ParseUnitOption): ExtractPreFunction {
+export function createExtractPre(unit: ParseUnitOption): ExtractPrefixFunction {
 
   if (unit) {
     return (wholeUnit) => {
       if (wholeUnit.endsWith(unit)) {
-        const unitLength = unit.length;
+        const { length: unitLength } = unit;
         return wholeUnit.slice(0, -unitLength);
       }
       return wholeUnit;
