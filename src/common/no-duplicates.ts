@@ -6,11 +6,9 @@ export function noDuplicates(items: ExponentFindItems, key: keyof ExponentFindIt
   const { length } = items;
 
   for (let i1 = 0; i1 < length - 1; i1++) {
-    const value = items[i1][key];
+    const iut = items[i1][key];
     for (let i2 = i1 + 1; i2 < length; i2++) {
-      if (items[i2][key] === value) {
-        throw error(`Duplicated ${str} (${value})`);
-      }
+      if (items[i2][key] === iut) throw error(`Duplicated ${str} (${iut})`);
     }
   }
 

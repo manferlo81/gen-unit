@@ -4,19 +4,15 @@ import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../co
 import type { FormatRoundOption, RoundFunction } from './types';
 
 function validateNumberOfDecimals(dec: number): number {
-  if (!isFiniteNumber(dec) || dec < 0) {
-    throw rangeError(`Can't create round function with ${dec} decimal.`);
-  }
+  if (!isFiniteNumber(dec) || dec < 0) throw rangeError(`Can't create round function with ${dec} decimal.`);
   return dec;
 }
 
-export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
+export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
-  if (fixed) {
-    return (num: number): string => {
-      return num.toFixed(dec);
-    };
-  }
+  if (fixed) return (num: number): string => {
+    return num.toFixed(dec);
+  };
 
   const roundMultiplier = 10 ** dec;
 
@@ -29,43 +25,29 @@ export function createRounderWith(dec: number, fixed?: AllowNullish<boolean>): R
 export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // return default rounder if no "round" option
-  if (isNullish(round)) {
-    return createRounderWith(2);
-  }
+  if (isNullish(round)) return createRounderFromOptions(2);
 
   // return user option if it's a function
-  if (isFunction(round)) {
-    return round;
-  }
+  if (isFunction(round)) return round;
 
   // create rounder with number of decimals provided if it's a number
-  if (isNumber(round)) {
-    return createRounderWith(
-      validateNumberOfDecimals(round),
-    );
-  }
+  if (isNumber(round)) return createRounderFromOptions(
+    validateNumberOfDecimals(round),
+  );
 
-  if (!isObject(round)) {
-    throw errorInvalidOption('round');
-  }
+  // throw if round option is not an object at this point
+  if (!isObject(round)) throw errorInvalidOption('round');
 
   // get data from advanced round object
   const { dec, fixed } = round;
 
-  if (isNullish(dec)) {
-    return createRounderWith(
-      2,
-      fixed,
-    );
-  }
+  if (isNullish(dec)) return createRounderFromOptions(2, fixed);
 
-  if (!isNumber(dec)) {
-    // TODO: throw more descriptive error
-    throw errorInvalidOption('round');
-  }
+  // TODO: throw more descriptive error
+  if (!isNumber(dec)) throw errorInvalidOption('round');
 
   // return rounder with provided options
-  return createRounderWith(
+  return createRounderFromOptions(
     validateNumberOfDecimals(dec),
     fixed,
   );

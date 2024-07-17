@@ -4,48 +4,48 @@ import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types
 
 export function createMatcher(match: ParseMatchOption): MatchFunction {
 
-  if (isFunction(match)) {
+  // return wrapped function if match option is a function
+  // wrap function to test for invalid result
+  if (isFunction(match)) return (input) => {
 
-    return (input) => {
+    // call user function
+    const captured = match(input);
 
-      const captured = match(input);
+    // return undefined if nullish return by user function
+    if (isNullish(captured)) {
+      return;
+    }
 
-      // return undefined if nullish return by function
-      if (isNullish(captured)) {
-        return;
-      }
+    // throw if it's not an array
+    if (!isArray(captured)) {
+      throw error('Match function should return an array of strings');
+    }
 
-      // throw if it's not an array
-      if (!isArray(captured)) {
-        throw error('Match function should return an array of strings');
-      }
+    // return array
+    // array validation will happen later
+    return captured;
 
-      // return array
-      return captured;
+  };
 
-    };
-
-  }
-
-  const reg = isNullish(match)
+  // create regular expression based on option
+  const re = isNullish(match)
     ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
     : new RegExp(match);
 
   return (input) => {
 
     // execute RegExp against input
-    const result = reg.exec(input);
+    const result = re.exec(input);
 
     // return undefined if it doesn't match
-    if (!result) {
-      return;
-    }
+    if (!result) return;
 
-    // get a slice of the result array
-    const resultAsArray = result.slice(1, 3) as InputMatchResults;
+    // get a slice of the result array containing the captured groups only
+    const resultAsArray = result.slice(1);
 
     // return array
-    return resultAsArray;
+    // array validation will happen later
+    return resultAsArray as InputMatchResults;
 
   };
 
