@@ -39,15 +39,15 @@ describe('parse "match" option', () => {
       expect(() => parse('10 x')).toThrow('Match result array should have 2 items, got 0');
     });
 
-  });
-
-  test('Should coerce "match" option to string', () => {
-    const match = { toString: () => '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$' } as never;
-    const parse = createParser({
-      match,
-      find: [{ pre: 'x', exp: 0 }],
+    test('Should coerce "match" option to string', () => {
+      const match = { toString: () => '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$' } as never;
+      const parse = createParser({
+        match,
+        find: [{ pre: 'x', exp: 0 }],
+      });
+      expect(parse('10 x')).toBeCloseTo(10);
     });
-    expect(parse('10 x')).toBeCloseTo(10);
+
   });
 
   describe('"match" option as function', () => {

@@ -20,22 +20,45 @@ describe('parse "find" option', () => {
 
   });
 
-  test('Should use "find" option as base if it\'s a number', () => {
+  test('Should throw if "find" option result in an invalid multiplier', () => {
 
-    const base = 1024;
-    const parse = createParser({
-      find: base,
-    });
-
-    const values = [
-      { value: '1.2m', expected: 1.2 * base ** -1 },
-      { value: '1.2k', expected: 1.2 * 1024 },
-      { value: '1.2M', expected: 1.2 * 1024 ** 2 },
-      { value: '1.2G', expected: 1.2 * 1024 ** 3 },
+    const invalidFindOptions: ParseFindMultiplierOption[] = [
+      0,
+      { base: 0 },
+      NaN,
+      [{ pre: 'k', exp: NaN }],
+      { base: NaN },
+      { items: [{ pre: 'k', exp: NaN }] },
     ];
 
-    values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 6);
+    invalidFindOptions.forEach((options) => {
+      const create = () => createParser({ find: options });
+      expect(create).toThrow(RangeError);
+      expect(create).toThrow('is not a valid multiplier');
+    });
+
+  });
+
+  describe('"find" option as number', () => {
+
+    test('Should use "find" option as base if it\'s a number', () => {
+
+      const base = 1024;
+      const parse = createParser({
+        find: base,
+      });
+
+      const values = [
+        { value: '1.2m', expected: 1.2 * base ** -1 },
+        { value: '1.2k', expected: 1.2 * 1024 },
+        { value: '1.2M', expected: 1.2 * 1024 ** 2 },
+        { value: '1.2G', expected: 1.2 * 1024 ** 3 },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(parse(value)).toBeCloseTo(expected, 6);
+      });
+
     });
 
   });
@@ -400,25 +423,6 @@ describe('parse "find" option', () => {
 
       });
 
-    });
-
-  });
-
-  test('Should throw if "find" option result in an invalid multiplier', () => {
-
-    const invalidFindOptions: ParseFindMultiplierOption[] = [
-      0,
-      { base: 0 },
-      NaN,
-      [{ pre: 'k', exp: NaN }],
-      { base: NaN },
-      { items: [{ pre: 'k', exp: NaN }] },
-    ];
-
-    invalidFindOptions.forEach((options) => {
-      const create = () => createParser({ find: options });
-      expect(create).toThrow(RangeError);
-      expect(create).toThrow('is not a valid multiplier');
     });
 
   });

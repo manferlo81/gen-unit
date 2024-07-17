@@ -20,26 +20,6 @@ describe('format "round" option', () => {
 
   });
 
-  test('Should throw on invalid number "round" option', () => {
-
-    const values = [
-      -1,
-      -10,
-      NaN,
-      Infinity,
-      -Infinity,
-    ];
-
-    values.forEach((invalid) => {
-      const create = () => createFormatter({
-        round: invalid,
-      });
-      expect(create).toThrow(RangeError);
-      expect(create).toThrow('Can\'t create round function with');
-    });
-
-  });
-
   test('Should default to 2 decimal places', () => {
 
     const values = [
@@ -56,27 +36,51 @@ describe('format "round" option', () => {
 
   });
 
-  test('Should use "round" option as decimals if it\'s a number', () => {
+  describe('"round" option as a number', () => {
 
-    const values = [
-      { value: 10.111111, dec: 0, expected: '10' },
-      { value: 10.111111, dec: 1, expected: '10.1' },
-      { value: 10.111111, dec: 2, expected: '10.11' },
-      { value: 10.111111, dec: 3, expected: '10.111' },
-    ];
+    test('Should throw if "round" option as number is not a valid number of decimal', () => {
 
-    values.forEach(({ value, dec, expected }) => {
-      const format = createFormatter({
-        round: dec,
+      const values = [
+        -1,
+        -10,
+        NaN,
+        Infinity,
+        -Infinity,
+      ];
+
+      values.forEach((invalid) => {
+        const create = () => createFormatter({
+          round: invalid,
+        });
+        expect(create).toThrow(RangeError);
+        expect(create).toThrow('Can\'t create round function with');
       });
-      expect(format(value)).toBe(expected);
+
+    });
+
+    test('Should use "round" option as decimals if it\'s a number', () => {
+
+      const values = [
+        { value: 10.111111, dec: 0, expected: '10' },
+        { value: 10.111111, dec: 1, expected: '10.1' },
+        { value: 10.111111, dec: 2, expected: '10.11' },
+        { value: 10.111111, dec: 3, expected: '10.111' },
+      ];
+
+      values.forEach(({ value, dec, expected }) => {
+        const format = createFormatter({
+          round: dec,
+        });
+        expect(format(value)).toBe(expected);
+      });
+
     });
 
   });
 
   describe('"round" option as object', () => {
 
-    test('Should throw if "dec" sub-option is not a number', () => {
+    test('Should throw if "dec" member is not a number', () => {
 
       const values = [
         'not-a-number',
@@ -94,7 +98,7 @@ describe('format "round" option', () => {
 
     });
 
-    test('Should throw if "dec" sub-option is an invalid number', () => {
+    test('Should throw if "dec" member is not a valid number of decimal', () => {
 
       const values = [
         -1,
@@ -146,6 +150,30 @@ describe('format "round" option', () => {
       });
 
       values.forEach(({ value, expected }) => {
+        expect(format(value)).toBe(expected);
+      });
+
+    });
+
+    test('Should format with given fixed number of decimals', () => {
+
+      const values = [
+        { value: 10, dec: 0, expected: '10' },
+        { value: 10, dec: 1, expected: '10.0' },
+        { value: 10, dec: 2, expected: '10.00' },
+        { value: 10, dec: 3, expected: '10.000' },
+        { value: 10.1, dec: 0, expected: '10' },
+        { value: 10.11, dec: 1, expected: '10.1' },
+        { value: 10.111, dec: 2, expected: '10.11' },
+        { value: 10.1111, dec: 3, expected: '10.111' },
+        { value: 10.9, dec: 0, expected: '11' },
+        { value: 10.99, dec: 1, expected: '11.0' },
+        { value: 10.999, dec: 2, expected: '11.00' },
+        { value: 10.9999, dec: 3, expected: '11.000' },
+      ];
+
+      values.forEach(({ value, dec, expected }) => {
+        const format = createFormatter({ round: { dec, fixed: true } });
         expect(format(value)).toBe(expected);
       });
 

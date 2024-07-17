@@ -30,7 +30,7 @@ describe('format "unit" option', () => {
         { value: 3e-15, expected: '3 f' },
         { value: 3e-12, expected: '3 p' },
         { value: 3e-9, expected: '3 n' },
-        { value: 3e-6, expected: `3 ${MICRO}` },
+        { value: 3e-6, expected: '3 \xb5' },
         { value: 3e-3, expected: '3 m' },
         { value: 3, expected: '3 ' },
         { value: 3e3, expected: '3 k' },

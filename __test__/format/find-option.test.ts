@@ -46,31 +46,35 @@ describe('format "find" option', () => {
 
   });
 
-  test('Should use "find" option as number', () => {
+  describe('"find" option as number', () => {
 
-    const base = 1024;
-    const format = createFormatter({
-      find: base,
-    });
+    test('Should use "find" option as number', () => {
 
-    const values = [
-      { value: 0, expected: '0' },
-      { value: 0.5, expected: '512 m' },
-      { value: 500, expected: '500' },
-      { value: 1.2 * base ** 4, expected: '1.2 T' },
-      { value: 1.2 * base ** 3, expected: '1.2 G' },
-      { value: 1.2 * base ** 2, expected: '1.2 M' },
-      { value: 1.2 * base ** 1, expected: '1.2 k' },
-      { value: 1.2 * base ** 0, expected: '1.2' },
-      { value: 1.2 * base ** -1, expected: '1.2 m' },
-      { value: 1.2 * base ** -2, expected: `1.2 ${MICRO}` },
-      { value: 1.2 * base ** -3, expected: '1.2 n' },
-      { value: 1.2 * base ** -4, expected: '1.2 p' },
-      { value: 1.2 * base ** -5, expected: '1.2 f' },
-    ];
+      const base = 1024;
+      const format = createFormatter({
+        find: base,
+      });
 
-    values.forEach(({ value, expected }) => {
-      expect(format(value)).toBe(expected);
+      const values = [
+        { value: 0, expected: '0' },
+        { value: 0.5, expected: '512 m' },
+        { value: 500, expected: '500' },
+        { value: 1.2 * base ** 4, expected: '1.2 T' },
+        { value: 1.2 * base ** 3, expected: '1.2 G' },
+        { value: 1.2 * base ** 2, expected: '1.2 M' },
+        { value: 1.2 * base ** 1, expected: '1.2 k' },
+        { value: 1.2 * base ** 0, expected: '1.2' },
+        { value: 1.2 * base ** -1, expected: '1.2 m' },
+        { value: 1.2 * base ** -2, expected: `1.2 ${MICRO}` },
+        { value: 1.2 * base ** -3, expected: '1.2 n' },
+        { value: 1.2 * base ** -4, expected: '1.2 p' },
+        { value: 1.2 * base ** -5, expected: '1.2 f' },
+      ];
+
+      values.forEach(({ value, expected }) => {
+        expect(format(value)).toBe(expected);
+      });
+
     });
 
   });
