@@ -13,11 +13,11 @@
   ],
   "type": "commonjs",
   "exports": {
-    "default": "./dist/gen-unit.cjs",
+    "types": "./dist/types/index.d.ts",
     "require": "./dist/gen-unit.cjs",
-    "import": "./dist/gen-unit.mjs",
     "node": "./dist/gen-unit.cjs",
-    "types": "./dist/types/index.d.ts"
+    "import": "./dist/gen-unit.mjs",
+    "default": "./dist/gen-unit.cjs"
   },
   "main": "./dist/gen-unit.cjs",
   "module": "./dist/gen-unit.mjs",
