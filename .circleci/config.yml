@@ -4,24 +4,13 @@ orbs:
   codecov: codecov/codecov@4.1.0
 
 executors:
-  node_18:
+  executor_node_18:
     docker:
       - image: cimg/node:18.20.3
-    working_directory: &working_directory ~/gen-unit
+    working_directory: ~/gen-unit
 
 commands:
-  npm_publish:
-    steps:
-      - run:
-          name: Login to npm
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run:
-          name: Publish to npm
-          command: npm publish
-
-jobs:
-  test_and_build:
-    executor: node_18
+  command_checkout_cache_install:
     steps:
       - checkout
       - restore_cache:
@@ -35,52 +24,75 @@ jobs:
           paths:
             - node_modules
           key: v1-deps-gen-unit-{{ checksum "package-lock.json" }}
+
+  command_save_workspace:
+    steps:
+      - persist_to_workspace:
+          root: ~/gen-unit
+          paths:
+            - .
+
+  command_restore_workspace:
+    steps:
+      - attach_workspace:
+          at: ~/gen-unit
+
+  command_publish_to_npm:
+    steps:
+      - run:
+          name: Login to npm
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: Publish to npm
+          command: npm publish
+
+jobs:
+  job_test_and_build:
+    executor: executor_node_18
+    steps:
+      - command_checkout_cache_install
       - run:
           name: Test
           command: npm test
       - run:
           name: Build
           command: npm run build
-      - persist_to_workspace:
-          root: *working_directory
-          paths:
-            - .
+      - command_save_workspace
 
-  upload_coverage:
-    executor: node_18
+  job_upload_coverage:
+    executor: executor_node_18
     steps:
-      - attach_workspace: &attach_workspace
-          at: *working_directory
+      - command_restore_workspace
       - codecov/upload:
           file: coverage/*.json
 
-  publish_to_npm:
-    executor: node_18
+  job_publish_to_npm:
+    executor: executor_node_18
     steps:
-      - attach_workspace: *attach_workspace
-      - npm_publish
+      - command_restore_workspace
+      - command_publish_to_npm
 
 workflows:
-  main-workflow:
+  workflow_ci:
     jobs:
-      - test_and_build:
+      - job_test_and_build:
           filters:
             tags:
               only: /.*/
             branches:
               only: /.*/
 
-      - upload_coverage:
+      - job_upload_coverage:
           requires:
-            - test_and_build
+            - job_test_and_build
           filters:
             branches:
               only: /master/
 
-      - publish_to_npm:
+      - job_publish_to_npm:
           context: npm
           requires:
-            - test_and_build
+            - job_test_and_build
           filters:
             tags:
               only: /^v\d+\.\d+\.\d+$/
