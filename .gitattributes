@@ -1,9 +1,9 @@
 [core]
-  safecrlf=true
   autocrlf=true
+  eol=crlf
 
 *         text=auto
-*.js      text
-*.ts      text
-*.json    text
-*.yml     text
+*.js      text     eol=crlf
+*.ts      text     eol=crlf
+*.json    text     eol=crlf
+*.yml     text     eol=crlf
