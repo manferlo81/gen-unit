@@ -6,24 +6,38 @@ orbs:
 executors:
   executor_node_18:
     docker:
-      - image: cimg/node:18.20.3
+      - image: cimg/node:18.20
+    working_directory: ~/gen-unit
+
+  executor_node_20:
+    docker:
+      - image: cimg/node:20.15
     working_directory: ~/gen-unit
 
 commands:
-  command_checkout_cache_install:
+  command_ci:
+    parameters:
+      cache_key:
+        type: string
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-deps-gen-unit-{{ checksum "package-lock.json" }}
-            - v1-deps-gen-unit-
+            - << parameters.cache_key >>-{{ checksum "package-lock.json" }}
+            - << parameters.cache_key >>-
       - run:
           name: Install dependencies
           command: npm install
       - save_cache:
           paths:
             - node_modules
-          key: v1-deps-gen-unit-{{ checksum "package-lock.json" }}
+          key: << parameters.cache_key >>-{{ checksum "package-lock.json" }}
+      - run:
+          name: Test
+          command: npm test
+      - run:
+          name: Build
+          command: npm run build
 
   command_save_workspace:
     steps:
@@ -37,7 +51,7 @@ commands:
       - attach_workspace:
           at: ~/gen-unit
 
-  command_publish_to_npm:
+  command_npm_publish:
     steps:
       - run:
           name: Login to npm
@@ -47,17 +61,18 @@ commands:
           command: npm publish
 
 jobs:
-  job_test_and_build:
+  job_node_18_ci:
     executor: executor_node_18
     steps:
-      - command_checkout_cache_install
-      - run:
-          name: Test
-          command: npm test
-      - run:
-          name: Build
-          command: npm run build
+      - command_ci:
+          cache_key: v1-node-18-deps-gen-unit
       - command_save_workspace
+
+  job_node_20_ci:
+    executor: executor_node_20
+    steps:
+      - command_ci:
+          cache_key: v1-node-20-deps-gen-unit
 
   job_upload_coverage:
     executor: executor_node_18
@@ -70,12 +85,19 @@ jobs:
     executor: executor_node_18
     steps:
       - command_restore_workspace
-      - command_publish_to_npm
+      - command_npm_publish
 
 workflows:
   workflow_ci:
     jobs:
-      - job_test_and_build:
+      - job_node_18_ci:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
+
+      - job_node_20_ci:
           filters:
             tags:
               only: /.*/
@@ -84,7 +106,8 @@ workflows:
 
       - job_upload_coverage:
           requires:
-            - job_test_and_build
+            - job_node_18_ci
+            - job_node_20_ci
           filters:
             branches:
               only: /master/
@@ -92,7 +115,8 @@ workflows:
       - job_publish_to_npm:
           context: npm
           requires:
-            - job_test_and_build
+            - job_node_18_ci
+            - job_node_20_ci
           filters:
             tags:
               only: /^v\d+\.\d+\.\d+$/
