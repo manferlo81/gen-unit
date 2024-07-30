@@ -1,5 +1,6 @@
-module.exports = {
+import { Config } from 'jest';
 
+const config: Config = {
   testEnvironment: 'node',
 
   cacheDirectory: 'node_modules/.cache/jest',
@@ -19,5 +20,6 @@ module.exports = {
   ],
 
   verbose: true,
-
 };
+
+export default config;

@@ -2,7 +2,8 @@
   "include": [
     "src/**/*.ts",
     "__test__/**/*.ts",
-    "jest.config.js",
+    "eslint.config.mjs",
+    "jest.config.ts",
     "bundlib.config.ts"
   ],
   "exclude": [
