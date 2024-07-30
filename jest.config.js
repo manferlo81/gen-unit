@@ -12,7 +12,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: process.env.CI
     ? ['json', 'clover']
-    : ['lcov', 'text'],
+    : ['html', 'text'],
 
   testMatch: [
     '**/__test__/**/*.test.ts',

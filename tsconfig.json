@@ -2,7 +2,8 @@
   "include": [
     "src/**/*.ts",
     "__test__/**/*.ts",
-    "jest.config.js"
+    "jest.config.js",
+    "bundlib.config.ts"
   ],
   "exclude": [
     "node_modules",
@@ -10,9 +11,9 @@
     "coverage"
   ],
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "module": "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "Node10",
     "lib": [],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

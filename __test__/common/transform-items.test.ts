@@ -1,9 +1,9 @@
-import { ExponentFindItems, MultiplierFindItem } from '../../src';
+import type { ExponentFindItems, MultiplierFindItem } from '../../src';
 import { transformFindItems } from '../../src/common/transform-items';
 
 describe('transformFindItems function', () => {
 
-  test('', () => {
+  test('Should transform find items', () => {
 
     const base = 10;
     const items: ExponentFindItems = [
