@@ -9,6 +9,7 @@ interface TypeOfMap {
 type TypeOfResult = keyof TypeOfMap;
 
 function isType<K extends TypeOfResult>(type: K): TypeCheckFunction<TypeOfMap[K]> {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
   return <T extends TypeOfMap[K]>(value: unknown): value is T => {
     return typeof value === type;
   };

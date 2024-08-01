@@ -7,6 +7,7 @@ type Void = void;
 export type AnyFunction = (this: Anything, ...args: Anything[]) => Anything;
 export type AnyArray = Anything[];
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export type TypeCheckFunction<B> = <T extends B>(value: unknown) => value is T;
 
 export type Nullish = null | undefined | Void;
