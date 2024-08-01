@@ -22,9 +22,9 @@ const typescriptRules = pluginRules('@typescript-eslint', {
 
 const stylisticRules = pluginRules('@stylistic', {
   'indent': rule(2),
-  'linebreak-style': rule('windows'),
   'quotes': rule('single'),
   'semi': rule('always'),
+  'linebreak-style': rule('unix'),
 
   'comma-dangle': rule('always-multiline'),
   'arrow-parens': rule('always'),
