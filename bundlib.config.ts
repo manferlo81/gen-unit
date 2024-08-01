@@ -3,7 +3,7 @@ import { BundlibConfig as Config } from 'bundlib';
 const config: Config = {
   esModule: 'main',
   interop: 'main',
-  min: 'browser',
+  min: ['browser', 'module'],
   project: 'tsconfig-build.json',
 };
 
