@@ -15,7 +15,7 @@ executors:
     working_directory: ~/gen-unit
 
 commands:
-  command_ci:
+  command_install:
     parameters:
       cache_key:
         type: string
@@ -32,6 +32,12 @@ commands:
           paths:
             - node_modules
           key: << parameters.cache_key >>-{{ checksum "package-lock.json" }}
+
+  command_ci:
+    steps:
+      - run:
+          name: Lint
+          command: npm run lint
       - run:
           name: Test
           command: npm test
@@ -64,15 +70,17 @@ jobs:
   job_node_18_ci:
     executor: executor_node_18
     steps:
-      - command_ci:
+      - command_install:
           cache_key: v1-node-18-deps-gen-unit
+      - command_ci
       - command_save_workspace
 
   job_node_20_ci:
     executor: executor_node_20
     steps:
-      - command_ci:
+      - command_install:
           cache_key: v1-node-20-deps-gen-unit
+      - command_ci
 
   job_upload_coverage:
     executor: executor_node_18
