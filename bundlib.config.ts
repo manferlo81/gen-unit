@@ -1,9 +1,9 @@
 import { BundlibConfig as Config } from 'bundlib';
 
 const config: Config = {
-  esModule: 'main',
-  interop: 'main',
-  min: ['browser', 'module'],
+  esModule: true,
+  interop: true,
+  min: ['api', '!main'],
   project: 'tsconfig-build.json',
 };
 
