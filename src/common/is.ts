@@ -1,6 +1,6 @@
-import type { Nullish, TypeCheckFunction } from './private-types';
+import type { Nullish, TypeCheckFunction, Void } from './private-types';
 
-export function isNullish(value: unknown): value is Nullish {
+export function isNullish(value: unknown): value is Nullish | Void {
   return value == null;
 }
 
