@@ -1,4 +1,4 @@
-import type { AllowNullish } from './helper-types';
+import type { AllowNullish } from './private-types';
 import type { DeprecatedFindUnitAdvancedOptions } from '../deprecated-types';
 
 interface BaseFindItem {

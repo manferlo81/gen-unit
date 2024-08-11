@@ -1,4 +1,4 @@
-import type { AllowNullish } from '../common/helper-types';
+import type { AllowNullish } from '../common/private-types';
 import type { DeclarativeFindUnit } from '../common/types';
 
 export type ParseUnitOption = AllowNullish<string>;

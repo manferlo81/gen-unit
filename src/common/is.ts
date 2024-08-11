@@ -1,4 +1,4 @@
-import type { Nullish, TypeCheckFunction } from './helper-types';
+import type { Nullish, TypeCheckFunction } from './private-types';
 
 export function isNullish(value: unknown): value is Nullish {
   return value == null;

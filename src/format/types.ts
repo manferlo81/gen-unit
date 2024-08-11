@@ -1,4 +1,4 @@
-import type { AllowNullish } from '../common/helper-types';
+import type { AllowNullish } from '../common/private-types';
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
 import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from '../deprecated-types';
 

@@ -1,5 +1,5 @@
 import { errorInvalidOption, rangeError } from '../common/error';
-import type { AllowNullish } from '../common/helper-types';
+import type { AllowNullish } from '../common/private-types';
 import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import type { FormatRoundOption, RoundFunction } from './types';
 

@@ -1,4 +1,4 @@
-import type { AllowNullish } from './common/helper-types';
+import type { AllowNullish } from './common/private-types';
 import type { ExponentFindItems } from './common/types';
 
 /** @deprecated on: 14/7/2024, use: FindUnitAdvancedOptions */
