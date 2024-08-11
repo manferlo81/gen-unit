@@ -18,7 +18,7 @@ describe('parse', () => {
     ['p', 'pico', 1e-12],
     ['f', 'femto', 1e-15],
     ['a', 'atto', 1e-18],
-  ])('Should parse unit "%s" (%s)', (unit, desc, mul) => {
+  ])('Should parse unit "%s" (%s)', (unit, _desc, mul) => {
     const value = 1.2;
     expect(parse(`${value}${unit}`)).toBeCloseTo(value * mul, 10);
   });
