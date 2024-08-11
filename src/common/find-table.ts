@@ -1,4 +1,4 @@
-import type { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
+import type { DeprecatedFindUnitAdvancedOptions } from '../deprecated-types';
 import { errorInvalidOption } from './error';
 import type { AllowNullish } from './helper-types';
 import { isArray, isNullish, isNumber, isObject } from './is';

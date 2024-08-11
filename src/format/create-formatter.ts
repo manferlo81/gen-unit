@@ -1,6 +1,6 @@
 import { errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isFunction, isNullish } from '../common/is';
-import type { DeprecatedFormatGetUnitFunction } from './deprecated-types';
+import type { DeprecatedFormatGetUnitFunction } from '../deprecated-types';
 import { createUnitFinder } from './find-unit';
 import { createOutputFormatter } from './output';
 import { createRounder } from './round';

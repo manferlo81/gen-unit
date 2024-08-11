@@ -2,8 +2,8 @@ import { error, rangeError } from '../common/error';
 import { createFindTable } from '../common/find-table';
 import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is';
 import type { MultiplierFindItem } from '../common/types';
+import type { DivisorFindItem } from '../deprecated-types';
 import { defaultBase1000FormatExpItems } from './default-items';
-import type { DivisorFindItem } from './deprecated-types';
 import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
 import { validateFormatItems } from './user-items';
 

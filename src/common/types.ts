@@ -1,5 +1,5 @@
 import type { AllowNullish } from './helper-types';
-import type { DeprecatedFindUnitAdvancedOptions } from './deprecated-types';
+import type { DeprecatedFindUnitAdvancedOptions } from '../deprecated-types';
 
 interface BaseFindItem {
   readonly pre: string;

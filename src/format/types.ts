@@ -1,6 +1,6 @@
 import type { AllowNullish } from '../common/helper-types';
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types';
-import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from './deprecated-types';
+import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from '../deprecated-types';
 
 export type FormatUnitOption = AllowNullish<string>;
 
