@@ -1,15 +1,15 @@
-import type { AllowNullish } from '../common/private-types';
+import type { AllowNullish, AllowVoid } from '../common/private-types';
 import type { DeclarativeFindUnit } from '../common/types';
 
 export type ParseUnitOption = AllowNullish<string>;
 
 export type InputMatchResults = [value: string, wholeUnit: string];
-export type MatchFunction = (input: string) => AllowNullish<InputMatchResults>;
+export type MatchFunction = (input: string) => AllowVoid<AllowNullish<InputMatchResults>>;
 export type RegExpPattern = RegExp | string;
 export type ParseMatchOption = AllowNullish<RegExpPattern | MatchFunction>;
 
 export type ParseMultiplier = number;
-export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (prefix: string, unit: U) => AllowNullish<ParseMultiplier>;
+export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (prefix: string, unit: U) => AllowVoid<AllowNullish<ParseMultiplier>>;
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = AllowNullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>;
 
 interface CreateParserOptionsBase<U extends ParseUnitOption> {
