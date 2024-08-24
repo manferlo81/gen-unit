@@ -42,6 +42,7 @@
     "release": "standard-version",
     "prepare": "husky"
   },
+  "bundlib": "./bundlib.config.mjs",
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
@@ -50,7 +51,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.1.0",
-    "bundlib": "^0.20.0",
+    "bundlib": "^0.21.0",
     "chokidar": "^3.6.0",
     "eslint": "^9.8.0",
     "globals": "^15.9.0",
