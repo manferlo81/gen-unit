@@ -14,6 +14,7 @@ function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omi
   // handle deprecated option
   // use deprecated 'find' member as modern 'items' member
   // return modern option based on deprecated option
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const { find: items, base } = find;
   return { items, base };
 
@@ -34,6 +35,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
   if (!isObject(find)) throw errorInvalidOption('find');
 
   // get items and base from find option
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const { items, base } = deprecated_transformAdvancedOptions(find);
 
   // normalize base

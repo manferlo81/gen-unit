@@ -50,6 +50,7 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
     output,
   } = options;
 
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const getUnit = deprecated_createGetUnit(unit);
   const findUnit = createUnitFinder(find);
   const roundNum = createRounder(round);

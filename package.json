@@ -26,7 +26,7 @@
   "types": "./dist/types/index.d.ts",
   "typings": "./dist/types/index.d.ts",
   "scripts": {
-    "clean:cache": "rimraf node_modules/.cache/{bundlib,jest}",
+    "clean:cache": "rimraf --glob node_modules/.cache/{bundlib,jest}",
     "clean:build": "rimraf dist coverage",
     "clean": "run-p clean:*",
     "lint:test": "eslint __test__",
@@ -47,10 +47,10 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@eslint/js": "^9.9.1",
-    "@stylistic/eslint-plugin": "^2.6.4",
+    "@stylistic/eslint-plugin": "^2.7.2",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.12",
-    "@types/node": "^22.5.0",
+    "@types/node": "^22.5.4",
     "bundlib": "^0.21.0",
     "chokidar": "^3.6.0",
     "eslint": "^9.9.1",
@@ -63,7 +63,7 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.2.0"
+    "typescript-eslint": "^8.4.0"
   },
   "overrides": {
     "eslint": "^9.9.1"
