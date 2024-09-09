@@ -70,5 +70,5 @@ export default config(
   js.configs.recommended,
   stylisticConfig,
   ...typescriptFlatConfigs,
-  { rules: { ...eslintRules, ...typescriptRules, ...stylisticRules } },
+  { rules: { ...eslintRules, ...stylisticRules, ...typescriptRules } },
 );

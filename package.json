@@ -14,15 +14,15 @@
   "type": "commonjs",
   "exports": {
     "types": "./dist/types/index.d.ts",
-    "require": "./dist/gen-unit.cjs",
-    "node": "./dist/gen-unit.cjs",
-    "import": "./dist/gen-unit.mjs",
-    "default": "./dist/gen-unit.cjs"
+    "require": "./dist/commonjs/gen-unit.cjs",
+    "node": "./dist/commonjs/gen-unit.cjs",
+    "import": "./dist/esm/gen-unit.mjs",
+    "default": "./dist/commonjs/gen-unit.cjs"
   },
-  "main": "./dist/gen-unit.cjs",
-  "module": "./dist/gen-unit.mjs",
-  "jsnext:main": "./dist/gen-unit.mjs",
-  "browser": "./dist/gen-unit.umd.js",
+  "main": "./dist/commonjs/gen-unit.cjs",
+  "module": "./dist/esm/gen-unit.mjs",
+  "jsnext:main": "./dist/esm/gen-unit.mjs",
+  "browser": "./dist/umd/gen-unit.umd.js",
   "types": "./dist/types/index.d.ts",
   "typings": "./dist/types/index.d.ts",
   "scripts": {
