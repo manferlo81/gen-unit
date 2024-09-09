@@ -1,14 +1,4 @@
 {
-  "include": [
-    "src/**/*.ts",
-    "__test__/**/*.ts",
-    "jest.config.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage"
-  ],
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
@@ -26,5 +16,15 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "dist/types"
-  }
+  },
+  "include": [
+    "src",
+    "__test__",
+    "jest.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ]
 }
