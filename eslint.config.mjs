@@ -21,9 +21,9 @@ function createRuleNameNormalize(pluginName) {
 function normalizeRules(pluginName, rules) {
   const normalizeRuleName = createRuleNameNormalize(pluginName);
   return Object.fromEntries(
-    Object.entries(rules).map(([ruleName, ruleEntry]) => {
-      return [normalizeRuleName(ruleName, pluginName), normalizeRuleEntry(ruleEntry)];
-    }),
+    Object.entries(rules).map(
+      ([ruleName, ruleEntry]) => [normalizeRuleName(ruleName, pluginName), normalizeRuleEntry(ruleEntry)],
+    ),
   );
 }
 
@@ -50,14 +50,13 @@ const typescriptRules = normalizeRules('@typescript-eslint', {
   'restrict-template-expressions': 'off',
 });
 
-const stylisticConfig = stylistic.configs.customize({
+const stylisticPluginConfig = stylistic.configs.customize({
   semi: true,
-  quotes: 'single',
   quoteProps: 'as-needed',
   arrowParens: true,
 });
 
-const typescriptFlatConfigs = config(
+const typescriptPluginConfig = config(
   ...typescriptConfigs.strictTypeChecked,
   ...typescriptConfigs.stylisticTypeChecked,
   { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
@@ -68,7 +67,7 @@ export default config(
   { ignores: ['dist', 'coverage'] },
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   js.configs.recommended,
-  stylisticConfig,
-  ...typescriptFlatConfigs,
+  stylisticPluginConfig,
+  ...typescriptPluginConfig,
   { rules: { ...eslintRules, ...stylisticRules, ...typescriptRules } },
 );
