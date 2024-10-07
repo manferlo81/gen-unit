@@ -6,6 +6,7 @@ import { transformFindItems } from './transform-items';
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types';
 
 /** @deprecated */
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omit<FindUnitAdvancedOptions, keyof DeprecatedFindUnitAdvancedOptions> {
 
   // return option if it's a modern option

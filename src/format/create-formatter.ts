@@ -7,6 +7,7 @@ import { createRounder } from './round';
 import type { CreateFormatterOptions, CreateFormatterOptionsWithoutUnit, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types';
 
 /** @deprecated */
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 function deprecated_createGetUnit(unit: FormatUnitOption | DeprecatedFormatGetUnitFunction): DeprecatedFormatGetUnitFunction {
 
   // return unit option if it's a function (deprecated)

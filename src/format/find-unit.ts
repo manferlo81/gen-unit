@@ -8,6 +8,7 @@ import type { FormatFindUnitFunction, FormatFindUnitOption } from './types';
 import { validateFormatItems } from './user-items';
 
 /** @deprecated */
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 function deprecated_handleResult(item: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
 
   // return item if it's modern item
