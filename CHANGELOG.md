@@ -2,6 +2,31 @@
 
 ## Version History
 
+## [0.2.0](https://github.com/manferlo81/gen-unit/compare/v0.1.0...v0.2.0) (2024-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **format:** format will throw if a string is passed as number of decimals
+
+### Features
+
+* Deprecate find sub-option in favor of items sub-option ([03265ed](https://github.com/manferlo81/gen-unit/commit/03265ed79989dde37088fdda3225f047f2ee7dd5))
+* **format:** Convert non-finite values to string ([4ec5140](https://github.com/manferlo81/gen-unit/commit/4ec514033a207c8860e0b5ab3c140b9c3e85535d))
+* **format:** Interpret find function returning nullish as unity ([9b8f7e1](https://github.com/manferlo81/gen-unit/commit/9b8f7e1c451b2f33c4b01a891ce7a646901ae8a9))
+* **format:** output format number of spaces ([0c373a2](https://github.com/manferlo81/gen-unit/commit/0c373a20021ef01381d650c4323d1af84cfd2631))
+* **format:** throw on duplicated exponents ([d1a1aa2](https://github.com/manferlo81/gen-unit/commit/d1a1aa23f9b7d54f7bac23e0a94d8d1dbd869d7a))
+* **parse:** Advanced output format options ([ce52a8a](https://github.com/manferlo81/gen-unit/commit/ce52a8aae1bc4935a4f2b2765688d92991717c5e))
+* **parse:** Allow match function to return nullish ([da9f499](https://github.com/manferlo81/gen-unit/commit/da9f4999221b7666e0f9e7ddc79f5d4fdb552eaf))
+* **parse:** throw on duplicated prefix ([abedd37](https://github.com/manferlo81/gen-unit/commit/abedd376cc40d8f48b8846db91142cac93afeafb))
+
+
+### Bug Fixes
+
+* **format:** Allow nullish for output format space ([00654c2](https://github.com/manferlo81/gen-unit/commit/00654c25fb86dd9f5084ecf45504a1bdcade666c))
+* **format:** Don't accept string as number of decimals ([3196632](https://github.com/manferlo81/gen-unit/commit/31966321dffc7d406d104e0b15d8b72707a6c3d2))
+* Throw correct type of error ([77fafee](https://github.com/manferlo81/gen-unit/commit/77fafeeca060e8af72718504c00a0173b931d3be))
+
 ## [0.1.0](https://github.com/manferlo81/gen-unit/compare/v0.0.6...v0.1.0) (2024-07-12)
 
 ### ⚠ BREAKING CHANGES
