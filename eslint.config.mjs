@@ -5,29 +5,34 @@ import { config, configs as typescriptConfigs } from 'typescript-eslint';
 
 function normalizeRuleEntry(entry) {
   if (Array.isArray(entry)) return entry;
-  if (['error', 'warn', 'off'].includes(entry)) return entry;
+  const severities = ['error', 'warn', 'off'];
+  if (severities.includes(entry)) return entry;
   return ['error', entry];
 }
 
-function createRuleNameNormalize(pluginName) {
-  if (!pluginName) return (ruleName) => ruleName;
+function normalizeRuleEntries(rules, pluginName) {
+  const entries = Object.entries(rules).map(
+    ([ruleName, ruleEntry]) => [ruleName, normalizeRuleEntry(ruleEntry)],
+  );
+  if (!pluginName) return Object.fromEntries(entries);
   const pluginPrefix = `${pluginName}/`;
-  return (ruleName) => {
+  const normalizeRuleName = (ruleName) => {
     if (ruleName.startsWith(pluginPrefix)) return ruleName;
     return `${pluginPrefix}${ruleName}`;
   };
-}
-
-function normalizeRules(pluginName, rules) {
-  const normalizeRuleName = createRuleNameNormalize(pluginName);
   return Object.fromEntries(
-    Object.entries(rules).map(
-      ([ruleName, ruleEntry]) => [normalizeRuleName(ruleName, pluginName), normalizeRuleEntry(ruleEntry)],
+    entries.map(
+      ([ruleName, normalizedRuleEntry]) => [normalizeRuleName(ruleName), normalizedRuleEntry],
     ),
   );
 }
 
-const eslintRules = normalizeRules(null, {
+function normalizeRules(pluginOrRules, rules) {
+  if (typeof pluginOrRules !== 'string') return normalizeRuleEntries(pluginOrRules);
+  return normalizeRuleEntries(rules, pluginOrRules);
+}
+
+const eslintRules = normalizeRules({
   'no-useless-rename': 'error',
   'object-shorthand': 'error',
   'prefer-template': 'error',
@@ -64,6 +69,7 @@ const typescriptPluginConfig = config(
 );
 
 export default config(
+  { files: ['**/*.{js,cjs,mjs,ts}'] },
   { ignores: ['dist', 'coverage'] },
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   js.configs.recommended,
