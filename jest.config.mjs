@@ -9,7 +9,7 @@ const config = {
   ],
   coverageDirectory: 'coverage',
   coverageReporters: process.env.CI
-    ? ['json', 'clover']
+    ? ['json', 'clover', 'cobertura']
     : ['html', 'text'],
 
   testMatch: [

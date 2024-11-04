@@ -1,6 +1,15 @@
 {
   "presets": [
-    "@babel/preset-env"
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "corejs": "3.39",
+        "exclude": [
+          "transform-typeof-symbol"
+        ]
+      }
+    ]
   ],
   "assumptions": {
     "arrayLikeIsIterable": true,
