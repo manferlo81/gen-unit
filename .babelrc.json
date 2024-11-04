@@ -1,4 +1,7 @@
 {
+  "presets": [
+    "@babel/preset-env"
+  ],
   "assumptions": {
     "arrayLikeIsIterable": true,
     "constantReexports": true,
@@ -16,8 +19,5 @@
     "setSpreadProperties": true,
     "skipForOfIteratorClosing": true,
     "superIsCallableConstructor": true
-  },
-  "presets": [
-    "@babel/preset-env"
-  ]
+  }
 }
