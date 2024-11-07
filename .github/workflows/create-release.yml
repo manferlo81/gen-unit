@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout, Setup Node.js v20.x and Install dependencies
-        uses: manferlo81/action-checkout-node-install@initial
+        uses: manferlo81/action-checkout-node-install@v0
         with:
           node-version: 20.x
 
@@ -35,6 +35,4 @@ jobs:
           files: gen-unit-*.tgz
 
       - name: Show Release URL
-        run: echo "GitHub Release Created ( ${{ env.RELEASE_URL }} )" >> $GITHUB_STEP_SUMMARY
-        env:
-          RELEASE_URL: ${{ steps.create-release.outputs.url }}
+        run: echo "GitHub Release Created! ( ${{ steps.create-release.outputs.url }} )" >> $GITHUB_STEP_SUMMARY
