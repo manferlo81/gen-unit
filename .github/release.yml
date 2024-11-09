@@ -9,15 +9,15 @@ changelog:
         - breaking change
         - breaking
 
-    - title: Bug Fixes
-      labels:
-        - bug fix
-        - fix
-
     - title: Features
       labels:
         - feature
         - feat
+
+    - title: Bug Fixes
+      labels:
+        - bug fix
+        - fix
 
     - title: Other Changes
       labels:
