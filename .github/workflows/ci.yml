@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*.*.*
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  job_lint_test_build:
+    name: Lint, Test and Build
+    uses: './.github/workflows/lint-test-build.yml'
+
+  job_create_release:
+    name: Create GitHub Release for ${{ github.ref_name }}
+
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout, Setup Node.js v${{ env.NODE_VERSION }} and Install dependencies
+        uses: manferlo81/action-checkout-node-install@v0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+        env:
+          NODE_VERSION: 20.x
+
+      - name: Build
+        run: npm run build
+
+      - name: Create Tarball
+        run: npm pack
+
+      - name: Create Release
+        uses: manferlo81/action-auto-release@v0
+        with:
+          files: gen-unit-*.tgz
