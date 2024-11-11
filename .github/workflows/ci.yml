@@ -16,11 +16,22 @@ jobs:
     name: Lint, Test and Build
     uses: './.github/workflows/lint-test-build.yml'
 
+  job_upload_coverage:
+    name: Upload Coverage
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref_type == 'branch'
+    needs: job_lint_test_build
+
+    steps:
+      - run: echo "not implemented yet..."
+
   job_create_release:
     name: Create GitHub Release for ${{ github.ref_name }}
 
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
+    needs: job_lint_test_build
 
     permissions:
       contents: write
@@ -43,3 +54,13 @@ jobs:
         uses: manferlo81/action-auto-release@v0
         with:
           files: gen-unit-*.tgz
+
+  job_publish_to_npm:
+    name: Publish Package to npm Registry
+
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    needs: job_lint_test_build
+
+    steps:
+      - run: echo "not implemented yet..."
