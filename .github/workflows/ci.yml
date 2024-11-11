@@ -27,7 +27,7 @@ jobs:
       - run: echo "not implemented yet..."
 
   job_create_release:
-    name: Create GitHub Release for ${{ github.ref_name }}
+    name: Create GitHub Release
 
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
@@ -50,7 +50,7 @@ jobs:
       - name: Create Tarball
         run: npm pack
 
-      - name: Create Release
+      - name: Create Release for ${{ github.ref_name }}
         uses: manferlo81/action-auto-release@v0
         with:
           files: gen-unit-*.tgz
