@@ -17,7 +17,7 @@ env:
 jobs:
   job_lint_test_build:
     name: Lint, Test and Build
-    uses: './.github/workflows/lint-test-build.yml'
+    uses: './.github/workflows/_lint-test-build.yml'
 
   job_upload_coverage:
     name: Upload Coverage to Codecov
