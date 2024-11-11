@@ -3,6 +3,9 @@ name: Lint, Test and Build
 on:
   workflow_call:
 
+env:
+  DEFAULT_NODE_VERSION: 20.x
+
 jobs:
   job_lint:
     name: Lint
@@ -10,12 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout, Setup Node.js v${{ env.NODE_VERSION }} and Install dependencies
+      - name: Checkout, Setup Node.js v${{ env.DEFAULT_NODE_VERSION }} and Install dependencies
         uses: manferlo81/action-checkout-node-install@v0
         with:
-          node-version: ${{ env.NODE_VERSION }}
-        env:
-          NODE_VERSION: 20.x
+          node-version: ${{ env.DEFAULT_NODE_VERSION }}
 
       - name: Lint
         run: npm run lint

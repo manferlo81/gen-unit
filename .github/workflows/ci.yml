@@ -11,20 +11,37 @@ on:
     branches:
       - main
 
+env:
+  DEFAULT_NODE_VERSION: 20.x
+
 jobs:
   job_lint_test_build:
     name: Lint, Test and Build
     uses: './.github/workflows/lint-test-build.yml'
 
   job_upload_coverage:
-    name: Upload Coverage
+    name: Upload Coverage to Codecov
 
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref_type == 'branch'
     needs: job_lint_test_build
 
     steps:
-      - run: echo "not implemented yet..."
+      - name: Checkout, Setup Node.js v${{ env.DEFAULT_NODE_VERSION }} and Install dependencies
+        uses: manferlo81/action-checkout-node-install@v0
+        with:
+          node-version: ${{ env.DEFAULT_NODE_VERSION }}
+
+      - name: Test
+        run: npm test
+        env:
+          CI: true
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          directory: coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   job_create_release:
     name: Create GitHub Release
@@ -37,12 +54,10 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout, Setup Node.js v${{ env.NODE_VERSION }} and Install dependencies
+      - name: Checkout, Setup Node.js v${{ env.DEFAULT_NODE_VERSION }} and Install dependencies
         uses: manferlo81/action-checkout-node-install@v0
         with:
-          node-version: ${{ env.NODE_VERSION }}
-        env:
-          NODE_VERSION: 20.x
+          node-version: ${{ env.DEFAULT_NODE_VERSION }}
 
       - name: Build
         run: npm run build

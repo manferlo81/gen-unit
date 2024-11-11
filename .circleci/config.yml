@@ -1,7 +1,7 @@
 version: 2.1
 
-orbs:
-  codecov: codecov/codecov@4.1.0
+# orbs:
+#   codecov: codecov/codecov@4.1.0
 
 executors:
   executor_node_18:
@@ -82,12 +82,12 @@ jobs:
           cache_key: v1-node-20-deps-gen-unit
       - command_ci
 
-  job_upload_coverage:
-    executor: executor_node_18
-    steps:
-      - command_restore_workspace
-      - codecov/upload:
-          file: coverage/*.json
+  # job_upload_coverage:
+  #   executor: executor_node_18
+  #   steps:
+  #     - command_restore_workspace
+  #     - codecov/upload:
+  #         file: coverage/*.json
 
   job_publish_to_npm:
     executor: executor_node_18
@@ -112,15 +112,15 @@ workflows:
             branches:
               only: /.*/
 
-      - job_upload_coverage:
-          requires:
-            - job_node_18_ci
-            - job_node_20_ci
-          filters:
-            branches:
-              only: /.*/
-            tags:
-              ignore: /.*/
+      # - job_upload_coverage:
+      #     requires:
+      #       - job_node_18_ci
+      #       - job_node_20_ci
+      #     filters:
+      #       branches:
+      #         only: /.*/
+      #       tags:
+      #         ignore: /.*/
 
       - job_publish_to_npm:
           context: npm
