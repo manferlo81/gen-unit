@@ -78,4 +78,17 @@ jobs:
     needs: job_lint_test_build
 
     steps:
-      - run: echo "not implemented yet..."
+      - name: Checkout, Setup Node.js v${{ env.DEFAULT_NODE_VERSION }} and Install dependencies
+        uses: manferlo81/action-checkout-node-install@v0
+        with:
+          node-version: ${{ env.DEFAULT_NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
