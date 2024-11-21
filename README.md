@@ -1,6 +1,5 @@
 # gen-unit
 
-[![CircleCI](https://circleci.com/gh/manferlo81/gen-unit.svg?style=svg)](https://circleci.com/gh/manferlo81/gen-unit)
 [![CI](https://github.com/manferlo81/gen-unit/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/manferlo81/gen-unit/actions/workflows/ci.yml)
 [![npm](https://badgen.net/npm/v/gen-unit)](https://www.npmjs.com/package/gen-unit)
 [![codecov](https://codecov.io/gh/manferlo81/gen-unit/branch/main/graph/badge.svg?token=ktaVkBtlbH)](https://codecov.io/gh/manferlo81/gen-unit)
