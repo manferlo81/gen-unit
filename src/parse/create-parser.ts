@@ -15,9 +15,8 @@ export function createParser(options: CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 
-  // TODO: remove in the future
-  // option removed in version 0.1.0
-  // throw if removed table option present
+  // INFO: option removed in version 0.1.0
+  // throw if removed "table" option present
   if ('table' in options) throw errorOptionRemoved('table', 'find');
 
   const {
