@@ -1,6 +1,6 @@
-import { createFormatter, ExponentFindItems, format, MICRO } from '../../src';
+import { createFormatter, ExponentFindItems, format, MICRO } from '../../../src';
 
-describe('format "find" option', () => {
+describe('formatter "find" option', () => {
 
   test('Should throw on invalid "find" option', () => {
 

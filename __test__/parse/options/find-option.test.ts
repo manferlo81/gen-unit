@@ -1,6 +1,7 @@
-import { type ParseFindMultiplierOption, ExponentFindItems, MICRO, createParser } from '../../src';
+import type { ExponentFindItems, ParseFindMultiplierOption } from '../../../src';
+import { createParser, MICRO } from '../../../src';
 
-describe('parse "find" option', () => {
+describe('parser "find" option', () => {
 
   test('Should throw on invalid "find" option', () => {
 

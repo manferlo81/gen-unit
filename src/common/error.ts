@@ -1,15 +1,11 @@
-export function error(message: string) {
+export function error(message: string): TypeError {
   return new TypeError(message);
 }
 
-export function rangeError(message: string) {
+export function rangeError(message: string): RangeError {
   return new RangeError(message);
 }
 
-export function errorInvalidOption(option: string) {
-  return error(`Invalid "${option}" option`);
-}
-
-export function errorOptionRemoved(removed: string, replacement: string) {
-  return error(`Option "${removed}" has been removed. Use "${replacement}" option instead.`);
+export function errorInvalidOption(optionName: string): TypeError {
+  return error(`Invalid "${optionName}" option`);
 }

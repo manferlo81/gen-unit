@@ -1,6 +1,7 @@
-import { errorOptionRemoved } from '../common/error';
 import { isFiniteNumber, isFunction, isNullish } from '../common/is';
+import { validateOptions } from '../common/validate-options';
 import type { DeprecatedFormatGetUnitFunction } from '../deprecated-types';
+import { removedFormatterOptions, validFormatterOptions } from './constants';
 import { createUnitFinder } from './find-unit';
 import { createOutputFormatter } from './output';
 import { createRounder } from './round';
@@ -29,27 +30,13 @@ export function createFormatter(options: CreateFormatterOptionsWithoutUnit): For
 export function createFormatter(options?: CreateFormatterOptions): Formatter;
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
-  // TODO: remove in the future
-  // option removed in version 0.1.0
-  // throw if removed table option present
-  if ('table' in options) throw errorOptionRemoved('table', 'find');
+  const validOptions = validateOptions(
+    options,
+    validFormatterOptions,
+    removedFormatterOptions,
+  );
 
-  // TODO: remove in the future
-  // option removed in version 0.1.0
-  // throw if removed dec option present
-  if ('dec' in options) throw errorOptionRemoved('dec', 'round');
-
-  // TODO: remove in the future
-  // option removed in version 0.1.0
-  // throw if removed fixed option present
-  if ('fixed' in options) throw errorOptionRemoved('fixed', 'round');
-
-  const {
-    unit,
-    find,
-    round,
-    output,
-  } = options;
+  const { unit, find, round, output } = validOptions;
 
   // eslint-disable-next-line @typescript-eslint/no-deprecated
   const getUnit = deprecated_createGetUnit(unit);

@@ -1,6 +1,6 @@
-import { createFormatter, MICRO } from '../../src';
+import { createFormatter, MICRO } from '../../../src';
 
-describe('format "unit" option', () => {
+describe('formatter "unit" option', () => {
 
   describe('"unit" option as string', () => {
 

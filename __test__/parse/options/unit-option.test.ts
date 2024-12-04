@@ -1,4 +1,4 @@
-import { MICRO, createParser } from '../../src';
+import { MICRO, createParser } from '../../../src';
 
 describe('parser "unit" option', () => {
 
