@@ -1,6 +1,6 @@
-import { createFormatter } from '../../src';
+import { createFormatter } from '../../../src';
 
-describe('format "round" option', () => {
+describe('formatter "round" option', () => {
 
   test('Should throw on invalid "round" option', () => {
 

@@ -1,5 +1,7 @@
-import { error, errorOptionRemoved } from '../common/error';
+import { error } from '../common/error';
 import { isFiniteNumber, isNullish, isNumber } from '../common/is';
+import { validateOptions } from '../common/validate-options';
+import { removedParserOptions, validParserOptions } from './constants';
 import { createExtractPre } from './extract-pre';
 import { createMulFinder } from './find-multiplier';
 import { createMatcher } from './match';
@@ -15,15 +17,14 @@ export function createParser(options: CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser;
 export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 
-  // INFO: option removed in version 0.1.0
-  // throw if removed "table" option present
-  if ('table' in options) throw errorOptionRemoved('table', 'find');
+  // validate options
+  const validOptions = validateOptions(
+    options as CreateParserOptions,
+    validParserOptions,
+    removedParserOptions,
+  );
 
-  const {
-    unit,
-    match,
-    find,
-  } = options as CreateParserOptions;
+  const { unit, match, find } = validOptions;
 
   const extractPre = createExtractPre(unit);
   const findMultiplier = createMulFinder(find);

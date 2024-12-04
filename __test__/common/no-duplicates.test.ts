@@ -1,4 +1,4 @@
-import { ExponentFindItem, ExponentFindItems } from '../../src';
+import type { ExponentFindItem, ExponentFindItems } from '../../src';
 import { noDuplicates } from '../../src/common/no-duplicates';
 
 describe('noDuplicates function', () => {

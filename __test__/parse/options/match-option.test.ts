@@ -1,6 +1,7 @@
-import { createParser, parse, type MatchFunction } from '../../src';
+import type { MatchFunction } from '../../../src';
+import { createParser, parse } from '../../../src';
 
-describe('parse "match" option', () => {
+describe('parser "match" option', () => {
 
   describe('"match" option as RegExp', () => {
 

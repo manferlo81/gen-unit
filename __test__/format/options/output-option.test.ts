@@ -1,6 +1,6 @@
-import { createFormatter, CreateFormatterOptions, CreateFormatterOptionsWithUnit, format as oneStepFormat } from '../../src';
+import { createFormatter, CreateFormatterOptions, CreateFormatterOptionsWithUnit, format as oneStepFormat } from '../../../src';
 
-describe('format "output" option', () => {
+describe('formatter "output" option', () => {
 
   test('Should throw if invalid "output" option', () => {
 
