@@ -17,6 +17,7 @@ const javascriptPluginConfig = config(
 
 const stylisticPluginConfig = config(
   pluginStylistic.configs.customize({
+    quotes: 'single',
     indent: 2,
     semi: true,
     arrowParens: true,
@@ -25,7 +26,6 @@ const stylisticPluginConfig = config(
   }),
   {
     rules: normalizeRules('@stylistic', {
-      quotes: 'single',
       'linebreak-style': 'unix',
       'no-extra-parens': 'all',
       'no-extra-semi': 'error',
@@ -39,7 +39,6 @@ const typescriptPluginConfig = config(
   typescriptConfigs.strictTypeChecked,
   typescriptConfigs.stylisticTypeChecked,
   { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
-  { files: ['**/*.{js,cjs,mjs}'], extends: [typescriptConfigs.disableTypeChecked] },
   {
     rules: normalizeRules('@typescript-eslint', {
       'array-type': {
@@ -49,6 +48,7 @@ const typescriptPluginConfig = config(
       'restrict-template-expressions': 'off',
     }),
   },
+  { files: ['**/*.{js,cjs,mjs}'], extends: [typescriptConfigs.disableTypeChecked] },
 );
 
 export default config(
