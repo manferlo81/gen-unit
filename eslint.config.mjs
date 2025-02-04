@@ -3,43 +3,43 @@ import pluginStylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
 import { config, configs as typescriptConfigs } from 'typescript-eslint';
 
-const javascriptPluginConfig = config(
-  pluginJavascript.configs.recommended,
-  {
-    rules: normalizeRules({
-      'no-useless-rename': 'error',
-      'object-shorthand': 'error',
-      'no-useless-concat': 'error',
-      'prefer-template': 'error',
-    }),
-  },
-);
-
-const stylisticPluginConfig = config(
-  pluginStylistic.configs.customize({
-    quotes: 'single',
-    indent: 2,
-    semi: true,
-    arrowParens: true,
-    quoteProps: 'as-needed',
-    braceStyle: '1tbs',
+const javascriptPluginConfig = config({
+  extends: [pluginJavascript.configs.recommended],
+  rules: normalizeRules({
+    'no-useless-rename': 'error',
+    'object-shorthand': 'error',
+    'no-useless-concat': 'error',
+    'prefer-template': 'error',
   }),
-  {
-    rules: normalizeRules('@stylistic', {
-      'linebreak-style': 'unix',
-      'no-extra-parens': 'all',
-      'no-extra-semi': 'error',
-      'no-floating-decimal': 'off',
-      'padded-blocks': 'off',
+});
+
+const stylisticPluginConfig = config({
+  extends: [
+    pluginStylistic.configs.customize({
+      quotes: 'single',
+      indent: 2,
+      semi: true,
+      arrowParens: true,
+      quoteProps: 'as-needed',
+      braceStyle: '1tbs',
     }),
-  },
-);
+  ],
+  rules: normalizeRules('@stylistic', {
+    'linebreak-style': 'unix',
+    'no-extra-parens': 'all',
+    'no-extra-semi': 'error',
+    'no-floating-decimal': 'off',
+    'padded-blocks': 'off',
+  }),
+});
 
 const typescriptPluginConfig = config(
-  typescriptConfigs.strictTypeChecked,
-  typescriptConfigs.stylisticTypeChecked,
-  { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
   {
+    extends: [
+      typescriptConfigs.strictTypeChecked,
+      typescriptConfigs.stylisticTypeChecked,
+    ],
+    languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } },
     rules: normalizeRules('@typescript-eslint', {
       'array-type': {
         default: 'array-simple',
@@ -48,7 +48,10 @@ const typescriptPluginConfig = config(
       'restrict-template-expressions': 'off',
     }),
   },
-  { files: ['**/*.{js,cjs,mjs}'], extends: [typescriptConfigs.disableTypeChecked] },
+  {
+    files: ['**/*.{js,cjs,mjs}'],
+    extends: [typescriptConfigs.disableTypeChecked],
+  },
 );
 
 export default config(
@@ -68,11 +71,10 @@ function normalizeRuleEntry(entry) {
 
 function createPluginRuleNameNormalizer(pluginName) {
   const pluginPrefix = `${pluginName}/`;
-  const normalizeRuleName = (ruleName) => {
+  return (ruleName) => {
     if (ruleName.startsWith(pluginPrefix)) return ruleName;
     return `${pluginPrefix}${ruleName}`;
   };
-  return normalizeRuleName;
 }
 
 function createEntryNormalizer(pluginName) {
