@@ -33,33 +33,32 @@ const stylisticPluginConfig = config({
   }),
 });
 
-const typescriptPluginConfig = config(
-  {
-    extends: [
-      typescriptConfigs.strictTypeChecked,
-      typescriptConfigs.stylisticTypeChecked,
-    ],
-    languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } },
-    rules: normalizeRules('@typescript-eslint', {
-      'array-type': {
-        default: 'array-simple',
-        readonly: 'array-simple',
-      },
-      'restrict-template-expressions': 'off',
-    }),
-  },
-  {
-    files: ['**/*.{js,cjs,mjs}'],
-    extends: [typescriptConfigs.disableTypeChecked],
-  },
-);
+const typescriptPluginConfig = config({
+  files: ['**/*.ts'],
+  extends: [
+    typescriptConfigs.strictTypeChecked,
+    typescriptConfigs.stylisticTypeChecked,
+  ],
+  languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } },
+  rules: normalizeRules('@typescript-eslint', {
+    'array-type': {
+      default: 'array-simple',
+      readonly: 'array-simple',
+    },
+    'restrict-template-expressions': 'off',
+  }),
+});
 
 export default config(
-  { files: ['**/*.{js,cjs,mjs,ts}'] },
-  { ignores: ['dist', 'coverage'] },
-  { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
-  javascriptPluginConfig,
-  stylisticPluginConfig,
+  {
+    files: ['**/*.{js,cjs,mjs,ts}'],
+    ignores: ['dist', 'coverage'],
+    extends: [
+      javascriptPluginConfig,
+      stylisticPluginConfig,
+    ],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
   typescriptPluginConfig,
 );
 
@@ -86,6 +85,5 @@ function createEntryNormalizer(pluginName) {
 function normalizeRules(pluginName, rules) {
   if (!rules && pluginName) return normalizeRules(null, pluginName);
   const normalizeEntry = createEntryNormalizer(pluginName);
-  const normalizedEntries = Object.entries(rules).map(normalizeEntry);
-  return Object.fromEntries(normalizedEntries);
+  return Object.fromEntries(Object.entries(rules).map(normalizeEntry));
 }
