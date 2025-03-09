@@ -1,29 +1,29 @@
-import type { Nullish, TypeCheckFunction, Void } from './private-types';
+import type { Nullish, TypeCheckFunction, Void } from './private-types'
 
 export function isNullish(value: unknown): value is Nullish | Void {
-  return value == null;
+  return value == null
 }
 
 interface TypeOfMap {
-  number: number;
-  object: object | null;
-  function: CallableFunction;
+  number: number
+  object: object | null
+  function: CallableFunction
 }
 
 function isType<T extends keyof TypeOfMap>(type: T): TypeCheckFunction<TypeOfMap[T]> {
   return (value: unknown): value is TypeOfMap[T] => {
-    return typeof value === type;
-  };
+    return typeof value === type
+  }
 }
 
-export const isNumber = isType('number');
-export const isObject = isType('object');
-export const isFunction = isType('function');
+export const isNumber = isType('number')
+export const isObject = isType('object')
+export const isFunction = isType('function')
 
-type UnknownArray = unknown[] | readonly unknown[];
-export const isArray = Array.isArray as TypeCheckFunction<UnknownArray>;
+type UnknownArray = unknown[] | readonly unknown[]
+export const isArray = Array.isArray as TypeCheckFunction<UnknownArray>
 
 export const isFiniteNumber = Number.isFinite as {
-  (value: number): boolean;
-  (value: unknown): value is number;
-};
+  (value: number): boolean
+  (value: unknown): value is number
+}

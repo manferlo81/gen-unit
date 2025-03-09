@@ -1,5 +1,5 @@
-import { ExponentFindItems } from '../common/types';
-import { noDuplicates } from '../common/no-duplicates';
+import { noDuplicates } from '../common/no-duplicates'
+import { ExponentFindItems } from '../common/types'
 
 export function validateParseItems(items: ExponentFindItems): ExponentFindItems {
 
@@ -9,6 +9,6 @@ export function validateParseItems(items: ExponentFindItems): ExponentFindItems 
     items,
     'pre',
     'prefix',
-  );
+  )
 
 }

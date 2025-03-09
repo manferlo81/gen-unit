@@ -1,4 +1,4 @@
-import { createFormatter, MICRO } from '../../../src';
+import { createFormatter, MICRO } from '../../../src'
 
 describe('formatter "unit" option', () => {
 
@@ -10,20 +10,20 @@ describe('formatter "unit" option', () => {
         NaN,
         Infinity,
         -Infinity,
-      ];
+      ]
 
-      const format = createFormatter({ unit: 'g' });
+      const format = createFormatter({ unit: 'g' })
 
       notFiniteValues.forEach((value) => {
-        expect(format(value)).toBe(`${value}`);
-      });
+        expect(format(value)).toBe(`${value}`)
+      })
 
-    });
+    })
 
     test('Should format number using given unit', () => {
 
-      const unit = 'g';
-      const format = createFormatter({ unit });
+      const unit = 'g'
+      const format = createFormatter({ unit })
 
       const values = [
         { value: 0, expected: '0 ' },
@@ -37,15 +37,15 @@ describe('formatter "unit" option', () => {
         { value: 3e6, expected: '3 M' },
         { value: 3e9, expected: '3 G' },
         { value: 3e12, expected: '3 T' },
-      ];
+      ]
 
       values.forEach(({ value, expected }) => {
-        expect(format(value)).toBe(`${expected}${unit}`);
-      });
+        expect(format(value)).toBe(`${expected}${unit}`)
+      })
 
-    });
+    })
 
-  });
+  })
 
   describe('"unit" option as function (deprecated)', () => {
 
@@ -53,7 +53,7 @@ describe('formatter "unit" option', () => {
 
       const format = createFormatter({
         unit: () => 'g',
-      });
+      })
 
       const values = [
         { value: 0, expected: '0 ' },
@@ -67,31 +67,31 @@ describe('formatter "unit" option', () => {
         { value: 3e6, expected: '3 M' },
         { value: 3e9, expected: '3 G' },
         { value: 3e12, expected: '3 T' },
-      ];
+      ]
 
       values.forEach(({ value, expected }) => {
-        expect(format(value)).toBe(`${expected}g`);
-      });
+        expect(format(value)).toBe(`${expected}g`)
+      })
 
-    });
+    })
 
     test('Should format number using dynamic unit', () => {
 
       const format = createFormatter({
         unit: (value) => value === 1 ? 'X' : 'Y',
-      });
+      })
 
       const values = [
         { value: 1, expected: '1 X' },
         { value: 2, expected: '2 Y' },
-      ];
+      ]
 
       values.forEach(({ value, expected }) => {
-        expect(format(value)).toBe(expected);
-      });
+        expect(format(value)).toBe(expected)
+      })
 
-    });
+    })
 
-  });
+  })
 
-});
+})

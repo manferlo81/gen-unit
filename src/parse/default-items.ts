@@ -1,5 +1,5 @@
-import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/exp-items';
-import { validateParseItems } from './user-items';
+import { atto, exa, femto, giga, kilo, mega, micro, milli, nano, peta, pico, tera } from '../common/exp-items'
+import { validateParseItems } from './user-items'
 
 export const defaultBase1000ParseExpItems = validateParseItems([
   exa,
@@ -17,4 +17,4 @@ export const defaultBase1000ParseExpItems = validateParseItems([
   pico,
   femto,
   atto,
-]);
+])

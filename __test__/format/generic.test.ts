@@ -1,12 +1,12 @@
-import { createFormatter, MICRO } from '../../src';
+import { createFormatter, MICRO } from '../../src'
 
 describe('generic format', () => {
 
   test('Should create formatter without options', () => {
-    expect(createFormatter()).toBeInstanceOf(Function);
-  });
+    expect(createFormatter()).toBeInstanceOf(Function)
+  })
 
-  const format = createFormatter({});
+  const format = createFormatter({})
 
   test('Should format non finite number', () => {
 
@@ -14,13 +14,13 @@ describe('generic format', () => {
       NaN,
       Infinity,
       -Infinity,
-    ];
+    ]
 
     notFiniteValues.forEach((value) => {
-      expect(format(value)).toBe(`${value}`);
-    });
+      expect(format(value)).toBe(`${value}`)
+    })
 
-  });
+  })
 
   test('Should format number', () => {
 
@@ -66,13 +66,13 @@ describe('generic format', () => {
       { value: 1.23e12, expected: '1.23 T' },
       { value: 1.23e15, expected: '1.23 P' },
       { value: 1.23e18, expected: '1.23 E' },
-    ];
+    ]
 
     values.forEach(({ value, expected }) => {
-      expect(format(value)).toBe(expected);
-    });
+      expect(format(value)).toBe(expected)
+    })
 
-  });
+  })
 
   test('Should format negative number', () => {
 
@@ -115,12 +115,12 @@ describe('generic format', () => {
       { value: 1.23e12, expected: '1.23 T' },
       { value: 1.23e15, expected: '1.23 P' },
       { value: 1.23e18, expected: '1.23 E' },
-    ];
+    ]
 
     values.forEach(({ value, expected }) => {
-      expect(format(-value)).toBe(`-${expected}`);
-    });
+      expect(format(-value)).toBe(`-${expected}`)
+    })
 
-  });
+  })
 
-});
+})

@@ -1,4 +1,4 @@
-export { MICRO } from './common/constants';
+export { MICRO } from './common/constants'
 export type {
   DeclarativeFindUnit,
   ExponentFindItem,
@@ -7,20 +7,20 @@ export type {
   FindUnitBase,
   MultiplierFindItem,
   MultiplierFindItems,
-} from './common/types';
+} from './common/types'
 export type {
   DeprecatedFindUnitAdvancedOptions,
   DeprecatedFormatFindUnitFunction,
   DeprecatedFormatGetUnitFunction,
   DivisorFindItem,
   DivisorFindItems,
-} from './deprecated-types';
-export { createFormatter } from './format/create-formatter';
-export { format } from './format/format';
+} from './deprecated-types'
+export { createFormatter } from './format/create-formatter'
+export { format } from './format/format'
 export type {
   CreateFormatterOptions,
-  CreateFormatterOptionsWithUnit,
   CreateFormatterOptionsWithoutUnit,
+  CreateFormatterOptionsWithUnit,
   FormatFindUnitFunction,
   FormatFindUnitOption,
   FormatInput,
@@ -29,17 +29,17 @@ export type {
   FormatOutputOption,
   FormatRoundAdvancedOptions,
   FormatRoundOption,
-  FormatUnitOption,
   Formatter,
+  FormatUnitOption,
   RoundDecimals,
   RoundFunction,
-} from './format/types';
-export { createParser } from './parse/create-parser';
-export { parse } from './parse/parse';
+} from './format/types'
+export { createParser } from './parse/create-parser'
+export { parse } from './parse/parse'
 export type {
   CreateParserOptions,
-  CreateParserOptionsWithUnit,
   CreateParserOptionsWithoutUnit,
+  CreateParserOptionsWithUnit,
   InputMatchResults,
   MatchFunction,
   ParseFindMultiplierFunction,
@@ -47,7 +47,7 @@ export type {
   ParseInput,
   ParseMatchOption,
   ParseMultiplier,
-  ParseUnitOption,
   Parser,
+  ParseUnitOption,
   RegExpPattern,
-} from './parse/types';
+} from './parse/types'

@@ -1,4 +1,4 @@
-import { format, MICRO } from '../../src';
+import { format, MICRO } from '../../src'
 
 describe('format', () => {
 
@@ -16,7 +16,7 @@ describe('format', () => {
     ['f', 'femto', 1.2e-15, '1.2'],
     ['a', 'atto', 1.2e-18, '1.2'],
   ])('Should format with unit "%s" (%s)', (unit, _desc, value, expected) => {
-    expect(format(value, { unit: 'g', round: 1 })).toBe(`${expected} ${unit}g`);
-  });
+    expect(format(value, { unit: 'g', round: 1 })).toBe(`${expected} ${unit}g`)
+  })
 
-});
+})

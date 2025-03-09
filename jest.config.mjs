@@ -1,6 +1,6 @@
-const { COVERAGE } = process.env;
-const collectCoverage = COVERAGE !== 'SKIP';
-const coverageOnCI = COVERAGE === 'CI';
+const { COVERAGE } = process.env
+const collectCoverage = COVERAGE !== 'SKIP'
+const coverageOnCI = COVERAGE === 'CI'
 
 /** @type { import("ts-jest").JestConfigWithTsJest } */
 const config = {
@@ -21,6 +21,6 @@ const config = {
   ],
 
   verbose: true,
-};
+}
 
-export default config;
+export default config

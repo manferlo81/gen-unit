@@ -1,4 +1,4 @@
-import { MICRO, parse } from '../../src';
+import { MICRO, parse } from '../../src'
 
 describe('parse', () => {
 
@@ -19,8 +19,8 @@ describe('parse', () => {
     ['f', 'femto', 1e-15],
     ['a', 'atto', 1e-18],
   ])('Should parse unit "%s" (%s)', (unit, _desc, mul) => {
-    const value = 1.2;
-    expect(parse(`${value}${unit}`)).toBeCloseTo(value * mul, 10);
-  });
+    const value = 1.2
+    expect(parse(`${value}${unit}`)).toBeCloseTo(value * mul, 10)
+  })
 
-});
+})

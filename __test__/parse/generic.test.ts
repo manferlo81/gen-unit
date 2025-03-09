@@ -1,12 +1,12 @@
-import { createParser } from '../../src';
+import { createParser } from '../../src'
 
 describe('generic parse', () => {
 
   test('Should create parser without options', () => {
-    expect(createParser()).toBeInstanceOf(Function);
-  });
+    expect(createParser()).toBeInstanceOf(Function)
+  })
 
-  const parse = createParser({});
+  const parse = createParser({})
 
   test('Should return NaN on invalid input', () => {
 
@@ -15,7 +15,7 @@ describe('generic parse', () => {
       undefined,
       Infinity,
       -Infinity,
-    ];
+    ]
 
     const strings = [
       '',
@@ -28,21 +28,21 @@ describe('generic parse', () => {
       '10 x',
       'Infinity k',
       '-Infinity m',
-    ];
+    ]
 
     const invalidValues = [
       ...nonStrings,
       ...strings,
       ...strings.map((value) => ({ toString: () => value })),
-    ];
+    ]
 
-    const parse = createParser({});
+    const parse = createParser({})
 
     invalidValues.forEach((value) => {
-      expect(parse(value)).toBeNaN();
-    });
+      expect(parse(value)).toBeNaN()
+    })
 
-  });
+  })
 
   test('Should parse number', () => {
 
@@ -57,15 +57,15 @@ describe('generic parse', () => {
       .2,
       1.2e3,
       1.2e-3,
-    ];
+    ]
 
-    const parse = createParser({});
+    const parse = createParser({})
 
     values.forEach((value) => {
-      expect(parse(value)).toBe(value);
-    });
+      expect(parse(value)).toBe(value)
+    })
 
-  });
+  })
 
   test('Should parse numeric string', () => {
 
@@ -90,15 +90,15 @@ describe('generic parse', () => {
       '3e-6',
       '-123e-6',
       '123e+6',
-    ];
+    ]
 
     numericValues.forEach((value) => {
-      const result = parse(value);
-      expect(result).not.toBeNaN();
-      expect(result).toBeCloseTo(+value, 8);
-    });
+      const result = parse(value)
+      expect(result).not.toBeNaN()
+      expect(result).toBeCloseTo(+value, 8)
+    })
 
-  });
+  })
 
   test('Should parse numeric string with unit', () => {
 
@@ -113,13 +113,13 @@ describe('generic parse', () => {
       { value: '2E3 m', expected: 2 },
       { value: '2e-3 k', expected: 2 },
       { value: '2E-3 k', expected: 2 },
-    ];
+    ]
 
     values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected, 8);
-    });
+      expect(parse(value)).toBeCloseTo(expected, 8)
+    })
 
-  });
+  })
 
   test('Should ignore extra spaces', () => {
 
@@ -128,13 +128,13 @@ describe('generic parse', () => {
       { value: '10 u', expected: 10e-6 },
       { value: '10    u', expected: 10e-6 },
       { value: '   10    u   ', expected: 10e-6 },
-    ];
+    ]
 
     values.forEach(({ value, expected }) => {
-      expect(parse(value)).toBeCloseTo(expected);
-    });
+      expect(parse(value)).toBeCloseTo(expected)
+    })
 
-  });
+  })
 
   test('Should return 0 without checking for units', () => {
 
@@ -151,17 +151,17 @@ describe('generic parse', () => {
       '0M',
       '0G',
       '0T',
-    ];
+    ]
 
     values.forEach((value) => {
-      expect(parse(value)).toBe(0);
-    });
+      expect(parse(value)).toBe(0)
+    })
 
-  });
+  })
 
   test('Should return NaN if value is zero and unit not found', () => {
-    expect(parse('0x')).toBeNaN();
-    expect(parse('0l')).toBeNaN();
-  });
+    expect(parse('0x')).toBeNaN()
+    expect(parse('0l')).toBeNaN()
+  })
 
-});
+})

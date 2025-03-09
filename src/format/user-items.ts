@@ -1,5 +1,5 @@
-import { noDuplicates } from '../common/no-duplicates';
-import type { ExponentFindItems } from '../common/types';
+import { noDuplicates } from '../common/no-duplicates'
+import type { ExponentFindItems } from '../common/types'
 
 export function validateFormatItems(items: ExponentFindItems): ExponentFindItems {
 
@@ -9,9 +9,9 @@ export function validateFormatItems(items: ExponentFindItems): ExponentFindItems
     items,
     'exp',
     'exponent',
-  );
+  )
 
   // return sorted items
-  return validated.sort((a, b) => b.exp - a.exp);
+  return validated.sort((a, b) => b.exp - a.exp)
 
 }
