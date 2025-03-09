@@ -4,11 +4,14 @@ export function isNullish(value: unknown): value is Nullish | Void {
   return value == null;
 }
 
-function isType(type: 'number'): TypeCheckFunction<number>;
-function isType(type: 'object'): TypeCheckFunction<object>;
-function isType(type: 'function'): TypeCheckFunction<CallableFunction>;
-function isType(type: string) {
-  return (value: unknown) => {
+interface TypeOfMap {
+  number: number;
+  object: object | null;
+  function: CallableFunction;
+}
+
+function isType<T extends keyof TypeOfMap>(type: T): TypeCheckFunction<TypeOfMap[T]> {
+  return (value: unknown): value is TypeOfMap[T] => {
     return typeof value === type;
   };
 }
@@ -17,14 +20,7 @@ export const isNumber = isType('number');
 export const isObject = isType('object');
 export const isFunction = isType('function');
 
-interface ExtendedArrayConstructor extends ArrayConstructor {
-  isArray: TypeCheckFunction<unknown[]>;
-}
+type UnknownArray = unknown[] | readonly unknown[];
+export const isArray = Array.isArray as TypeCheckFunction<UnknownArray>;
 
-export const { isArray } = Array as ExtendedArrayConstructor;
-
-interface ExtendedNumberConstructor extends NumberConstructor {
-  isFinite: TypeCheckFunction<number>;
-}
-
-export const { isFinite: isFiniteNumber } = Number as ExtendedNumberConstructor;
+export const isFiniteNumber = Number.isFinite as TypeCheckFunction<number>;
