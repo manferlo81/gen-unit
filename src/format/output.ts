@@ -25,7 +25,7 @@ export function createOutputFormatter(output: FormatOutputOption): FormatOutputF
       const formatted = output(value, pre, unit);
 
       // return user function result as string
-      return `${formatted as unknown}`;
+      return `${formatted as never}`;
 
     };
   }

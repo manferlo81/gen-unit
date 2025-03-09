@@ -11,6 +11,7 @@ const javascriptPluginConfig = config(
       'object-shorthand': 'error',
       'no-useless-concat': 'error',
       'prefer-template': 'error',
+      eqeqeq: 'smart',
     }),
   },
 );
@@ -42,7 +43,15 @@ const typescriptPluginConfig = config(
     languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } },
     rules: normalizeRules('@typescript-eslint', {
       'array-type': { default: 'array-simple', readonly: 'array-simple' },
-      'restrict-template-expressions': 'off',
+      'restrict-template-expressions': {
+        allowNumber: true,
+        allowNever: true,
+        allowBoolean: false,
+        allowAny: false,
+        allowNullish: false,
+        allowRegExp: false,
+        allowArray: false,
+      },
     }),
   },
   {
@@ -52,18 +61,24 @@ const typescriptPluginConfig = config(
 );
 
 export default config(
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
   { ignores: ['dist', 'coverage'] },
+  { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   javascriptPluginConfig,
   stylisticPluginConfig,
   typescriptPluginConfig,
 );
 
-function normalizeRuleEntry(entry) {
-  if (Array.isArray(entry)) return entry;
-  if (['error', 'warn', 'off'].includes(entry)) return entry;
-  return ['error', entry];
+function normalizeRules(pluginName, rules) {
+  if (!rules && pluginName) return normalizeRules(null, pluginName);
+  const normalizeEntry = createEntryNormalizer(pluginName);
+  return Object.fromEntries(Object.entries(rules).map(normalizeEntry));
+}
+
+function createEntryNormalizer(pluginName) {
+  if (!pluginName) return ([ruleName, ruleEntry]) => [ruleName, normalizeRuleEntry(ruleEntry)];
+  const normalizeRuleName = createPluginRuleNameNormalizer(pluginName);
+  return ([ruleName, ruleEntry]) => [normalizeRuleName(ruleName), normalizeRuleEntry(ruleEntry)];
 }
 
 function createPluginRuleNameNormalizer(pluginName) {
@@ -74,14 +89,8 @@ function createPluginRuleNameNormalizer(pluginName) {
   };
 }
 
-function createEntryNormalizer(pluginName) {
-  if (!pluginName) return ([ruleName, ruleEntry]) => [ruleName, normalizeRuleEntry(ruleEntry)];
-  const normalizeRuleName = createPluginRuleNameNormalizer(pluginName);
-  return ([ruleName, ruleEntry]) => [normalizeRuleName(ruleName), normalizeRuleEntry(ruleEntry)];
-}
-
-function normalizeRules(pluginName, rules) {
-  if (!rules && pluginName) return normalizeRules(null, pluginName);
-  const normalizeEntry = createEntryNormalizer(pluginName);
-  return Object.fromEntries(Object.entries(rules).map(normalizeEntry));
+function normalizeRuleEntry(entry) {
+  if (Array.isArray(entry)) return entry;
+  if (['error', 'warn', 'off'].includes(entry)) return entry;
+  return ['error', entry];
 }

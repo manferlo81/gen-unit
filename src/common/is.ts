@@ -23,4 +23,7 @@ export const isFunction = isType('function');
 type UnknownArray = unknown[] | readonly unknown[];
 export const isArray = Array.isArray as TypeCheckFunction<UnknownArray>;
 
-export const isFiniteNumber = Number.isFinite as TypeCheckFunction<number>;
+export const isFiniteNumber = Number.isFinite as {
+  (value: number): boolean;
+  (value: unknown): value is number;
+};

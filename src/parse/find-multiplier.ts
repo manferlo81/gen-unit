@@ -38,7 +38,7 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
   );
 
   // return function returning null if there are no items to search
-  if (findTable.length == 0) return () => null;
+  if (findTable.length === 0) return () => null;
 
   // return multiplier finder function
   return (prefix: string) => {
