@@ -16,6 +16,7 @@ const javascriptPluginConfig = config(
 
 const stylisticPluginConfig = config(
   pluginStylistic.configs.customize({
+    indent: 2,
     semi: false,
     arrowParens: true,
     quoteProps: 'as-needed',
@@ -23,7 +24,6 @@ const stylisticPluginConfig = config(
   }),
   normalizeRules('@stylistic', {
     quotes: 'single',
-    indent: 2,
     'linebreak-style': 'unix',
     'no-extra-parens': 'all',
     'no-extra-semi': 'error',
