@@ -1,11 +1,16 @@
+import { createDefaultPreset } from 'ts-jest'
+
 const { COVERAGE } = process.env
 const collectCoverage = COVERAGE !== 'SKIP'
 const coverageOnCI = COVERAGE === 'CI'
 
+const typescriptJestPreset = createDefaultPreset({
+  tsconfig: './tsconfig.json',
+})
+
 /** @type { import("ts-jest").JestConfigWithTsJest } */
 const config = {
-  cacheDirectory: 'node_modules/.cache/jest',
-  preset: 'ts-jest',
+  ...typescriptJestPreset,
 
   collectCoverage,
   collectCoverageFrom: [
@@ -20,6 +25,7 @@ const config = {
     '**/__test__/**/*.test.ts',
   ],
 
+  cacheDirectory: 'node_modules/.cache/jest',
   verbose: true,
 }
 
