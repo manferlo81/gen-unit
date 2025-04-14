@@ -1,7 +1,7 @@
 import pluginJavascript from '@eslint/js'
 import pluginStylistic from '@stylistic/eslint-plugin'
 import globals from 'globals'
-import { config, configs as typescriptConfigs } from 'typescript-eslint'
+import { config, configs as pluginTypescriptConfigs } from 'typescript-eslint'
 
 const javascriptPluginConfig = config(
   pluginJavascript.configs.recommended,
@@ -33,9 +33,9 @@ const stylisticPluginConfig = config(
 )
 
 const typescriptPluginConfig = config(
-  typescriptConfigs.strictTypeChecked,
-  typescriptConfigs.stylisticTypeChecked,
   { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
+  pluginTypescriptConfigs.strictTypeChecked,
+  pluginTypescriptConfigs.stylisticTypeChecked,
   normalizeRules('@typescript-eslint', {
     'array-type': { default: 'array-simple', readonly: 'array-simple' },
     'restrict-template-expressions': {
@@ -49,8 +49,8 @@ const typescriptPluginConfig = config(
     },
   }),
   {
+    ...pluginTypescriptConfigs.disableTypeChecked,
     files: ['**/*.{js,mjs,cjs}'],
-    ...typescriptConfigs.disableTypeChecked,
   },
 )
 
@@ -65,9 +65,12 @@ export default config(
 
 function normalizeRules(pluginName, rules) {
   if (!rules && pluginName) return normalizeRules(null, pluginName)
+  const entries = Object.entries(rules)
+  if (!entries.length) return {}
   const normalizeEntry = createEntryNormalizer(pluginName)
-  const entries = Object.entries(rules).map(normalizeEntry)
-  return { rules: Object.fromEntries(entries) }
+  const entriesNormalized = entries.map(normalizeEntry)
+  const rulesNormalized = Object.fromEntries(entriesNormalized)
+  return { rules: rulesNormalized }
 }
 
 function createEntryNormalizer(pluginName) {
