@@ -1,29 +1,7 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node10",
-    "lib": [],
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "allowUmdGlobalAccess": false,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist/types"
-  },
+  "extends": "./tsconfig-base.json",
   "include": [
     "src",
     "__test__"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage"
   ]
 }
