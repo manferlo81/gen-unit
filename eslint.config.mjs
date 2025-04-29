@@ -23,11 +23,12 @@ const importPluginConfig = config(
     'no-useless-path-segments': 'error',
     'no-absolute-path': 'error',
     'no-cycle': 'error',
+    'no-nodejs-modules': 'error',
   }),
 )
 
 const stylisticPluginConfig = config(
-  // Disable rule until @stylistic/eslint-plugin fixes their types
+  // Disable rule until @stylistic/eslint-plugin types are fixed
   // eslint-disable-next-line import-x/no-named-as-default-member
   pluginStylistic.configs.customize({
     indent: 2,
