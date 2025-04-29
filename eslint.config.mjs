@@ -19,10 +19,10 @@ const importPluginConfig = config(
   pluginImportConfigs.recommended,
   pluginImportConfigs.typescript,
   normalizeRulesConfig('import-x', {
-    'import-x/consistent-type-specifier-style': 'error',
-    'import-x/no-useless-path-segments': 'error',
-    'import-x/no-absolute-path': 'error',
-    'import-x/no-cycle': 'error',
+    'consistent-type-specifier-style': 'error',
+    'no-useless-path-segments': 'error',
+    'no-absolute-path': 'error',
+    'no-cycle': 'error',
   }),
 )
 
@@ -90,15 +90,15 @@ function normalizeRulesConfig(pluginName, rules) {
 
 function createEntryNormalizer(pluginName) {
   if (!pluginName) return ([ruleName, ruleEntry]) => [ruleName, normalizeRuleEntry(ruleEntry)]
-  const normalizeRuleName = createPluginRuleNameNormalizer(pluginName)
+  const normalizeRuleName = createPluginKeyNormalizer(pluginName)
   return ([ruleName, ruleEntry]) => [normalizeRuleName(ruleName), normalizeRuleEntry(ruleEntry)]
 }
 
-function createPluginRuleNameNormalizer(pluginName) {
+function createPluginKeyNormalizer(pluginName) {
   const pluginPrefix = `${pluginName}/`
-  return (ruleName) => {
-    if (ruleName.startsWith(pluginPrefix)) return ruleName
-    return `${pluginPrefix}${ruleName}`
+  return (key) => {
+    if (key.startsWith(pluginPrefix)) return key
+    return `${pluginPrefix}${key}`
   }
 }
 
