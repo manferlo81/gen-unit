@@ -1,11 +1,12 @@
 import pluginJavascript from '@eslint/js'
 import pluginStylistic from '@stylistic/eslint-plugin'
+import { flatConfigs as pluginImportConfigs } from 'eslint-plugin-import-x'
 import globals from 'globals'
 import { config, configs as pluginTypescriptConfigs } from 'typescript-eslint'
 
 const javascriptPluginConfig = config(
   pluginJavascript.configs.recommended,
-  normalizeRules({
+  normalizeRulesConfig({
     'no-useless-rename': 'error',
     'object-shorthand': 'error',
     'no-useless-concat': 'error',
@@ -14,7 +15,20 @@ const javascriptPluginConfig = config(
   }),
 )
 
+const importPluginConfig = config(
+  pluginImportConfigs.recommended,
+  pluginImportConfigs.typescript,
+  normalizeRulesConfig('import-x', {
+    'import-x/consistent-type-specifier-style': 'error',
+    'import-x/no-useless-path-segments': 'error',
+    'import-x/no-absolute-path': 'error',
+    'import-x/no-cycle': 'error',
+  }),
+)
+
 const stylisticPluginConfig = config(
+  // Disable rule until @stylistic/eslint-plugin fixes their types
+  // eslint-disable-next-line import-x/no-named-as-default-member
   pluginStylistic.configs.customize({
     indent: 2,
     semi: false,
@@ -22,7 +36,7 @@ const stylisticPluginConfig = config(
     quoteProps: 'as-needed',
     braceStyle: '1tbs',
   }),
-  normalizeRules('@stylistic', {
+  normalizeRulesConfig('@stylistic', {
     quotes: 'single',
     'linebreak-style': 'unix',
     'no-extra-parens': 'all',
@@ -36,7 +50,7 @@ const typescriptPluginConfig = config(
   { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
   pluginTypescriptConfigs.strictTypeChecked,
   pluginTypescriptConfigs.stylisticTypeChecked,
-  normalizeRules('@typescript-eslint', {
+  normalizeRulesConfig('@typescript-eslint', {
     'array-type': { default: 'array-simple', readonly: 'array-simple' },
     'restrict-template-expressions': {
       allowNumber: true,
@@ -59,12 +73,13 @@ export default config(
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   javascriptPluginConfig,
+  importPluginConfig,
   stylisticPluginConfig,
   typescriptPluginConfig,
 )
 
-function normalizeRules(pluginName, rules) {
-  if (!rules && pluginName) return normalizeRules(null, pluginName)
+function normalizeRulesConfig(pluginName, rules) {
+  if (!rules && pluginName) return normalizeRulesConfig(null, pluginName)
   const entries = Object.entries(rules)
   if (!entries.length) return {}
   const normalizeEntry = createEntryNormalizer(pluginName)
