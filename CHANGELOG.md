@@ -2,6 +2,19 @@
 
 ## Version History
 
+### [0.2.1](https://github.com/manferlo81/gen-unit/compare/v0.2.0...v0.2.1) (2025-09-04)
+
+
+### Features
+
+* **format:** `round` option as boolean ([#1223](https://github.com/manferlo81/gen-unit/issues/1223)) ([af73347](https://github.com/manferlo81/gen-unit/commit/af73347d0eff66930b0abb960b53f9dac67180d1))
+* Throw on unknown options ([#1120](https://github.com/manferlo81/gen-unit/issues/1120)) ([786b86b](https://github.com/manferlo81/gen-unit/commit/786b86b85d1f7ef39de105ea8d16ed5ba5c177df))
+
+
+### Bug Fixes
+
+* Update types for better intellisense ([#1224](https://github.com/manferlo81/gen-unit/issues/1224)) ([28add53](https://github.com/manferlo81/gen-unit/commit/28add5383dcb4ff9e7ebd696e88d14792ef8c50f))
+
 ## [0.2.0](https://github.com/manferlo81/gen-unit/compare/v0.1.0...v0.2.0) (2024-10-07)
 
 
