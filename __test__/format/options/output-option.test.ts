@@ -58,13 +58,10 @@ describe('formatter "output" option', () => {
         Infinity,
         -Infinity,
         0 / 0,
-        0 / +0,
         0 / -0,
         1 / 0,
-        1 / +0,
         1 / -0,
         -1 / 0,
-        -1 / +0,
         -1 / -0,
       ]
 

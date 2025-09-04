@@ -10,7 +10,7 @@ export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFind
 
 export type RoundDecimals = number
 
-export type RoundFunction = (num: number) => (string | number)
+export type RoundFunction = (num: number) => string | number
 export interface FormatRoundAdvancedOptions {
   readonly dec?: AllowNullish<RoundDecimals>
   readonly fixed?: AllowNullish<boolean>

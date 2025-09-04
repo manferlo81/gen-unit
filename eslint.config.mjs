@@ -1,10 +1,12 @@
+import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from 'globals'
+
 import pluginJavascript from '@eslint/js'
 import pluginStylistic from '@stylistic/eslint-plugin'
 import { flatConfigs as pluginImportConfigs } from 'eslint-plugin-import-x'
-import globals from 'globals'
-import { config, configs as pluginTypescriptConfigs } from 'typescript-eslint'
+import { configs as pluginTypescriptConfigs } from 'typescript-eslint'
 
-const javascriptPluginConfig = config(
+const javascriptPluginConfig = defineConfig(
   pluginJavascript.configs.recommended,
   normalizeRulesConfig({
     'no-useless-rename': 'error',
@@ -15,7 +17,7 @@ const javascriptPluginConfig = config(
   }),
 )
 
-const importPluginConfig = config(
+const importPluginConfig = defineConfig(
   pluginImportConfigs.recommended,
   pluginImportConfigs.typescript,
   normalizeRulesConfig('import-x', {
@@ -27,9 +29,7 @@ const importPluginConfig = config(
   }),
 )
 
-const stylisticPluginConfig = config(
-  // Disable rule until @stylistic/eslint-plugin types are fixed
-  // eslint-disable-next-line import-x/no-named-as-default-member
+const stylisticPluginConfig = defineConfig(
   pluginStylistic.configs.customize({
     indent: 2,
     semi: false,
@@ -47,7 +47,7 @@ const stylisticPluginConfig = config(
   }),
 )
 
-const typescriptPluginConfig = config(
+const typescriptPluginConfig = defineConfig(
   { languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: process.cwd() } } },
   pluginTypescriptConfigs.strictTypeChecked,
   pluginTypescriptConfigs.stylisticTypeChecked,
@@ -69,8 +69,8 @@ const typescriptPluginConfig = config(
   },
 )
 
-export default config(
-  { ignores: ['dist', 'coverage'] },
+export default defineConfig(
+  globalIgnores(['dist', 'coverage']),
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
   javascriptPluginConfig,
