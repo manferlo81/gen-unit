@@ -25,8 +25,8 @@ function deprecated_createGetUnit(unit: FormatUnitOption | DeprecatedFormatGetUn
  *
  * @param options create formatter options
  */
-export function createFormatter<U extends FormatUnitOption>(options: CreateFormatterOptionsWithUnit<U>): Formatter
 export function createFormatter(options: CreateFormatterOptionsWithoutUnit): Formatter
+export function createFormatter<U extends FormatUnitOption>(options: CreateFormatterOptionsWithUnit<U>): Formatter
 export function createFormatter(options?: CreateFormatterOptions): Formatter
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
