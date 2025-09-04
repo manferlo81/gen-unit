@@ -8,11 +8,3 @@ export type AllowNullish<T> = T | Nullish
 export type AllowNullishReturn<T> = T | NullishReturn
 
 export type TypeCheckFunction<T> = (value: unknown) => value is T
-
-export interface WithUnit<U> {
-  readonly unit: U
-}
-
-export interface WithOptionalFind<F> {
-  readonly find?: F
-}

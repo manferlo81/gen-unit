@@ -1,4 +1,4 @@
-import type { AllowNullish, AllowNullishReturn, Nullish, WithOptionalFind, WithUnit } from '../common/private-types'
+import type { AllowNullish, AllowNullishReturn, Nullish } from '../common/private-types'
 import type { DeclarativeFindUnit } from '../common/types'
 
 export type ParseUnitOption = AllowNullish<string>
@@ -12,13 +12,18 @@ export type ParseMultiplier = number
 export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = (prefix: string, unit: U) => AllowNullishReturn<ParseMultiplier>
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = AllowNullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>
 
-interface CreateParserOptionsBase<U extends ParseUnitOption> extends WithOptionalFind<ParseFindMultiplierOption<U>> {
+interface CreateParserOptionsBase<U extends ParseUnitOption> {
+  readonly find?: ParseFindMultiplierOption<U>
   readonly match?: ParseMatchOption
 }
 
-export interface CreateParserOptionsWithoutUnit extends Partial<WithUnit<Nullish>>, CreateParserOptionsBase<undefined> {}
+export interface CreateParserOptionsWithoutUnit extends CreateParserOptionsBase<undefined> {
+  readonly unit?: Nullish
+}
 
-export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends WithUnit<U>, CreateParserOptionsBase<U> {}
+export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptionsBase<U> {
+  readonly unit: U
+}
 
 export type CreateParserOptions = Partial<CreateParserOptionsWithUnit<ParseUnitOption>>
 

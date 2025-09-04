@@ -1,5 +1,5 @@
 import { noDuplicates } from '../common/no-duplicates'
-import { ExponentFindItems } from '../common/types'
+import type { ExponentFindItems } from '../common/types'
 
 export function validateParseItems(items: ExponentFindItems): ExponentFindItems {
 

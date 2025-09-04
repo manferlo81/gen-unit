@@ -1,4 +1,5 @@
-import { createFormatter, CreateFormatterOptions, CreateFormatterOptionsWithUnit, format as oneStepFormat } from '../../../src'
+import type { CreateFormatterOptions, CreateFormatterOptionsWithUnit } from '../../../src'
+import { createFormatter, format as oneStepFormat } from '../../../src'
 
 describe('formatter "output" option', () => {
 

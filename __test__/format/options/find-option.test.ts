@@ -1,4 +1,5 @@
-import { createFormatter, ExponentFindItems, format, MICRO } from '../../../src'
+import type { ExponentFindItems } from '../../../src'
+import { createFormatter, format, MICRO } from '../../../src'
 
 describe('formatter "find" option', () => {
 

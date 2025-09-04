@@ -1,5 +1,4 @@
-import type { AllowNullish, AllowNullishReturn, WithOptionalFind, WithUnit } from '../common/private-types'
-import { Nullish } from '../common/private-types'
+import type { AllowNullish, AllowNullishReturn } from '../common/private-types'
 import type { DeclarativeFindUnit, MultiplierFindItem } from '../common/types'
 import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction } from '../deprecated-types'
 
@@ -24,15 +23,20 @@ export interface FormatOutputAdvancedOption {
 }
 export type FormatOutputOption<U extends string = string> = AllowNullish<FormatOutputFunction<U> | FormatOutputAdvancedOption>
 
-interface CreateFormatterOptionsBase<U extends string> extends WithOptionalFind<FormatFindUnitOption> {
+interface CreateFormatterOptionsBase<U extends string> {
+  readonly find?: FormatFindUnitOption
   readonly round?: FormatRoundOption
   readonly output?: FormatOutputOption<U>
 }
 
-export interface CreateFormatterOptionsWithoutUnit extends Partial<WithUnit<Nullish>>, CreateFormatterOptionsBase<string> {}
+export interface CreateFormatterOptionsWithoutUnit extends CreateFormatterOptionsBase<string> {
+  readonly unit?: undefined | null
+}
 
-// eslint-disable-next-line @typescript-eslint/no-deprecated
-export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends WithUnit<U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>>, CreateFormatterOptionsBase<U extends string ? U : string> {}
+export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends CreateFormatterOptionsBase<U extends string ? U : string> {
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  readonly unit: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>
+}
 
 export type CreateFormatterOptions = Partial<CreateFormatterOptionsWithUnit<FormatUnitOption>>
 
