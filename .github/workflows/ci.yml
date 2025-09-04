@@ -126,6 +126,10 @@ jobs:
     if: github.ref_type == 'tag'
     needs: Test_and_Build
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Checkout, Setup Node.js v${{ env.NODE_VERSION }} and Install dependencies
         uses: manferlo81/action-checkout-node-install@v0
@@ -142,4 +146,3 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
