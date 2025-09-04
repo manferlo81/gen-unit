@@ -50,6 +50,7 @@ yarn add gen-unit
     - `round` [option as an object](#round-option-as-an-object)
     - `round` [option as a number](#round-option-as-a-number)
     - `round` [option as a function](#round-option-as-a-function)
+    - `round` [option as a boolean](#round-option-as-a-boolean)
   - `output` [option](#the-output-option)
     - `output` [option as an object](#output-option-as-an-object)
     - `output` [option as a function](#output-option-as-a-function)
@@ -572,6 +573,57 @@ format(1.23); // => '1'
 format(1.75); // => '2'
 format(1230); // => '1 k'
 format(0.00123); // => '1 m'
+```
+
+##### `round` option as a boolean
+
+```typescript
+round: boolean;
+```
+
+A `boolean` defining wether or not to round the number. If `true` is passed, the default rounder will be used (2 decimals). If `false` is passed, rounding will be disabled.
+
+***Example***
+
+```typescript
+const format = createFormatter({
+  round: true,
+});
+
+format(1.231); // => '1.23'
+format(1.238); // => '1.24'
+format(1200); // => '1.2 k'
+format(0.001234); // => '1.23 m'
+```
+
+```typescript
+const format = createFormatter({
+  round: false,
+});
+
+format(1.234); // => '1.234'
+format(1.28); // => '1.28'
+format(1233); // => '1.233 k'
+format(0.0012); // => '1.2 m'
+```
+
+Keep in mind disabling the rounder will case the the output to receive the value in it's raw form and you might get unpredictable results, see example...
+
+***Example***
+
+```typescript
+const format = createFormatter({});
+const formatWithoutRounding = createFormatter({ round: false });
+
+const pointThree = 0.1 + 0.2; // in javascript 0.1 + 0.2 = 0.30000000000000004
+
+format(pointThree); // => '0.3'
+formatWithoutRounding(pointThree); // => '0.30000000000000004'
+
+const threeThousand = pointThree * 10000; // 3000.0000000000005
+
+format(threeThousand); // => '3 k'
+formatWithoutRounding(threeThousand); // => '3000.0000000000005 k'
 ```
 
 #### The `output` option

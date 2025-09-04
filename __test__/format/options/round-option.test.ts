@@ -7,8 +7,6 @@ describe('formatter "round" option', () => {
     const values = [
       '',
       'string',
-      true,
-      false,
     ]
 
     values.forEach((invalid) => {
@@ -174,6 +172,42 @@ describe('formatter "round" option', () => {
 
       values.forEach(({ value, dec, expected }) => {
         const format = createFormatter({ round: { dec, fixed: true } })
+        expect(format(value)).toBe(expected)
+      })
+
+    })
+
+  })
+
+  describe('"round" option as boolean', () => {
+
+    test('Should not round if false passed', () => {
+
+      const values = [
+        10.1111111,
+        12.1,
+        12,
+      ]
+
+      const format = createFormatter({ round: false })
+
+      values.forEach((value) => {
+        expect(format(value)).toBe(`${value}`)
+      })
+
+    })
+
+    test('Should use default 2 decimal places if true passed', () => {
+
+      const values = [
+        { value: 10.1111111, expected: '10.11' },
+        { value: 12.1, expected: '12.1' },
+        { value: 12, expected: '12' },
+      ]
+
+      const format = createFormatter({ round: true })
+
+      values.forEach(({ value, expected }) => {
         expect(format(value)).toBe(expected)
       })
 

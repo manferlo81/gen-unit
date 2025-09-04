@@ -33,7 +33,7 @@ export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boole
 export function createRounder(round: FormatRoundOption): RoundFunction {
 
   // return default rounder if round option is nullish
-  if (isNullish(round)) return createRounderFromOptions(2)
+  if (isNullish(round) || round === true) return createRounderFromOptions(2)
 
   // return user option if it's a function
   if (isFunction(round)) return round
@@ -42,6 +42,8 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
   if (isNumber(round)) return createRounderFromOptions(
     validateNumberOfDecimals(round),
   )
+
+  if (round === false) return (n) => n
 
   // throw if round option is not an object at this point
   if (!isObject(round)) throw errorInvalidOption('round')
