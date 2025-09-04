@@ -12,8 +12,8 @@ import type { CreateParserOptions, CreateParserOptionsWithoutUnit, CreateParserO
  *
  * @param options create parser options
  */
-export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser
 export function createParser(options: CreateParserOptionsWithoutUnit): Parser
+export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser
 export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser
 export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 

@@ -1,6 +1,6 @@
 import { validateOptions } from '../../src/common/validate-options'
 
-describe('invalid options', () => {
+describe('validateOptions function', () => {
 
   const validate = (options: Record<string, unknown>) => validateOptions(
     options,
@@ -9,13 +9,13 @@ describe('invalid options', () => {
   )
 
   test('Should throw if removed option used', () => {
-    const unknownOptions = [
+    const removedOptions = [
       'removedOne',
       'removedTwo',
     ]
-    unknownOptions.forEach((optionName) => {
-      const callCreateFormatterWithUnknownOption = () => validate({ [optionName]: null })
-      expect(callCreateFormatterWithUnknownOption).toThrow(`Option "${optionName}" has been removed`)
+    removedOptions.forEach((removedOptionName) => {
+      const callValidateWithRemovedOption = () => validate({ [removedOptionName]: null })
+      expect(callValidateWithRemovedOption).toThrow(`Option "${removedOptionName}" has been removed`)
     })
   })
 
@@ -26,9 +26,9 @@ describe('invalid options', () => {
       'any-option',
       'anyOption',
     ]
-    unknownOptions.forEach((optionName) => {
-      const callCreateFormatterWithUnknownOption = () => validate({ [optionName]: null })
-      expect(callCreateFormatterWithUnknownOption).toThrow(`Unknown option "${optionName}"`)
+    unknownOptions.forEach((unknownOptionName) => {
+      const callValidateWithUnknownOption = () => validate({ [unknownOptionName]: null })
+      expect(callValidateWithUnknownOption).toThrow(`Unknown option "${unknownOptionName}"`)
     })
   })
 
