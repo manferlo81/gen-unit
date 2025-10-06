@@ -3,5 +3,8 @@
     "src",
     "__test__"
   ],
-  "extends": "./tsconfig.base.json"
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.tsbuildinfo/tsconfig.tsbuildinfo"
+  }
 }

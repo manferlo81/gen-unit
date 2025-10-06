@@ -1,21 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node10",
+    // Module
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "isolatedModules": true,
-    "lib": [],
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
+    "lib": [],
     "skipLibCheck": true,
+    // Strict
     "strict": true,
+    "strictNullChecks": true,
     "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowUnreachableCode": false,
     "allowUmdGlobalAccess": false,
+    // Misc
+    "noEmit": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "newLine": "lf"
   },
   "exclude": [
     "dist",
