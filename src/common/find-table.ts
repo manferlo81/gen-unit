@@ -6,7 +6,6 @@ import { transformFindItems } from './transform-items'
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types'
 
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
 function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omit<FindUnitAdvancedOptions, keyof DeprecatedFindUnitAdvancedOptions> {
 
   // return option if it's a modern option
@@ -15,7 +14,6 @@ function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omi
   // handle deprecated option
   // use deprecated 'find' member as modern 'items' member
   // return modern option based on deprecated option
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const { find: items, base } = find
   return { items, base }
 
@@ -36,7 +34,7 @@ export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, default
   if (!isObject(find)) throw errorInvalidOption('find')
 
   // get items and base from find option
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
+
   const { items, base } = deprecated_transformAdvancedOptions(find)
 
   // normalize base

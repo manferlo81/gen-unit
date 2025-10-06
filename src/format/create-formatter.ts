@@ -8,7 +8,7 @@ import { createRounder } from './round'
 import type { CreateFormatterOptions, CreateFormatterOptionsWithoutUnit, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types'
 
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
+
 function deprecated_createGetUnit(unit: FormatUnitOption | DeprecatedFormatGetUnitFunction): DeprecatedFormatGetUnitFunction {
 
   // return unit option if it's a function (deprecated)
@@ -38,7 +38,6 @@ export function createFormatter(options: CreateFormatterOptions = {}): Formatter
 
   const { unit, find, round, output } = validOptions
 
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const getUnit = deprecated_createGetUnit(unit)
   const findUnit = createUnitFinder(find)
   const roundNum = createRounder(round)

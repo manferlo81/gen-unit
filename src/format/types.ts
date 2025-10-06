@@ -5,7 +5,6 @@ import type { DeprecatedFormatFindUnitFunction, DeprecatedFormatGetUnitFunction 
 export type FormatUnitOption = AllowNullish<string>
 
 export type FormatFindUnitFunction = (value: number) => AllowNullishReturn<MultiplierFindItem>
-// eslint-disable-next-line @typescript-eslint/no-deprecated
 export type FormatFindUnitOption = AllowNullish<DeclarativeFindUnit | FormatFindUnitFunction> | DeprecatedFormatFindUnitFunction
 
 export type RoundDecimals = number
@@ -34,7 +33,6 @@ export interface CreateFormatterOptionsWithoutUnit extends CreateFormatterOption
 }
 
 export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends CreateFormatterOptionsBase<U extends string ? U : string> {
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
   readonly unit: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>
 }
 

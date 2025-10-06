@@ -47,6 +47,7 @@ const rulesPluginTypescript = ruleNormalizer({ plugin: '@typescript-eslint' })({
   },
   'consistent-type-imports': 'on',
   'consistent-type-exports': 'on',
+  'no-deprecated': 'off',
 })
 
 const configPluginTypescript = defineConfig({

@@ -17,7 +17,6 @@ export type MultiplierFindItems = MultiplierFindItem[]
 
 export type FindUnitBase = number
 
-// eslint-disable-next-line @typescript-eslint/no-deprecated
 export interface FindUnitAdvancedOptions extends DeprecatedFindUnitAdvancedOptions {
   readonly base?: AllowNullish<FindUnitBase>
   readonly items?: AllowNullish<ExponentFindItems>

@@ -8,7 +8,6 @@ import type { FormatFindUnitFunction, FormatFindUnitOption } from './types'
 import { validateFormatItems } from './user-items'
 
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
 function deprecated_handleResult(item: MultiplierFindItem | DivisorFindItem): MultiplierFindItem {
 
   // return item if it's modern item
@@ -16,7 +15,7 @@ function deprecated_handleResult(item: MultiplierFindItem | DivisorFindItem): Mu
 
   // use deprecated 'div' member as modern 'mul' member
   // return modern item based on deprecated item
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
+
   const { pre, div: mul } = item
   return { pre, mul }
 
@@ -39,7 +38,7 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
     // normalize result for deprecated result
     // get prefix and multiplier
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
+
     const { pre, mul } = deprecated_handleResult(result)
 
     // throw if multiplier is invalid
