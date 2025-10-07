@@ -16,10 +16,11 @@ function validateNumberOfDecimals(dec: number): number {
 export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
 
   // return fixed rounder function if fixed member set
-  if (fixed) return (num: number): string => {
-    return num.toFixed(dec)
+  if (fixed) {
+    return (num: number): string => {
+      return num.toFixed(dec)
+    }
   }
-
   // compute round multiplier
   const roundMultiplier = 10 ** dec
 
@@ -39,9 +40,11 @@ export function createRounder(round: FormatRoundOption): RoundFunction {
   if (isFunction(round)) return round
 
   // return rounder with round option as number of decimals if it's a number
-  if (isNumber(round)) return createRounderFromOptions(
-    validateNumberOfDecimals(round),
-  )
+  if (isNumber(round)) {
+    return createRounderFromOptions(
+      validateNumberOfDecimals(round),
+    )
+  }
 
   if (round === false) return (n) => n
 

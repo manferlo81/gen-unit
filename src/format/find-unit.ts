@@ -25,28 +25,30 @@ export function createUnitFinder(find: FormatFindUnitOption): FormatFindUnitFunc
 
   // return wrapped user function if option it's a function
   // wrap function to test for result validity
-  if (isFunction(find)) return (value) => {
+  if (isFunction(find)) {
+    return (value) => {
 
-    // call user function
-    const result = find(value)
+      // call user function
+      const result = find(value)
 
-    // return undefined if user function returns nullish
-    if (isNullish(result)) return
+      // return undefined if user function returns nullish
+      if (isNullish(result)) return
 
-    // throw if user function return non-object
-    if (!isObject(result)) throw error(`${result} is not a valid return value for "find" option`)
+      // throw if user function return non-object
+      if (!isObject(result)) throw error(`${result} is not a valid return value for "find" option`)
 
-    // normalize result for deprecated result
-    // get prefix and multiplier
+      // normalize result for deprecated result
+      // get prefix and multiplier
 
-    const { pre, mul } = deprecated_handleResult(result)
+      const { pre, mul } = deprecated_handleResult(result)
 
-    // throw if multiplier is invalid
-    if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) throw rangeError(`${mul} is not a valid multiplier`)
+      // throw if multiplier is invalid
+      if (!isNumber(mul) || !isFiniteNumber(mul) || mul <= 0) throw rangeError(`${mul} is not a valid multiplier`)
 
-    // return prefix and multiplier
-    return { pre, mul }
+      // return prefix and multiplier
+      return { pre, mul }
 
+    }
   }
 
   // create find table

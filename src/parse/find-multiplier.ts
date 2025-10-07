@@ -9,25 +9,27 @@ export function createMulFinder(find: ParseFindMultiplierOption): ParseFindMulti
 
   // return wrapped function if find option is a function
   // wrap function test for result validity
-  if (isFunction(find)) return (prefix, unit) => {
+  if (isFunction(find)) {
+    return (prefix, unit) => {
 
-    // find multiplier
-    const result = find(prefix, unit)
+      // find multiplier
+      const result = find(prefix, unit)
 
-    // return undefined if no multiplier found (null | undefined)
-    if (isNullish(result)) return
+      // return undefined if no multiplier found (null | undefined)
+      if (isNullish(result)) return
 
-    // TODO: remove if future version
-    // this feature was removed in version 0.1.0
-    // throw error for removed feature
-    if (isObject(result)) throw error('Function returning object is no longer supported, return a non-zero positive number, null or undefined.')
+      // TODO: remove if future version
+      // this feature was removed in version 0.1.0
+      // throw error for removed feature
+      if (isObject(result)) throw error('Function returning object is no longer supported, return a non-zero positive number, null or undefined.')
 
-    // throw if multiplier is not valid
-    if (!isNumber(result) || !isFiniteNumber(result) || result <= 0) throw rangeError(`${result} is not a valid multiplier`)
+      // throw if multiplier is not valid
+      if (!isNumber(result) || !isFiniteNumber(result) || result <= 0) throw rangeError(`${result} is not a valid multiplier`)
 
-    // return multiplier
-    return result
+      // return multiplier
+      return result
 
+    }
   }
 
   // create find table

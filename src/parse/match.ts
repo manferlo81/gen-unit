@@ -6,25 +6,27 @@ export function createMatcher(match: ParseMatchOption): MatchFunction {
 
   // return wrapped function if match option is a function
   // wrap function to test for result validity
-  if (isFunction(match)) return (input) => {
+  if (isFunction(match)) {
+    return (input) => {
 
-    // call user function
-    const captured = match(input)
+      // call user function
+      const captured = match(input)
 
-    // return undefined if nullish return by user function
-    if (isNullish(captured)) {
-      return
+      // return undefined if nullish return by user function
+      if (isNullish(captured)) {
+        return
+      }
+
+      // throw if it's not an array
+      if (!isArray(captured)) {
+        throw error('Match function should return an array of strings')
+      }
+
+      // return array
+      // array validation will happen later
+      return captured
+
     }
-
-    // throw if it's not an array
-    if (!isArray(captured)) {
-      throw error('Match function should return an array of strings')
-    }
-
-    // return array
-    // array validation will happen later
-    return captured
-
   }
 
   // create regular expression based on option

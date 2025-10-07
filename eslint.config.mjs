@@ -16,99 +16,115 @@ const FILES_ALL = [PATTERN_JS, PATTERN_TS]
 
 // Javascript Plugin
 
-const rulesPluginJavascript = ruleNormalizer()({
-  'no-useless-rename': 'on',
-  'object-shorthand': 'on',
-  'no-useless-concat': 'on',
-  'prefer-template': 'on',
-  eqeqeq: 'smart',
-})
-
 const configPluginJavascript = defineConfig({
+  rules: ruleNormalizer()({
+    // Safety
+    'no-eval': 'on',
+    'no-implied-eval': 'on',
+    'no-new-func': 'on',
+    'no-unmodified-loop-condition': 'on',
+    'no-bitwise': { allow: ['~', '^', '>>>'] },
+    eqeqeq: 'smart',
+    // Style
+    'no-var': 'on',
+    'prefer-const': 'on',
+    'no-unassigned-vars': 'on',
+    'prefer-template': 'on',
+    'prefer-rest-params': 'on',
+    'prefer-spread': 'on',
+    'no-throw-literal': 'on',
+    'prefer-exponentiation-operator': 'on',
+    curly: ['on', 'multi-line'],
+    'require-await': 'on',
+    'prefer-object-has-own': 'on',
+    'prefer-regex-literals': 'on',
+    'no-array-constructor': 'on',
+    'no-object-constructor': 'on',
+    'no-inner-declarations': ['functions', { blockScopedFunctions: 'disallow' }],
+    // Useless code
+    'no-useless-rename': 'on',
+    'object-shorthand': 'on',
+    'no-unreachable-loop': 'on',
+    'no-useless-concat': 'on',
+    'no-unused-expressions': 'on',
+    'no-useless-computed-key': 'on',
+    'no-useless-constructor': 'on',
+    'no-useless-return': 'on',
+    'no-useless-assignment': 'on',
+    'no-else-return': { allowElseIf: false },
+  }),
   files: FILES_ALL,
   extends: [
     pluginJavascript.configs.recommended,
   ],
-  rules: rulesPluginJavascript,
 })
 
 // Typescript Plugin
 
-const rulesPluginTypescript = ruleNormalizer({ plugin: '@typescript-eslint' })({
-  'array-type': { default: 'array-simple', readonly: 'array-simple' },
-  'restrict-template-expressions': {
-    allowNumber: true,
-    allowBoolean: false,
-    allowNullish: false,
-    allowRegExp: false,
-    allowArray: false,
-    allowAny: false,
-    allowNever: true,
-  },
-  'consistent-type-imports': 'on',
-  'consistent-type-exports': 'on',
-  'no-deprecated': 'off',
-})
-
 const configPluginTypescript = defineConfig({
+  rules: ruleNormalizer({ plugin: '@typescript-eslint' })({
+    'array-type': { default: 'array-simple', readonly: 'array-simple' },
+    'restrict-template-expressions': {
+      allowNumber: true,
+      allowBoolean: false,
+      allowNullish: false,
+      allowRegExp: false,
+      allowArray: false,
+      allowAny: false,
+      allowNever: true,
+    },
+    'consistent-type-imports': 'on',
+    'consistent-type-exports': 'on',
+    'no-deprecated': 'off',
+  }),
   files: FILES_TS_ONLY,
   languageOptions: { parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname } },
   extends: [
     pluginTypescriptConfigs.strictTypeChecked,
     pluginTypescriptConfigs.stylisticTypeChecked,
   ],
-  rules: rulesPluginTypescript,
 })
 
 // Import Plugin
 
-const rulesPluginImport = ruleNormalizer({ plugin: 'import' })({
-  'consistent-type-specifier-style': 'prefer-top-level',
-  'no-absolute-path': 'on',
-  'no-cycle': 'on',
-  'no-nodejs-modules': 'on',
-  'no-useless-path-segments': 'on',
-})
-
 const configPluginImport = defineConfig({
+  rules: ruleNormalizer({ plugin: 'import' })({
+    'consistent-type-specifier-style': 'prefer-top-level',
+    'no-useless-path-segments': 'on',
+    'no-absolute-path': 'on',
+    'no-cycle': 'on',
+    'no-nodejs-modules': 'on',
+  }),
   files: FILES_ALL,
-  settings: { 'import/resolver': { typescript: true } },
+  settings: { 'import/resolver': { node: true, typescript: true } },
   languageOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   extends: [
     pluginImportConfigs.recommended,
     pluginImportConfigs.typescript,
   ],
-  rules: rulesPluginImport,
 })
 
 // Stylistic Plugin
 
-const rulesPluginStylistic = ruleNormalizer({ plugin: '@stylistic' })({
-  indent: ['on', 2],
-  quotes: 'single',
-  'linebreak-style': 'unix',
-  'no-extra-parens': 'all',
-  'no-extra-semi': 'on',
-  'no-floating-decimal': 'off',
-  'padded-blocks': 'off',
-})
-
 const configPluginStylistic = defineConfig({
+  rules: ruleNormalizer({ plugin: '@stylistic' })({
+    indent: ['on', 2],
+    quotes: 'single',
+    'linebreak-style': 'unix',
+    'no-extra-parens': 'all',
+    'no-extra-semi': 'on',
+    'no-floating-decimal': 'off',
+    'padded-blocks': 'off',
+  }),
   files: FILES_ALL,
   extends: [
     pluginStylistic.configs.customize({
-      quotes: 'single',
-      indent: 2,
-      semi: false,
       arrowParens: true,
       quoteProps: 'as-needed',
       braceStyle: '1tbs',
-      commaDangle: 'always-multiline',
-      blockSpacing: true,
       jsx: false,
     }),
   ],
-  rules: rulesPluginStylistic,
 })
 
 // Config
