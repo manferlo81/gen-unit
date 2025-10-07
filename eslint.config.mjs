@@ -126,58 +126,82 @@ export default defineConfig(
 
 function ruleNormalizer({ severity: defaultSeverity = 'error', plugin: pluginName } = {}) {
 
-  const isSeverityString = (entry) => ['error', 'off', 'warn'].includes(entry)
+  // Throw TypeError if default severity is not valid
+  const isDefaultSeverity = (entry) => ['error', 'warn', 1, 2].includes(entry)
+  if (!isDefaultSeverity(defaultSeverity)) throw new TypeError('Invalid default severity.')
 
+  // User severity resolver
   const resolveSeverity = (entry) => {
-    if (entry === true || entry === 'on') return [true, defaultSeverity]
-    if (entry === false || entry == null) return [true, 'off']
-    return [isSeverityString(entry), entry]
+
+    // Resolve to default severity if entry is "on" or true
+    if (entry === 'on' || entry === true) return [true, defaultSeverity]
+
+    // Resolve to "off" if entry is false or nullish
+    if (entry === false | entry == null) return [true, 'off']
+
+    // Resolve to entry if it's a valid severity
+    return [entry === 'off' || entry === 0 || isDefaultSeverity(entry), entry]
   }
 
+  // Rule entry normalizer
   const normalizeRuleEntry = (entry) => {
 
-    const [isSeverity, severity] = resolveSeverity(entry)
-    if (isSeverity) return severity
+    // Return severity if it resolves to a valid severity
+    const [isValidSeverity, severity] = resolveSeverity(entry)
+    if (isValidSeverity) return severity
 
+    // Process entry as array
     if (Array.isArray(entry)) {
+
+      // Return default severity if array is empty
       if (!entry.length) return defaultSeverity
+
+      // Return severity rule first element resolves to a valid severity
       const [first, ...rest] = entry
-      const [isSeverity, severity] = resolveSeverity(first)
-      if (isSeverity) return [severity, ...rest]
+      const [isValidSeverity, severity] = resolveSeverity(first)
+      if (isValidSeverity) return [severity, ...rest]
+
+      // Return default severity rule with options
       return [defaultSeverity, ...entry]
     }
 
+    // Return default severity rule with one option
     return [defaultSeverity, entry]
   }
 
-  const createRuleNormalizer = (normalizeEntry) => {
+  // Rule normalizer factory
+  const createRuleNormalizer = (normalizeObjectEntry) => {
     return (rules) => {
       const entries = Object.entries(rules)
-      const entriesNormalized = entries.map(normalizeEntry)
+      const entriesNormalized = entries.map(normalizeObjectEntry)
       return Object.fromEntries(entriesNormalized)
     }
   }
 
+  // Return simplified normalizer if no plugin defined
   if (!pluginName) {
     return createRuleNormalizer(
-      ([ruleName, ruleEntry]) => [
+      ([ruleName, entry]) => [
         ruleName,
-        normalizeRuleEntry(ruleEntry),
+        normalizeRuleEntry(entry),
       ],
     )
   }
 
+  // Declare plugin prefix
   const pluginPrefix = `${pluginName}/`
 
-  const normalizeRuleName = (key) => {
-    if (key.startsWith(pluginPrefix)) return key
-    return `${pluginPrefix}${key}`
+  // Rule name normalizer
+  const normalizeRuleName = (ruleName) => {
+    if (ruleName.startsWith(pluginPrefix)) return ruleName
+    return `${pluginPrefix}${ruleName}`
   }
 
+  // Return rule normalizer
   return createRuleNormalizer(
-    ([ruleName, ruleEntry]) => [
+    ([ruleName, entry]) => [
       normalizeRuleName(ruleName),
-      normalizeRuleEntry(ruleEntry),
+      normalizeRuleEntry(entry),
     ],
   )
 
