@@ -6,7 +6,7 @@ describe('noDuplicates function', () => {
   const noDuplicatedPrefixes = (items: ExponentFindItems) => noDuplicates(items, 'pre', 'prefix')
   const noDuplicatedExponents = (items: ExponentFindItems) => noDuplicates(items, 'exp', 'exponent')
 
-  test('Should throw if input has duplicated prefixes', () => {
+  test('should throw if input has duplicated prefixes', () => {
 
     const duplicatedPrefixInputs: ExponentFindItems[] = [
       [
@@ -46,7 +46,7 @@ describe('noDuplicates function', () => {
 
   })
 
-  test('Should throw if input has duplicated exponents', () => {
+  test('should throw if input has duplicated exponents', () => {
 
     const duplicatedExponentInputs: ExponentFindItems[] = [
       [
@@ -86,25 +86,28 @@ describe('noDuplicates function', () => {
 
   })
 
-  test('Should return input if no duplicated prefixes', () => {
+  test('should return input if no duplicated prefixes', () => {
 
     const prefixesList: string[][] = [
       [''],
-      'km'.split(''),
-      'kMG'.split(''),
-      'kMGTmunp'.split(''),
+      ['k', 'm'],
+      ['k', 'M', 'G'],
+      ['k', 'M', 'G', 'T', 'm', 'u', 'n', 'p'],
     ]
 
     prefixesList.forEach((prefixes) => {
+
       // create items with the same exponent as the exponent won't be checked
       const items = prefixes.map<ExponentFindItem>((pre) => ({ pre, exp: 0 }))
+
       const output = noDuplicatedPrefixes(items)
       expect(output).toBe(items)
+
     })
 
   })
 
-  test('Should return input if no duplicated exponents', () => {
+  test('should return input if no duplicated exponents', () => {
 
     const exponentsList: number[][] = [
       [0],
@@ -114,10 +117,13 @@ describe('noDuplicates function', () => {
     ]
 
     exponentsList.forEach((exponents) => {
+
       // create items with the same prefix as the prefix won't be checked
       const items = exponents.map<ExponentFindItem>((exp) => ({ pre: 'x', exp }))
+
       const output = noDuplicatedExponents(items)
       expect(output).toBe(items)
+
     })
 
   })

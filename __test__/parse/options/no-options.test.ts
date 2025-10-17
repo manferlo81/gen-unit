@@ -1,23 +1,20 @@
-import { createParser } from '../../src'
+import { createParser } from '../../../src'
 
-describe('generic parse', () => {
-
-  test('Should create parser without options', () => {
-    expect(createParser()).toBeInstanceOf(Function)
-  })
+describe('parse with no options', () => {
 
   const parse = createParser({})
 
-  test('Should return NaN on invalid input', () => {
+  test('should return NaN on invalid input', () => {
 
     const nonStrings = [
       null,
       undefined,
       Infinity,
       -Infinity,
+      NaN,
     ]
 
-    const strings = [
+    const invalidStrings = [
       '',
       'null',
       'undefined',
@@ -32,8 +29,8 @@ describe('generic parse', () => {
 
     const invalidValues = [
       ...nonStrings,
-      ...strings,
-      ...strings.map((value) => ({ toString: () => value })),
+      ...invalidStrings,
+      ...invalidStrings.map((value) => ({ toString: () => value })),
     ]
 
     const parse = createParser({})
@@ -44,10 +41,12 @@ describe('generic parse', () => {
 
   })
 
-  test('Should parse number', () => {
+  test('should parse number', () => {
 
     const values = [
       0,
+      0.,
+      .0,
       1,
       -1,
       123,
@@ -55,7 +54,9 @@ describe('generic parse', () => {
       2.3,
       -.3,
       .2,
+      2.,
       1.2e3,
+      1.2e+3,
       1.2e-3,
     ]
 
@@ -67,7 +68,7 @@ describe('generic parse', () => {
 
   })
 
-  test('Should parse numeric string', () => {
+  test('should parse numeric string', () => {
 
     const numericValues = [
       '0',
@@ -100,7 +101,7 @@ describe('generic parse', () => {
 
   })
 
-  test('Should parse numeric string with unit', () => {
+  test('should parse numeric string with unit', () => {
 
     const values = [
       { value: '12 k', expected: 12e3 },
@@ -121,7 +122,7 @@ describe('generic parse', () => {
 
   })
 
-  test('Should ignore extra spaces', () => {
+  test('should ignore extra spaces', () => {
 
     const values = [
       { value: '10u', expected: 10e-6 },
@@ -136,7 +137,7 @@ describe('generic parse', () => {
 
   })
 
-  test('Should return 0 without checking for units', () => {
+  test('should return 0 without checking for units', () => {
 
     const values = [
       '0f',
@@ -159,7 +160,7 @@ describe('generic parse', () => {
 
   })
 
-  test('Should return NaN if value is zero and unit not found', () => {
+  test('should return NaN if value is zero and unit not found', () => {
     expect(parse('0x')).toBeNaN()
     expect(parse('0l')).toBeNaN()
   })

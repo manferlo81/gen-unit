@@ -5,7 +5,7 @@ describe('parser "match" option', () => {
 
   describe('"match" option as RegExp', () => {
 
-    test('Should use "match" option as RegExp', () => {
+    test('should use "match" option as RegExp', () => {
       const parse = createParser({
         match: /^\s*([\d.]+)\s*([a-z]*)\s*$/i,
         find: [{ pre: 'x', exp: 0 }],
@@ -14,7 +14,7 @@ describe('parser "match" option', () => {
       expect(parse('10.3.3 x')).toBeNaN()
     })
 
-    test('Should throw if RegExp doesn\'t capture value & unit', () => {
+    test('should throw if RegExp doesn\'t capture value & unit', () => {
       const parse = createParser({
         match: /^\s*([\d.]+)\s*[a-z]*\s*$/i,
       })
@@ -25,7 +25,7 @@ describe('parser "match" option', () => {
 
   describe('"match" option as string', () => {
 
-    test('Should use "match" option as string', () => {
+    test('should use "match" option as string', () => {
       const parse = createParser({
         match: '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$',
         find: [{ pre: 'x', exp: 0 }],
@@ -33,14 +33,14 @@ describe('parser "match" option', () => {
       expect(parse('10 x')).toBeCloseTo(10)
     })
 
-    test('Should throw if RegExp string doesn\'t capture value & unit', () => {
+    test('should throw if RegExp string doesn\'t capture value & unit', () => {
       const parse = createParser({
         match: '^\\s*[\\d.]+\\s*[a-z]*\\s*$',
       })
       expect(() => parse('10 x')).toThrow('Match result array should have 2 items, got 0')
     })
 
-    test('Should coerce "match" option to string', () => {
+    test('should coerce "match" option to string', () => {
       const match = { toString: () => '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$' } as never
       const parse = createParser({
         match,
@@ -53,7 +53,7 @@ describe('parser "match" option', () => {
 
   describe('"match" option as function', () => {
 
-    test('Should use "match" option as function', () => {
+    test('should use "match" option as function', () => {
       const parse = createParser({
         match: () => {
           return ['10', 'x']
@@ -63,7 +63,7 @@ describe('parser "match" option', () => {
       expect(parse('anything')).toBeCloseTo(10)
     })
 
-    test('Should return NaN if "match" option as function returns nullish', () => {
+    test('should return NaN if "match" option as function returns nullish', () => {
 
       const nullishReturningFunction = [
         () => null,
@@ -77,7 +77,7 @@ describe('parser "match" option', () => {
 
     })
 
-    test('Should throw if "match" option as function returns non array', () => {
+    test('should throw if "match" option as function returns non array', () => {
 
       const nonArrayReturningFunction = [
         () => ({}),
@@ -97,7 +97,7 @@ describe('parser "match" option', () => {
 
     })
 
-    test('Should throw if "match" option as function returns array with less than 2 items', () => {
+    test('should throw if "match" option as function returns array with less than 2 items', () => {
 
       const invalidArrayReturningFunctions = [
         [],
@@ -111,7 +111,7 @@ describe('parser "match" option', () => {
       })
     })
 
-    test('Should receive input as argument', () => {
+    test('should receive input as argument', () => {
       const match: MatchFunction = jest.fn(() => {
         return ['10', 'x']
       })

@@ -3,7 +3,7 @@ import { createFormatter, format, MICRO } from '../../../src'
 
 describe('formatter "find" option', () => {
 
-  test('Should throw on invalid "find" option', () => {
+  test('should throw on invalid "find" option', () => {
 
     const invalidFindOptions = [
       true,
@@ -21,7 +21,7 @@ describe('formatter "find" option', () => {
 
   })
 
-  test('Should use default units with base 1000', () => {
+  test('should use default units with base 1000', () => {
 
     const format = createFormatter()
 
@@ -49,7 +49,7 @@ describe('formatter "find" option', () => {
 
   describe('"find" option as number', () => {
 
-    test('Should use "find" option as number', () => {
+    test('should use "find" option as number', () => {
 
       const base = 1024
       const format = createFormatter({
@@ -82,7 +82,7 @@ describe('formatter "find" option', () => {
 
   describe('"find" option as array', () => {
 
-    test('Should throw if items has duplicates', () => {
+    test('should throw if items has duplicates', () => {
 
       const itemsWithDuplicates: ExponentFindItems[] = [
         [
@@ -116,7 +116,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use "find" option as array of exponents with base 1000', () => {
+    test('should use "find" option as array of exponents with base 1000', () => {
 
       const format = createFormatter({
         find: [
@@ -141,7 +141,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should default to unity if array empty', () => {
+    test('should default to unity if array empty', () => {
 
       const format = createFormatter({
         find: [],
@@ -155,7 +155,7 @@ describe('formatter "find" option', () => {
 
   describe('"find" option as object', () => {
 
-    test('Should throw if invalid items provided', () => {
+    test('should throw if invalid items provided', () => {
 
       const invalid = [
         true,
@@ -176,7 +176,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use "find" option as object', () => {
+    test('should use "find" option as object', () => {
 
       const format = createFormatter({
         find: {
@@ -204,7 +204,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should default to base 1000', () => {
+    test('should default to base 1000', () => {
 
       const format = createFormatter({
         find: {
@@ -231,7 +231,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use default units given a base', () => {
+    test('should use default units given a base', () => {
 
       const base = 1024
       const format = createFormatter({
@@ -259,7 +259,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use default units given an empty object', () => {
+    test('should use default units given an empty object', () => {
 
       const format = createFormatter({
         find: {},
@@ -287,7 +287,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use deprecated find sub-option', () => {
+    test('should use deprecated find sub-option', () => {
 
       const format = createFormatter({
         find: {
@@ -318,7 +318,7 @@ describe('formatter "find" option', () => {
 
   describe('"find" option as function', () => {
 
-    test('Should pass value to find function', () => {
+    test('should pass value to find function', () => {
 
       const format = createFormatter({
         find: (value: number) => {
@@ -338,7 +338,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should throw on invalid find function result', () => {
+    test('should throw on invalid find function result', () => {
 
       const values = [
         true,
@@ -361,7 +361,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should throw on invalid find function resulting multiplier', () => {
+    test('should throw on invalid find function resulting multiplier', () => {
 
       const values = [
         { pre: '', mul: 0 },
@@ -384,7 +384,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should use "find" option as function result in deprecated form', () => {
+    test('should use "find" option as function result in deprecated form', () => {
 
       const format = createFormatter({
         find: () => ({ pre: 'x', div: 2 }),
@@ -394,7 +394,7 @@ describe('formatter "find" option', () => {
 
     })
 
-    test('Should interpret returning nullish as unity', () => {
+    test('should interpret returning nullish as unity', () => {
 
       const nullishReturningFunctions = [
         () => null,

@@ -1,6 +1,6 @@
 import { error } from '../common/error'
 import { isFiniteNumber, isNullish, isNumber } from '../common/is'
-import { validateOptions } from '../common/validate-options'
+import { validateOptionsNames } from '../common/validate-options'
 import { removedParserOptions, validParserOptions } from './constants'
 import { createExtractPre } from './extract-pre'
 import { createMulFinder } from './find-multiplier'
@@ -18,7 +18,7 @@ export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOpti
 export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
 
   // validate options
-  const validOptions = validateOptions(
+  const validOptions = validateOptionsNames(
     options as CreateParserOptions,
     validParserOptions,
     removedParserOptions,

@@ -1,5 +1,14 @@
 {
   "cSpell.words": [
-    "bundlib"
-  ]
+    "atto",
+    "bundlib",
+    "femto",
+    "giga",
+    "milli",
+    "peta",
+    "pico",
+    "tera"
+  ],
+  "liveServer.settings.root": "/coverage",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

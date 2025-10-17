@@ -1,5 +1,5 @@
 import { isFiniteNumber, isFunction, isNullish } from '../common/is'
-import { validateOptions } from '../common/validate-options'
+import { validateOptionsNames } from '../common/validate-options'
 import type { DeprecatedFormatGetUnitFunction } from '../deprecated-types'
 import { removedFormatterOptions, validFormatterOptions } from './constants'
 import { createUnitFinder } from './find-unit'
@@ -30,7 +30,7 @@ export function createFormatter<U extends FormatUnitOption>(options: CreateForma
 export function createFormatter(options?: CreateFormatterOptions): Formatter
 export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
 
-  const validOptions = validateOptions(
+  const validOptions = validateOptionsNames(
     options,
     validFormatterOptions,
     removedFormatterOptions,

@@ -2,7 +2,7 @@ import { createFormatter } from '../../../src'
 
 describe('formatter invalid options', () => {
 
-  test('Should throw if removed option used', () => {
+  test('should throw if removed option used', () => {
     const removedOptions = [
       { name: 'table', value: [] },
       { name: 'dec', value: 2 },
@@ -14,7 +14,7 @@ describe('formatter invalid options', () => {
     })
   })
 
-  test('Should throw if unknown option used', () => {
+  test('should throw if unknown option used', () => {
     const unknownOptions = [
       'unknown',
       'unknown-option',

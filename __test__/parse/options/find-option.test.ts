@@ -3,7 +3,7 @@ import { createParser, MICRO } from '../../../src'
 
 describe('parser "find" option', () => {
 
-  test('Should throw on invalid "find" option', () => {
+  test('should throw on invalid "find" option', () => {
 
     const invalidFindOptions = [
       true,
@@ -21,7 +21,7 @@ describe('parser "find" option', () => {
 
   })
 
-  test('Should throw if "find" option result in an invalid multiplier', () => {
+  test('should throw if "find" option result in an invalid multiplier', () => {
 
     const invalidFindOptions: ParseFindMultiplierOption[] = [
       0,
@@ -42,7 +42,7 @@ describe('parser "find" option', () => {
 
   describe('"find" option as number', () => {
 
-    test('Should use "find" option as base if it\'s a number', () => {
+    test('should use "find" option as base if it\'s a number', () => {
 
       const base = 1024
       const parse = createParser({
@@ -66,7 +66,7 @@ describe('parser "find" option', () => {
 
   describe('"find" option as array', () => {
 
-    test('Should throw if items has duplicates', () => {
+    test('should throw if items has duplicates', () => {
 
       const itemsWithDuplicates: ExponentFindItems[] = [
         [
@@ -94,7 +94,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as find items if it\'s an array', () => {
+    test('should use "find" option as find items if it\'s an array', () => {
 
       const parse = createParser({
         find: [
@@ -114,7 +114,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should return NaN if "find" option is an empty array', () => {
+    test('should return NaN if "find" option is an empty array', () => {
 
       const parse = createParser({
         find: [],
@@ -134,7 +134,7 @@ describe('parser "find" option', () => {
 
   describe('"find" option as object', () => {
 
-    test('Should throw on invalid "find" items', () => {
+    test('should throw on invalid "find" items', () => {
 
       const invalidItems = [
         true,
@@ -154,7 +154,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should throw if items has duplicates', () => {
+    test('should throw if items has duplicates', () => {
 
       const itemsWithDuplicates: ExponentFindItems[] = [
         [
@@ -182,7 +182,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as advanced options if it\'s an object', () => {
+    test('should use "find" option as advanced options if it\'s an object', () => {
 
       const base = 1024
       const parse = createParser({
@@ -206,7 +206,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as object, using default find items', () => {
+    test('should use "find" option as object, using default find items', () => {
 
       const base = 1024
       const parse = createParser({
@@ -235,7 +235,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as object, using default base 1000', () => {
+    test('should use "find" option as object, using default base 1000', () => {
 
       const parse = createParser({
         find: {
@@ -258,7 +258,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as object, using default base and find items if it\'s an empty object', () => {
+    test('should use "find" option as object, using default base and find items if it\'s an empty object', () => {
 
       const parse = createParser({
         find: {},
@@ -286,7 +286,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use deprecated find sub-option', () => {
+    test('should use deprecated find sub-option', () => {
 
       const parse = createParser({
         find: {
@@ -313,7 +313,7 @@ describe('parser "find" option', () => {
 
   describe('"find" options as function', () => {
 
-    test('Should receive prefix and unit', () => {
+    test('should receive prefix and unit', () => {
 
       const find = jest.fn(() => 1)
       const parse = createParser({ unit: 'g', find })
@@ -333,7 +333,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should receive prefix', () => {
+    test('should receive prefix', () => {
 
       const find = jest.fn(() => 1)
       const parse = createParser({ find })
@@ -351,7 +351,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should use "find" option as function returning number', () => {
+    test('should use "find" option as function returning number', () => {
 
       const parse = createParser({
         find: (unit) => unit === 'k' ? 1000 : null,
@@ -371,7 +371,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should return NaN if find function return null', () => {
+    test('should return NaN if find function return null', () => {
 
       const findFunctions = [
         () => null,
@@ -385,7 +385,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should throw if function return invalid multiplier', () => {
+    test('should throw if function return invalid multiplier', () => {
 
       const invalidMultipliers = [
         0,
@@ -407,7 +407,7 @@ describe('parser "find" option', () => {
 
     })
 
-    test('Should throw on deprecated function returning object', () => {
+    test('should throw on deprecated function returning object', () => {
 
       const values = [
         {},

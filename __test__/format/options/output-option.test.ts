@@ -3,7 +3,7 @@ import { createFormatter, format as oneStepFormat } from '../../../src'
 
 describe('formatter "output" option', () => {
 
-  test('Should throw if invalid "output" option', () => {
+  test('should throw if invalid "output" option', () => {
 
     const invalidOutputOptions = [
       0,
@@ -22,7 +22,7 @@ describe('formatter "output" option', () => {
 
   describe('"output" option as object', () => {
 
-    test('Should default to 1 space if nullish space given or none provided', () => {
+    test('should default to 1 space if nullish space given or none provided', () => {
 
       const spaces = [
         null,
@@ -37,7 +37,7 @@ describe('formatter "output" option', () => {
 
     })
 
-    test('Should format with given space', () => {
+    test('should format with given space', () => {
 
       const spaces = [
         '',
@@ -51,7 +51,7 @@ describe('formatter "output" option', () => {
 
     })
 
-    test('Should throw on invalid number of spaces', () => {
+    test('should throw on invalid number of spaces', () => {
 
       const invalidSpaces = [
         -1,
@@ -74,7 +74,7 @@ describe('formatter "output" option', () => {
 
     })
 
-    test('Should format with given number of spaces', () => {
+    test('should format with given number of spaces', () => {
 
       const spaces = [
         0,
@@ -92,14 +92,14 @@ describe('formatter "output" option', () => {
 
   describe('"output" option as function', () => {
 
-    test('Should use "output" option', () => {
+    test('should use "output" option', () => {
       const options: CreateFormatterOptions = {
         output: (value, pre) => `${value}--${pre}`,
       }
       expect(oneStepFormat(10e-3, options)).toBe('10--m')
     })
 
-    test('Should use "output" option with unit', () => {
+    test('should use "output" option with unit', () => {
       const options: CreateFormatterOptionsWithUnit<'g'> = {
         unit: 'g',
         output: (value, pre, unit) => `${value}-${pre}-${unit}`,
@@ -107,7 +107,7 @@ describe('formatter "output" option', () => {
       expect(oneStepFormat(10e-3, options)).toBe('10-m-g')
     })
 
-    test('Should use invalid returned value and convert it to string anyway', () => {
+    test('should use invalid returned value and convert it to string anyway', () => {
       const invalidFunctions = [
         (value: string | number) => value,
         (value: string | number) => ({ toString: () => value }),

@@ -2,11 +2,11 @@ import { MICRO, createParser } from '../../../src'
 
 describe('parser "unit" option', () => {
 
-  test('Should return NaN on incorrect unit', () => {
+  test('should return NaN on incorrect unit', () => {
 
     const parse = createParser({ unit: 'g' })
 
-    const invalidValues = [
+    const invalidInputs = [
       '10 x',
       '10 xg',
       '10 gx',
@@ -14,13 +14,13 @@ describe('parser "unit" option', () => {
       '10 Kx',
     ]
 
-    invalidValues.forEach((invalid) => {
-      expect(parse(invalid)).toBeNaN()
+    invalidInputs.forEach((invalidInput) => {
+      expect(parse(invalidInput)).toBeNaN()
     })
 
   })
 
-  test('Should parse with correct unit', () => {
+  test('should parse with correct unit', () => {
 
     const unit = 'g'
     const parse = createParser({ unit })
@@ -50,7 +50,7 @@ describe('parser "unit" option', () => {
 
   })
 
-  test('Should parse with whole unit over prefix', () => {
+  test('should parse with whole unit over prefix', () => {
 
     const parse = createParser({ unit: 'm' })
 
@@ -65,7 +65,7 @@ describe('parser "unit" option', () => {
 
   })
 
-  test('Should parse invalid exponential (e) as unit', () => {
+  test('should parse invalid exponential (e) as unit', () => {
 
     const parse = createParser({ unit: 'e' })
 
@@ -80,14 +80,14 @@ describe('parser "unit" option', () => {
 
   })
 
-  test('Should parse prefixed unit over prefix', () => {
+  test('should parse prefixed unit over prefix', () => {
 
     const parse = createParser({ unit: 'eg' })
 
     const values = [
-      { value: '10meg', expected: 10e-3 },
-      { value: '10megeg', expected: 10e6 },
-      { value: '10Meg', expected: 10e6 },
+      { value: '10 meg', expected: 10e-3 },
+      { value: '10 megeg', expected: 10e6 },
+      { value: '10 Meg', expected: 10e6 },
     ]
 
     values.forEach(({ value, expected }) => {

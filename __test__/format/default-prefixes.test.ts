@@ -1,8 +1,8 @@
 import { format, MICRO } from '../../src'
 
-describe('format', () => {
+describe('default prefixes', () => {
 
-  test.each([
+  const prefixes = [
     ['E', 'exa', 1.2e18, '1.2'],
     ['P', 'peta', 1.2e15, '1.2'],
     ['T', 'tera', 1.2e12, '1.2'],
@@ -15,8 +15,14 @@ describe('format', () => {
     ['p', 'pico', 1.2e-12, '1.2'],
     ['f', 'femto', 1.2e-15, '1.2'],
     ['a', 'atto', 1.2e-18, '1.2'],
-  ])('Should format with unit "%s" (%s)', (unit, _desc, value, expected) => {
-    expect(format(value, { unit: 'g', round: 1 })).toBe(`${expected} ${unit}g`)
+  ] as Array<[string, string, number, string]>
+
+  const unit = 'm'
+
+  prefixes.forEach(([prefix, description, value, expected]) => {
+    test(`should format with unit prefix "${prefix}" (${description})`, () => {
+      expect(format(value, { unit, round: 1 })).toBe(`${expected} ${prefix}${unit}`)
+    })
   })
 
 })

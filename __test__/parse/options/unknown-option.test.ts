@@ -2,7 +2,7 @@ import { createParser } from '../../../src'
 
 describe('parse invalid option', () => {
 
-  test('Should throw if removed option used', () => {
+  test('should throw if removed option used', () => {
     const removedOptions = [
       { name: 'table', value: [] },
     ]
@@ -12,7 +12,7 @@ describe('parse invalid option', () => {
     })
   })
 
-  test('Should throw if unknown option used', () => {
+  test('should throw if unknown option used', () => {
     const unknownOptions = [
       'unknown',
       'unknown-option',

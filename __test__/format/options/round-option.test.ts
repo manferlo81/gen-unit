@@ -2,7 +2,7 @@ import { createFormatter } from '../../../src'
 
 describe('formatter "round" option', () => {
 
-  test('Should throw on invalid "round" option', () => {
+  test('should throw on invalid "round" option', () => {
 
     const values = [
       '',
@@ -18,7 +18,7 @@ describe('formatter "round" option', () => {
 
   })
 
-  test('Should default to 2 decimal places', () => {
+  test('should default to 2 decimal places', () => {
 
     const values = [
       { value: 10.1111111, expected: '10.11' },
@@ -36,7 +36,7 @@ describe('formatter "round" option', () => {
 
   describe('"round" option as a number', () => {
 
-    test('Should throw if "round" option as number is not a valid number of decimal', () => {
+    test('should throw if "round" option as number is not a valid number of decimal', () => {
 
       const values = [
         -1,
@@ -56,7 +56,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should use "round" option as decimals if it\'s a number', () => {
+    test('should use "round" option as decimals if it\'s a number', () => {
 
       const values = [
         { value: 10.111111, dec: 0, expected: '10' },
@@ -78,7 +78,7 @@ describe('formatter "round" option', () => {
 
   describe('"round" option as object', () => {
 
-    test('Should throw if "dec" member is not a number', () => {
+    test('should throw if "dec" member is not a number', () => {
 
       const values = [
         'not-a-number',
@@ -96,7 +96,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should throw if "dec" member is not a valid number of decimal', () => {
+    test('should throw if "dec" member is not a valid number of decimal', () => {
 
       const values = [
         -1,
@@ -118,7 +118,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should format with given number of decimals', () => {
+    test('should format with given number of decimals', () => {
 
       const values = [
         { value: 10.111111, dec: 0, expected: '10' },
@@ -134,7 +134,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should return with fixed number of default decimal points (2)', () => {
+    test('should return with fixed number of default decimal points (2)', () => {
 
       const values = [
         { value: 11, expected: '11.00 g' },
@@ -153,7 +153,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should format with given fixed number of decimals', () => {
+    test('should format with given fixed number of decimals', () => {
 
       const values = [
         { value: 10, dec: 0, expected: '10' },
@@ -181,7 +181,7 @@ describe('formatter "round" option', () => {
 
   describe('"round" option as boolean', () => {
 
-    test('Should not round if false passed', () => {
+    test('should not round if false passed', () => {
 
       const values = [
         10.1111111,
@@ -197,7 +197,7 @@ describe('formatter "round" option', () => {
 
     })
 
-    test('Should use default 2 decimal places if true passed', () => {
+    test('should use default 2 decimal places if true passed', () => {
 
       const values = [
         { value: 10.1111111, expected: '10.11' },
@@ -215,7 +215,7 @@ describe('formatter "round" option', () => {
 
   })
 
-  test('Should use "round" option as function', () => {
+  test('should use "round" option as function', () => {
 
     const values = [
       { value: 123.7e-3, round: Math.round, expected: '124 mg' },
