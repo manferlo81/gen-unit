@@ -8,3 +8,6 @@ export const validParserOptions: CreateParserValidOptionName[] = ['unit', 'match
 export const removedParserOptions: Record<CreateParserRemovedOptionName, CreateParserValidOptionName> = {
   table: 'find',
 }
+
+// TODO: I think this RegExp can be simplified
+export const defaultMatchPattern = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i

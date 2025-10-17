@@ -1,5 +1,6 @@
 import { error } from '../common/error'
 import { isArray, isFunction, isNullish } from '../common/is'
+import { defaultMatchPattern } from './constants'
 import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types'
 
 export function createMatcher(match: ParseMatchOption): MatchFunction {
@@ -31,7 +32,7 @@ export function createMatcher(match: ParseMatchOption): MatchFunction {
 
   // create regular expression based on option
   const re = isNullish(match)
-    ? /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
+    ? defaultMatchPattern
     : new RegExp(match)
 
   // return input match function
