@@ -7,70 +7,95 @@
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/gen-unit/badge?style=rounded)](https://www.jsdelivr.com/package/npm/gen-unit)
 [![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/gen-unit)](https://libraries.io/npm/gen-unit)
 [![install size](https://packagephobia.com/badge?p=gen-unit)](https://packagephobia.com/result?p=gen-unit)
-[![bundlephobia](https://badgen.net/bundlephobia/min/gen-unit)](https://bundlephobia.com/result?p=gen-unit)
+[![npm bundle size min](https://img.shields.io/bundlephobia/min/gen-unit)](https://bundlephobia.com/result?p=gen-unit)
+[![npm bundle size minzip](https://img.shields.io/bundlephobia/minzip/gen-unit)](https://bundlephobia.com/result?p=gen-unit)
 [![types](https://img.shields.io/npm/types/gen-unit.svg)](https://github.com/microsoft/typescript)
 [![Known Vulnerabilities](https://snyk.io/test/github/manferlo81/gen-unit/badge.svg?targetFile=package.json)](https://snyk.io/test/github/manferlo81/gen-unit?targetFile=package.json)
-[![license](https://badgen.net/github/license/manferlo81/gen-unit)](LICENSE)
+[![NPM License](https://img.shields.io/npm/l/gen-unit)](LICENSE)
 
-A generic unit parser/formatter
+A generic unit parser/formatter generator
+
+## Index
+
+* [Install](#install)
+* [Parser](#parser)
+  * *function* [`createParser`](#function-createparser)
+  * *function* [`parse`](#function-parse)
+  * [parser options](#parser-options)
+    * *option* [`unit`](#parser-option-unit)
+    * *option* [`match`](#parser-option-match)
+      * [as a RegExp](#parser-option-match-as-a-regexp)
+      * [as a string](#parser-option-match-as-a-string)
+      * [as a function](#parser-option-match-as-a-function)
+    * *option* [`find`](#parser-option-find)
+      * [as a number](#parser-option-find-as-a-number)
+      * [as an array](#parser-option-find-as-an-array)
+      * [as an object](#parser-option-find-as-an-object)
+      * [as a function](#parser-option-find-as-a-function)
+* [Formatter](#formatter)
+  * *function* [`createFormatter`](#function-createformatter)
+  * *function* [`format`](#function-format)
+  * [formatter options](#formatter-options)
+    * *option* [`unit`](#formatter-option-unit)
+    * *option* [`find`](#formatter-option-find)
+      * [as a number](#formatter-option-find-as-a-number)
+      * [as an array](#formatter-option-find-as-an-array)
+      * [as an object](#formatter-option-find-as-an-object)
+      * [as a function](#formatter-option-find-as-a-function)
+    * *option* [`round`](#formatter-option-round)
+      * [as an object](#formatter-option-round-as-an-object)
+      * [as a number](#formatter-option-round-as-a-number)
+      * [as a function](#formatter-option-round-as-a-function)
+      * [as a boolean](#formatter-option-round-as-a-boolean)
+    * *option* [`output`](#formatter-option-output)
+      * [as an object](#formatter-option-output-as-an-object)
+      * [as a function](#formatter-option-output-as-a-function)
+* Constants
+  * *constant* [`MICRO`](#constant-micro)
+* Types
+  * *type* [`Parser`](#type-parser)
+  * *type* [`CreateParserOptions`](#type-createparseroptions)
+  * *type* [`Formatter`](#type-formatter)
+  * *type* [`CreateFormatterOptions`](#type-createformatteroptions)
 
 ## Install
 
 ```bash
 # Using npm
-npm i gen-unit
+npm install gen-unit
 
 # Using yarn
 yarn add gen-unit
+
+# Using pnpm
+pnpm add gen-unit
 ```
 
-## API
+## Parser
 
-- `createParser` [function](#the-createparser-function)
-- `createParser` [options](#createparser-options)
-  - `unit` [option](#the-unit-option)
-  - `match` [option](#the-match-option)
-    - `match` [option as a RegExp](#match-option-as-a-regexp)
-    - `match` [option as a string](#match-option-as-a-string)
-    - `match` [option as a function](#match-option-as-a-function)
-  - `find` [option](#the-find-option)
-    - `find` [option as a number](#find-option-as-a-number)
-    - `find` [option as an array](#find-option-as-an-array)
-    - `find` [option as an object](#find-option-as-an-object)
-    - `find` [option as a function](#find-option-as-a-function)
-- `createFormatter` [function](#the-createformatter-function)
-- `createFormatter` [options](#createformatter-options)
-  - `unit` [option](#the-unit-option-1)
-  - `find` [option](#the-find-option-1)
-    - `find` [option as a number](#find-option-as-a-number-1)
-    - `find` [option as an array](#find-option-as-an-array-1)
-    - `find` [option as an object](#find-option-as-an-object-1)
-    - `find` [option as a function](#find-option-as-a-function-1)
-  - `round` [option](#the-round-option)
-    - `round` [option as an object](#round-option-as-an-object)
-    - `round` [option as a number](#round-option-as-a-number)
-    - `round` [option as a function](#round-option-as-a-function)
-    - `round` [option as a boolean](#round-option-as-a-boolean)
-  - `output` [option](#the-output-option)
-    - `output` [option as an object](#output-option-as-an-object)
-    - `output` [option as a function](#output-option-as-a-function)
-- `parse` [function](#the-parse-function)
-- `format` [function](#the-format-function)
-- `MICRO` [constant](#the-micro-constant)
+### *function* `createParser`
 
-### The `createParser` function
-
-Creates a `parse` function using the given [options](#createparser-options).
+Creates a `parser` function using the given [parser options](#parser-options).
 
 ```typescript
-function createParser(options): Parser;
-
-type Parser = (input: unknown) => number;
+function createParser(options: CreateParserOptions): Parser;
 ```
 
-### `createParser` options
+***see also: [parser options](#parser-options), type [`CreateParserOptions`](#type-createparseroptions), type [`Parser`](#type-parser)***
 
-#### The `unit` option
+### *function* `parse`
+
+A convenient function to parse an `input` in one step. I will internally call [`createParser`](#function-createparser) with the given [parser options](#parser-options), then will call the newly created [parser](#type-parser).
+
+```typescript
+function parse(input: unknown, options: CreateParserOptions): number;
+```
+
+***see also: function [`createParser`](#function-createparser), [parser options](#parser-options), type [`CreateParserOptions`](#type-createparseroptions), type [`Parser`](#type-parser)***
+
+### parser options
+
+#### *parser option* `unit`
 
 Defines the `unit` to be used during parsing.
 
@@ -101,21 +126,21 @@ This option takes precedence over any `prefix` or `prefixed unit`.
 ***Examples***
 
 ```typescript
-const parseMeter = createParser({
+const parseDistance = createParser({
   unit: 'm', // Meter
 });
 
-parseMeter('1 m'); // returns 1 (1 meter)
-parseMeter('1 mm'); // returns 0.001 (1 millimeter)
+parseDistance('1 m'); // returns 1 (1 meter)
+parseDistance('1 mm'); // returns 0.001 (1 millimeter)
 ```
 
 ```typescript
-const parseSecond = createParser({
+const parseSeconds = createParser({
   unit: 's' // Seconds
 });
 
-parseSecond('1 m'); // returns 0.001 (1 millisecond)
-parseSecond('1 ms'); // returns 0.001 (1 millisecond)
+parseSeconds('1 m'); // returns 0.001 (1 millisecond)
+parseSeconds('1 ms'); // returns 0.001 (1 millisecond)
 ```
 
 ```typescript
@@ -128,7 +153,7 @@ parse('1 megeg'); // => 1000000, it's interpreted as 1 mega-eg
 parse('1 Meg'); // => 1000000, it's interpreted as 1 mega-eg because capital "M" parses as mega
 ```
 
-#### The `match` option
+#### *parser option* `match`
 
 ```typescript
 match: RegExp | string | MatchFunction;
@@ -140,7 +165,7 @@ default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
 
 Defines the first step in the `parse` process, it takes the `input` and should turn it into an `array` with `two elements` with the `value`, and the `unit` to be process further down the road, or `null` (or `undefined`) if the `input` can't be parsed.
 
-##### `match` option as a RegExp
+##### *parser option* `match` as a RegExp
 
 ```typescript
 match: RegExp;
@@ -161,7 +186,7 @@ parse('1 m'); // => 0.001
 parse('1 k'); // => 1000
 ```
 
-##### `match` option as a string
+##### *parser option* `match` as a string
 
 ```typescript
 match: string;
@@ -180,7 +205,7 @@ parse('1 m'); // => 0.001
 parse('1 k'); // => 1000
 ```
 
-##### `match` option as a function
+##### *parser option* `match` as a function
 
 ```typescript
 match: (input: string) => [value: string, unit: string] | null | undefined;
@@ -201,14 +226,15 @@ parse('1'); // => 1000
 parse('2'); // => 2000
 ```
 
-#### The `find` option
+#### *parser option* `find`
 
 The `find` option describes how to find the multiplier which is the `number` by which the parsed value should be multiplied.
 
-##### `find` option as a number
+##### *parser option* `find` as a number
 
 ```typescript
 find: number;
+default 1000
 ```
 
 A number to be used as `base` during parsing.
@@ -226,13 +252,13 @@ parse('2 M'); // => 2097152
 parse('2 G'); // => 2147483648
 ```
 
-##### `find` option as an array
+##### *parser option* `find` as an array
 
 ```typescript
 find: Array<{ pre: string; exp: number }>;
 ```
 
-An `array` of `objects` describing `prefixes` and `exponents` to use with the default `base` (1000) to find the `multiplier` to be used during parsing. Every item should have a unique `pre`, if there are duplicates `createParser` will `throw`.
+An `array` of `objects` describing `prefixes` (`pre`) and `exponents` (`exp`) to use with the default `base` (1000) to find the `multiplier` to be used during parsing. Every item should have a unique `prefix`, if there are duplicates `createParser` will `throw`.
 
 ***notes***
 
@@ -254,7 +280,7 @@ parse('1.3 M'); // => 1300000
 parse('1.3 G'); // => NaN because prefix "G" can't be found
 ```
 
-##### `find` option as an object
+##### *parser option* `find` as an object
 
 ```typescript
 find: {
@@ -309,7 +335,7 @@ parse('1 M'); // => 1048576
 parse('1 G'); // => NaN
 ```
 
-##### `find` option as a function
+##### *parser option* `find` as a function
 
 ```typescript
 find: (pre: string) => number | null | undefined;
@@ -344,19 +370,31 @@ parse('2 G'); // => NaN
 
 Previous version of this library allow this function to return an object `{ mul: number }` containing the multiplier. This behavior has been removed, it will `throw` instead.
 
-### The `createFormatter` function
+## Formatter
 
-Creates a `format` function using the given [options](#createformatter-options).
+### *function* `createFormatter`
+
+Creates a `formatter` function using the given [formatter options](#formatter-options).
 
 ```typescript
-function createFormatter(options): Formatter;
-
-type Formatter = (input: number) => string;
+function createFormatter(options: CreateFormatterOptions): Formatter;
 ```
 
-### `createFormatter` options
+***see also: [formatter options](#formatter-options), type [`CreateFormatterOptions`](#type-createformatteroptions), type [`Formatter`](#type-formatter)***
 
-#### The `unit` option
+### *function* `format`
+
+A convenient function to format a `number` in one step. It wil internally call [`createFormatter`](#function-createformatter) with given [formatter options](#formatter-options) then will call the newly created formatter.
+
+```typescript
+function format(input: number, options: CreateFormatterOptions): string;
+```
+
+***see also: function [`createFormatter`](#function-createformatter), [formatter options](#formatter-options), type [`CreateFormatterOptions`](#type-createformatteroptions), type [`Formatter`](#type-formatter)***
+
+### formatter options
+
+#### *formatter option* `unit`
 
 A `string` to be used as main `unit` during formatting.
 
@@ -376,11 +414,11 @@ format(0.0012); // => '1.2 mm'
 format(1200); // => '1.2 Km'
 ```
 
-#### The `find` option
+#### *formatter option* `find`
 
 Describes how to find the unit `prefix` and `divider` based on input value.
 
-##### `find` option as a number
+##### *formatter option* `find` as a number
 
 ```typescript
 find: number;
@@ -400,7 +438,7 @@ format(2048); // => '2 k'
 format(2097152); // => '2 M'
 ```
 
-##### `find` option as an array
+##### *formatter option* `find` as an array
 
 ```typescript
 find: Array<{ pre: string; exp: number }>;
@@ -423,7 +461,7 @@ format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
 
-##### `find` option as an object
+##### *formatter option* `find` as an object
 
 ```typescript
 find: {
@@ -471,7 +509,7 @@ format(2048); // => '2 K'
 format(2097152); // => '2048 K'
 ```
 
-##### `find` option as a function
+##### *formatter option* `find` as a function
 
 ```typescript
 find: (value: number) => { pre: string; mul: number };
@@ -498,11 +536,11 @@ format(2000); // => '2 K'
 format(2000000); // => '2000 K'
 ```
 
-#### The `round` option
+#### *formatter option* `round`
 
 Describes how to `round` the output value before final `format`.
 
-##### `round` option as an object
+##### *formatter option* `round` as an object
 
 ```typescript
 round: {
@@ -533,7 +571,7 @@ format(1230); // => '1.230 k'
 format(0.00123); // => '1.230 m'
 ```
 
-##### `round` option as a number
+##### *formatter option* `round` as a number
 
 ```typescript
 round: number;
@@ -554,7 +592,7 @@ format(1230); // => '1.2 k'
 format(0.00123); // => '1.2 m'
 ```
 
-##### `round` option as a function
+##### *formatter option* `round` as a function
 
 ```typescript
 round: (num: number) => (string | number);
@@ -575,7 +613,7 @@ format(1230); // => '1 k'
 format(0.00123); // => '1 m'
 ```
 
-##### `round` option as a boolean
+##### *formatter option* `round` as a boolean
 
 ```typescript
 round: boolean;
@@ -626,7 +664,7 @@ format(threeThousand); // => '3 k'
 formatWithoutRounding(threeThousand); // => '3000.0000000000005 k'
 ```
 
-#### The `output` option
+#### *formatter option* `output`
 
 Describes the final output format.
 
@@ -640,7 +678,7 @@ interface FormatOutputAdvancedOption {
 }
 ```
 
-##### `output` option as an object
+##### *formatter option* `output` as an object
 
 ```typescript
 output: {
@@ -666,7 +704,7 @@ format(1230); // => '1.23-k'
 format(0.00123); // => '1.23-m'
 ```
 
-##### `output` option as a function
+##### *formatter option* `output` as a function
 
 A `function` to format the final output.
 
@@ -690,26 +728,46 @@ format(1230); // => '1.23ks'
 format(0.00123); // => '1.23ms'
 ```
 
-### The `parse` function
+## Constant
 
-A convenient function to parse an `input` in one step. I will internally call `createParser` then will call the newly created parser. See `createParser` [options](#createparser-options).
-
-```typescript
-function parse(input, options): number;
-```
-
-### The `format` function
-
-A convenient function to format a `number` in one step. It wil internally call `createFormatter` then will call the newly created formatter. See `createFormatter` [options](#createformatter-options).
-
-```typescript
-function format(input, options): string;
-```
-
-### The `MICRO` constant
+### *constant* `MICRO`
 
 A constant containing the micro symbol ("µ"). Used internally, exported for convenience.
 
+## Types
+
+### *type* `Parser`
+
+```typescript
+type Parser = (input: unknown): number
+```
+
+***see also: function [`createParser`](#function-createparser), function [`parse`](#function-parse).***
+
+### *type* `CreateParserOptions`
+
+```typescript
+type CreateParserOptions = object // ...coming later
+```
+
+***see also: function [`createParser`](#function-createparser), function [`parse`](#function-parse).***
+
+### *type* `Formatter`
+
+```typescript
+type Formatter = (value: number) => string
+```
+
+***see also: function [`createFormatter`](#function-createformatter), function [`format`](#function-format).***
+
+### *type* `CreateFormatterOptions`
+
+```typescript
+type CreateFormatterOptions = object // ...coming later
+```
+
+***see also: function [`createFormatter`](#function-createformatter), function [`format`](#function-format).***
+
 ## License
 
-[MIT](LICENSE) &copy; 2019-2024 [Manuel Fernández](https://github.com/manferlo81)
+[MIT](LICENSE) &copy; 2019-2025 [Manuel Fernández](https://github.com/manferlo81)

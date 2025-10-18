@@ -1,3 +1,8 @@
+export { createFormatter } from './format/create-formatter'
+export { format } from './format/format'
+export { createParser } from './parse/create-parser'
+export { parse } from './parse/parse'
+
 export { MICRO } from './common/constants'
 
 export type {
@@ -18,9 +23,6 @@ export type {
   DivisorFindItems,
 } from './deprecated-types'
 
-export { createFormatter } from './format/create-formatter'
-export { format } from './format/format'
-
 export type {
   CreateFormatterOptions,
   CreateFormatterOptionsWithoutUnit,
@@ -32,12 +34,12 @@ export type {
   FormatOutputFunction,
   FormatOutputOption,
   FormatRoundAdvancedOptions,
-  FormatRoundOption, Formatter, FormatUnitOption, RoundDecimals,
+  FormatRoundOption,
+  Formatter,
+  FormatUnitOption,
+  RoundDecimals,
   RoundFunction,
 } from './format/types'
-
-export { createParser } from './parse/create-parser'
-export { parse } from './parse/parse'
 
 export type {
   CreateParserOptions,
