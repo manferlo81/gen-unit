@@ -1,7 +1,7 @@
 import type { DeprecatedFindUnitAdvancedOptions } from '../deprecated-types'
 import { errorInvalidOption } from './error'
 import { isArray, isNullish, isNumber, isObject } from './is'
-import type { AllowNullish } from './private-types'
+import type { Nullish } from './private-types'
 import { transformFindItems } from './transform-items'
 import type { DeclarativeFindUnit, ExponentFindItems, FindUnitAdvancedOptions, MultiplierFindItems } from './types'
 
@@ -19,7 +19,7 @@ function deprecated_transformAdvancedOptions(find: FindUnitAdvancedOptions): Omi
 
 }
 
-export function createFindTable(find: AllowNullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, validateItems: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
+export function createFindTable(find: Nullish<DeclarativeFindUnit>, defaultItems: ExponentFindItems, validateItems: (items: ExponentFindItems) => ExponentFindItems): MultiplierFindItems {
 
   // return default table if "find" option is null or undefined
   if (isNullish(find)) return transformFindItems(defaultItems, 1000)

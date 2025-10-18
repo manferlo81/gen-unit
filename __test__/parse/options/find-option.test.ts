@@ -375,6 +375,7 @@ describe('parser "find" option', () => {
 
       const findFunctions = [
         () => null,
+        () => undefined,
         () => { /* */ },
       ]
 

@@ -1,5 +1,5 @@
 import type { DeprecatedFindUnitAdvancedOptions } from '../deprecated-types'
-import type { AllowNullish } from './private-types'
+import type { Nullish } from './private-types'
 
 interface BaseFindItem {
   readonly pre: string
@@ -18,8 +18,8 @@ export type MultiplierFindItems = MultiplierFindItem[]
 export type FindUnitBase = number
 
 export interface FindUnitAdvancedOptions extends DeprecatedFindUnitAdvancedOptions {
-  readonly base?: AllowNullish<FindUnitBase>
-  readonly items?: AllowNullish<ExponentFindItems>
+  readonly base?: Nullish<FindUnitBase>
+  readonly items?: Nullish<ExponentFindItems>
 }
 
 export type DeclarativeFindUnit = FindUnitBase | ExponentFindItems | FindUnitAdvancedOptions

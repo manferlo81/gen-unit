@@ -1,10 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-type Void = void
-
-export type Nullish = null | undefined
-export type NullishReturn = Nullish | Void
-
-export type AllowNullish<T> = T | Nullish
-export type AllowNullishReturn<T> = T | NullishReturn
+export type Nullish<T = never> = T | null | undefined
 
 export type TypeCheckFunction<T> = (value: unknown) => value is T

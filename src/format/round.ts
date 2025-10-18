@@ -1,6 +1,6 @@
 import { errorInvalidOption, rangeError } from '../common/error'
 import { isFiniteNumber, isFunction, isNullish, isNumber, isObject } from '../common/is'
-import type { AllowNullish } from '../common/private-types'
+import type { Nullish } from '../common/private-types'
 import type { FormatRoundOption, RoundFunction } from './types'
 
 function validateNumberOfDecimals(dec: number): number {
@@ -13,7 +13,7 @@ function validateNumberOfDecimals(dec: number): number {
 
 }
 
-export function createRounderFromOptions(dec: number, fixed?: AllowNullish<boolean>): RoundFunction {
+export function createRounderFromOptions(dec: number, fixed?: Nullish<boolean>): RoundFunction {
 
   // return fixed rounder function if fixed member set
   if (fixed) {

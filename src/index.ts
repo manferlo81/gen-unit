@@ -1,9 +1,8 @@
+export { MICRO } from './common/constants'
 export { createFormatter } from './format/create-formatter'
 export { format } from './format/format'
 export { createParser } from './parse/create-parser'
 export { parse } from './parse/parse'
-
-export { MICRO } from './common/constants'
 
 export type {
   DeclarativeFindUnit,

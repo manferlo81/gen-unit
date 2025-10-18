@@ -1,10 +1,10 @@
-import type { AllowNullish } from './common/private-types'
+import type { Nullish } from './common/private-types'
 import type { ExponentFindItems } from './common/types'
 
 /** @deprecated on: 14/7/2024, use: FindUnitAdvancedOptions */
 export interface DeprecatedFindUnitAdvancedOptions {
   /** @deprecated on: 14/7/2024, use: "items" key */
-  readonly find?: AllowNullish<ExponentFindItems>
+  readonly find?: Nullish<ExponentFindItems>
 }
 
 /** @deprecated on: 13/7/2024, use: MultiplierFindItem */
