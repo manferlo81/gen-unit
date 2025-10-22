@@ -14,8 +14,7 @@ export type ParseMultiplier = number
 
 type ParseFindMultiplierFunctionReturning<U extends ParseUnitOption, R> = (prefix: string, unit: U) => R
 
-type InternalParseFindMultiplierFunction<U extends ParseUnitOption> = ParseFindMultiplierFunctionReturning<U, Nullish<ParseMultiplier>>
-export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = InternalParseFindMultiplierFunction<U> | ParseFindMultiplierFunctionReturning<U, void>
+export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = ParseFindMultiplierFunctionReturning<U, Nullish<ParseMultiplier>> | ParseFindMultiplierFunctionReturning<U, void>
 export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = Nullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>
 
 interface CreateParserOptionsBase<U extends ParseUnitOption> {
