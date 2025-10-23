@@ -339,8 +339,8 @@ describe('parser "find" option', () => {
       const parse = createParser({ find })
 
       const values = [
-        { value: '2.4m', args: ['m', undefined] },
-        { value: '3k', args: ['k', undefined] },
+        { value: '2.4m', args: ['m', ''] },
+        { value: '3k', args: ['k', ''] },
       ]
 
       values.forEach(({ value, args }) => {

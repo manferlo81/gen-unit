@@ -1,11 +1,11 @@
 import { isFiniteNumber, isFunction, isNullish } from '../common/is'
 import { validateOptionsNames } from '../common/validate-options'
 import type { DeprecatedFormatGetUnitFunction } from '../deprecated-types'
-import { removedFormatterOptions, validFormatterOptions } from './constants'
+import { REMOVED_FORMATTER_OPTIONS, VALID_FORMATTER_OPTIONS } from './constants'
 import { createUnitFinder } from './find-unit'
 import { createOutputFormatter } from './output'
 import { createRounder } from './round'
-import type { CreateFormatterOptions, CreateFormatterOptionsWithoutUnit, CreateFormatterOptionsWithUnit, Formatter, FormatUnitOption } from './types'
+import type { Formatter, FormatterOptions, FormatterOptionsWithoutUnit, FormatterOptionsWithUnit, FormatUnitOption } from './types'
 
 /** @deprecated */
 
@@ -25,15 +25,16 @@ function deprecated_createGetUnit(unit: FormatUnitOption | DeprecatedFormatGetUn
  *
  * @param options create formatter options
  */
-export function createFormatter(options: CreateFormatterOptionsWithoutUnit): Formatter
-export function createFormatter<U extends FormatUnitOption>(options: CreateFormatterOptionsWithUnit<U>): Formatter
-export function createFormatter(options?: CreateFormatterOptions): Formatter
-export function createFormatter(options: CreateFormatterOptions = {}): Formatter {
+export function createFormatter(options: FormatterOptionsWithoutUnit): Formatter
+export function createFormatter<U extends string>(options: FormatterOptionsWithUnit<U>): Formatter
+
+export function createFormatter(options?: FormatterOptions): Formatter
+export function createFormatter(options: FormatterOptions = {}): Formatter {
 
   const validOptions = validateOptionsNames(
     options,
-    validFormatterOptions,
-    removedFormatterOptions,
+    VALID_FORMATTER_OPTIONS,
+    REMOVED_FORMATTER_OPTIONS,
   )
 
   const { unit, find, round, output } = validOptions

@@ -1,11 +1,11 @@
-import type { CreateFormatterOptions } from './types'
+import type { FormatterOptions } from './types'
 
-type CreateFormatterValidOptionName = keyof CreateFormatterOptions
-type CreateFormatterRemovedOptionName = 'table' | 'dec' | 'fixed'
+type ValidFormatterOptionName = keyof FormatterOptions
+type RemovedFormatterOptionName = 'table' | 'dec' | 'fixed'
 
-export const validFormatterOptions: CreateFormatterValidOptionName[] = ['unit', 'find', 'round', 'output']
+export const VALID_FORMATTER_OPTIONS: ValidFormatterOptionName[] = ['unit', 'find', 'round', 'output']
 
-export const removedFormatterOptions: Record<CreateFormatterRemovedOptionName, CreateFormatterValidOptionName> = {
+export const REMOVED_FORMATTER_OPTIONS: Record<RemovedFormatterOptionName, ValidFormatterOptionName> = {
   table: 'find',
   dec: 'round',
   fixed: 'round',

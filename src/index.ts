@@ -23,9 +23,9 @@ export type {
 } from './deprecated-types'
 
 export type {
-  CreateFormatterOptions,
-  CreateFormatterOptionsWithoutUnit,
-  CreateFormatterOptionsWithUnit,
+  FormatterOptions as CreateFormatterOptions,
+  FormatterOptionsWithoutUnit as CreateFormatterOptionsWithoutUnit,
+  FormatterOptionsWithUnit as CreateFormatterOptionsWithUnit,
   FormatFindUnitFunction,
   FormatFindUnitOption,
   FormatInput,
@@ -35,15 +35,18 @@ export type {
   FormatRoundAdvancedOptions,
   FormatRoundOption,
   Formatter,
+  FormatterOptions,
+  FormatterOptionsWithoutUnit,
+  FormatterOptionsWithUnit,
   FormatUnitOption,
   RoundDecimals,
   RoundFunction,
 } from './format/types'
 
 export type {
-  CreateParserOptions,
-  CreateParserOptionsWithoutUnit,
-  CreateParserOptionsWithUnit,
+  ParserOptions as CreateParserOptions,
+  ParserOptionsWithoutUnit as CreateParserOptionsWithoutUnit,
+  ParserOptionsWithUnit as CreateParserOptionsWithUnit,
   InputMatchResults,
   MatchFunction,
   ParseFindMultiplierFunction,
@@ -52,6 +55,9 @@ export type {
   ParseMatchOption,
   ParseMultiplier,
   Parser,
+  ParserOptions,
+  ParserOptionsWithoutUnit,
+  ParserOptionsWithUnit,
   ParseUnitOption,
   RegExpPattern,
 } from './parse/types'

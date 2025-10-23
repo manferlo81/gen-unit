@@ -12,25 +12,25 @@ export type ParseMatchOption = Nullish<RegExpPattern | MatchFunction>
 
 export type ParseMultiplier = number
 
-type ParseFindMultiplierFunctionReturning<U extends ParseUnitOption, R> = (prefix: string, unit: U) => R
+type ParseFindMultiplierFunctionReturning<U extends string, R> = (prefix: string, unit: U) => R
+export type ParseFindMultiplierFunction<U extends string = string> = ParseFindMultiplierFunctionReturning<U, Nullish<ParseMultiplier>> | ParseFindMultiplierFunctionReturning<U, void>
+export type ParseFindMultiplierOption<U extends string = string> = Nullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>
 
-export type ParseFindMultiplierFunction<U extends ParseUnitOption = ParseUnitOption> = ParseFindMultiplierFunctionReturning<U, Nullish<ParseMultiplier>> | ParseFindMultiplierFunctionReturning<U, void>
-export type ParseFindMultiplierOption<U extends ParseUnitOption = ParseUnitOption> = Nullish<DeclarativeFindUnit | ParseFindMultiplierFunction<U>>
-
-interface CreateParserOptionsBase<U extends ParseUnitOption> {
-  readonly find?: ParseFindMultiplierOption<U>
+interface ParserOptionsBase<U extends ParseUnitOption> {
+  readonly unit?: U
+  readonly find?: ParseFindMultiplierOption<U extends string ? U : string>
   readonly match?: ParseMatchOption
 }
 
-export interface CreateParserOptionsWithoutUnit extends CreateParserOptionsBase<undefined> {
-  readonly unit?: Nullish
-}
-
-export interface CreateParserOptionsWithUnit<U extends ParseUnitOption> extends CreateParserOptionsBase<U> {
+export interface ParserOptionsWithUnit<U extends string> extends ParserOptionsBase<U> {
   readonly unit: U
 }
 
-export type CreateParserOptions = Partial<CreateParserOptionsWithUnit<ParseUnitOption>>
+export interface ParserOptionsWithoutUnit extends Omit<ParserOptionsBase<string>, 'unit'> {
+  readonly unit?: Nullish
+}
+
+export type ParserOptions = ParserOptionsBase<ParseUnitOption>
 
 export type ParseInput = unknown
 export type Parser = (input: ParseInput) => number

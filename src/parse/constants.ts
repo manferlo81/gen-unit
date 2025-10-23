@@ -1,13 +1,12 @@
-import type { CreateParserOptions } from './types'
+import type { ParserOptions } from './types'
 
-type CreateParserValidOptionName = keyof CreateParserOptions
-type CreateParserRemovedOptionName = 'table'
+type ValidParserOptionName = keyof ParserOptions
+type RemovedParserOptionName = 'table'
 
-export const validParserOptions: CreateParserValidOptionName[] = ['unit', 'match', 'find']
+export const VALID_PARSER_OPTIONS: ValidParserOptionName[] = ['unit', 'match', 'find']
 
-export const removedParserOptions: Record<CreateParserRemovedOptionName, CreateParserValidOptionName> = {
+export const REMOVED_PARSER_OPTIONS: Record<RemovedParserOptionName, ValidParserOptionName> = {
   table: 'find',
 }
 
-// TODO: I think this RegExp can be simplified
-export const defaultMatchPattern = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
+export const DEFAULT_MATCH_PATTERN = /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i

@@ -1,6 +1,6 @@
 import { error } from './error'
 
-export function validateOptionsNames<O extends Record<string, unknown>, K extends keyof O>(options: O, valid: K[], removed: Record<string, string>): Pick<O, K>
+export function validateOptionsNames<O extends object, K extends keyof O>(options: O, valid: K[], removed: Record<string, K>): Pick<O, K>
 export function validateOptionsNames<O extends Record<string, unknown>>(options: O, valid: string[], removed: Record<string, string>): O
 export function validateOptionsNames<O extends Record<string, unknown>>(options: O, valid: string[], removed: Record<string, string>): O {
 

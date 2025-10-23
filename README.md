@@ -54,9 +54,9 @@ A generic unit parser/formatter generator
   * *constant* [`MICRO`](#constant-micro)
 * Types
   * *type* [`Parser`](#type-parser)
-  * *type* [`CreateParserOptions`](#type-createparseroptions)
+  * *type* [`ParserOptions`](#type-parseroptions)
   * *type* [`Formatter`](#type-formatter)
-  * *type* [`CreateFormatterOptions`](#type-createformatteroptions)
+  * *type* [`FormatterOptions`](#type-formatteroptions)
 
 ## Install
 
@@ -78,20 +78,20 @@ pnpm add gen-unit
 Creates a `parser` function using the given [parser options](#parser-options).
 
 ```typescript
-function createParser(options: CreateParserOptions): Parser;
+function createParser(options: ParserOptions): Parser;
 ```
 
-***see also: [parser options](#parser-options), type [`CreateParserOptions`](#type-createparseroptions), type [`Parser`](#type-parser)***
+***see also: [parser options](#parser-options), type [`ParserOptions`](#type-parseroptions), type [`Parser`](#type-parser)***
 
 ### *function* `parse`
 
 A convenient function to parse an `input` in one step. I will internally call [`createParser`](#function-createparser) with the given [parser options](#parser-options), then will call the newly created [parser](#type-parser).
 
 ```typescript
-function parse(input: unknown, options: CreateParserOptions): number;
+function parse(input: unknown, options: ParserOptions): number;
 ```
 
-***see also: function [`createParser`](#function-createparser), [parser options](#parser-options), type [`CreateParserOptions`](#type-createparseroptions), type [`Parser`](#type-parser)***
+***see also: function [`createParser`](#function-createparser), [parser options](#parser-options), type [`ParserOptions`](#type-parseroptions), type [`Parser`](#type-parser)***
 
 ### parser options
 
@@ -163,7 +163,7 @@ type MatchFunction = (input: string) => [value: string, unit: string] | null | u
 default /^\s*(-?\d*\.?\d*(?:e[+-]?\d+)?)\s*([a-z\xb5]*)\s*$/i
 ```
 
-Defines the first step in the `parse` process, it takes the `input` and should turn it into an `array` with `two elements` with the `value`, and the `unit` to be process further down the road, or `null` (or `undefined`) if the `input` can't be parsed.
+Defines the first step in the `parse` process (tokenization), it takes the `input` and should turn it into an `array` with `two elements`, the `value`, and the `unit` to be process further down the road, or `null` (or `undefined`) if the `input` can't be tokenized.
 
 ##### *parser option* `match` as a RegExp
 
@@ -178,12 +178,12 @@ A RegExp with `two capturing groups`, the first to be used as `value` and the se
 ***Example***
 
 ```typescript
-const parse = createParser({
-  match: /^\s*([\d.]+)\s*([a-z]*)\s*$/i,
+const parseOnlyIntegers = createParser({
+  match: /^\s*(-?\d+)\s*([a-z]*)\s*$/i,
 });
 
-parse('1 m'); // => 0.001
-parse('1 k'); // => 1000
+parseOnlyIntegers('1 m'); // => 0.001
+parseOnlyIntegers('-1 k'); // => -1000
 ```
 
 ##### *parser option* `match` as a string
@@ -192,17 +192,17 @@ parse('1 k'); // => 1000
 match: string;
 ```
 
-A string to be used to create a RegExp. It is expected to have `two capturing groups`, the first to be used as `value` and the second as `unit`.
+A string to be used to create a RegExp. It is expected to have `two capturing groups`, the first to be used as `value` and the second as `unit`. Keep in mind the RegExp create from this string will be case sensitive.
 
 ***Example***
 
 ```typescript
 const parse = createParser({
-  match: '^\\s*([\\d.]+)\\s*([a-z]*)\\s*$',
+  match: '^\\s*(-?\\d+)\\s*([a-z]*)\\s*$',
 });
 
 parse('1 m'); // => 0.001
-parse('1 k'); // => 1000
+parse('-1 k'); // => -1000
 ```
 
 ##### *parser option* `match` as a function
@@ -377,20 +377,20 @@ Previous version of this library allow this function to return an object `{ mul:
 Creates a `formatter` function using the given [formatter options](#formatter-options).
 
 ```typescript
-function createFormatter(options: CreateFormatterOptions): Formatter;
+function createFormatter(options: FormatterOptions): Formatter;
 ```
 
-***see also: [formatter options](#formatter-options), type [`CreateFormatterOptions`](#type-createformatteroptions), type [`Formatter`](#type-formatter)***
+***see also: [formatter options](#formatter-options), type [`FormatterOptions`](#type-formatteroptions), type [`Formatter`](#type-formatter)***
 
 ### *function* `format`
 
 A convenient function to format a `number` in one step. It wil internally call [`createFormatter`](#function-createformatter) with given [formatter options](#formatter-options) then will call the newly created formatter.
 
 ```typescript
-function format(input: number, options: CreateFormatterOptions): string;
+function format(input: number, options: FormatterOptions): string;
 ```
 
-***see also: function [`createFormatter`](#function-createformatter), [formatter options](#formatter-options), type [`CreateFormatterOptions`](#type-createformatteroptions), type [`Formatter`](#type-formatter)***
+***see also: function [`createFormatter`](#function-createformatter), [formatter options](#formatter-options), type [`FormatterOptions`](#type-formatteroptions), type [`Formatter`](#type-formatter)***
 
 ### formatter options
 
@@ -744,10 +744,10 @@ type Parser = (input: unknown): number
 
 ***see also: function [`createParser`](#function-createparser), function [`parse`](#function-parse).***
 
-### *type* `CreateParserOptions`
+### *type* `ParserOptions`
 
 ```typescript
-type CreateParserOptions = object // ...coming later
+type ParserOptions = object // ...coming later
 ```
 
 ***see also: function [`createParser`](#function-createparser), function [`parse`](#function-parse).***
@@ -760,10 +760,10 @@ type Formatter = (value: number) => string
 
 ***see also: function [`createFormatter`](#function-createformatter), function [`format`](#function-format).***
 
-### *type* `CreateFormatterOptions`
+### *type* `FormatterOptions`
 
 ```typescript
-type CreateFormatterOptions = object // ...coming later
+type FormatterOptions = object // ...coming later
 ```
 
 ***see also: function [`createFormatter`](#function-createformatter), function [`format`](#function-format).***

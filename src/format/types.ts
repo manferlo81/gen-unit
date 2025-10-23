@@ -23,21 +23,20 @@ export interface FormatOutputAdvancedOption {
 }
 export type FormatOutputOption<U extends string = string> = Nullish<FormatOutputFunction<U> | FormatOutputAdvancedOption>
 
-interface CreateFormatterOptionsBase<U extends string> {
+export interface FormatterOptions<U extends FormatUnitOption = FormatUnitOption> {
+  readonly unit?: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>
   readonly find?: FormatFindUnitOption
   readonly round?: FormatRoundOption
-  readonly output?: FormatOutputOption<U>
+  readonly output?: FormatOutputOption<U extends string ? U : string>
 }
 
-export interface CreateFormatterOptionsWithoutUnit extends CreateFormatterOptionsBase<string> {
-  readonly unit?: undefined | null
+export interface FormatterOptionsWithUnit<U extends string> extends Omit<FormatterOptions<U>, 'unit'> {
+  readonly unit: U | DeprecatedFormatGetUnitFunction<U>
 }
 
-export interface CreateFormatterOptionsWithUnit<U extends FormatUnitOption> extends CreateFormatterOptionsBase<U extends string ? U : string> {
-  readonly unit: U | DeprecatedFormatGetUnitFunction<U extends string ? U : string>
+export interface FormatterOptionsWithoutUnit extends Omit<FormatterOptions<string>, 'unit'> {
+  readonly unit?: Nullish
 }
-
-export type CreateFormatterOptions = Partial<CreateFormatterOptionsWithUnit<FormatUnitOption>>
 
 export type FormatInput = number
 export type Formatter = (value: FormatInput) => string

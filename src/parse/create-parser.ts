@@ -1,34 +1,35 @@
 import { error } from '../common/error'
 import { isFiniteNumber, isNullish, isNumber } from '../common/is'
 import { validateOptionsNames } from '../common/validate-options'
-import { removedParserOptions, validParserOptions } from './constants'
+import { REMOVED_PARSER_OPTIONS, VALID_PARSER_OPTIONS } from './constants'
 import { createExtractPre } from './extract-pre'
 import { createMulFinder } from './find-multiplier'
 import { createMatcher } from './match'
-import type { CreateParserOptions, CreateParserOptionsWithoutUnit, CreateParserOptionsWithUnit, ParseInput, Parser, ParseUnitOption } from './types'
+import type { ParseInput, Parser, ParserOptions, ParserOptionsWithoutUnit, ParserOptionsWithUnit } from './types'
 
 /**
  * Create a parser function
  *
  * @param options create parser options
  */
-export function createParser(options: CreateParserOptionsWithoutUnit): Parser
-export function createParser<U extends ParseUnitOption>(options: CreateParserOptionsWithUnit<U>): Parser
-export function createParser(options?: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit): Parser
-export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOption> | CreateParserOptionsWithoutUnit = {}): Parser {
+export function createParser(options: ParserOptionsWithoutUnit): Parser
+export function createParser<U extends string>(options: ParserOptionsWithUnit<U>): Parser
+
+export function createParser(options?: ParserOptions): Parser
+export function createParser(options: ParserOptions = {}): Parser {
 
   // validate options
   const validOptions = validateOptionsNames(
-    options as CreateParserOptions,
-    validParserOptions,
-    removedParserOptions,
+    options,
+    VALID_PARSER_OPTIONS,
+    REMOVED_PARSER_OPTIONS,
   )
 
   const { unit, match, find } = validOptions
 
   const extractPre = createExtractPre(unit)
-  const findMultiplier = createMulFinder(find)
   const matchInput = createMatcher(match)
+  const findMultiplier = createMulFinder(find)
 
   // return parser function
   return (input: ParseInput): number => {
@@ -87,7 +88,7 @@ export function createParser(options: CreateParserOptionsWithUnit<ParseUnitOptio
     const pre = extractPre(wholeUnit)
 
     // try to find find multiplier
-    const multiplier = findMultiplier(pre, unit)
+    const multiplier = findMultiplier(pre, unit ?? '')
 
     // return NaN if can't find multiplier
     if (isNullish(multiplier)) return NaN

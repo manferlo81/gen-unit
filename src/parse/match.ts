@@ -1,6 +1,6 @@
 import { error } from '../common/error'
 import { isArray, isFunction, isNullish } from '../common/is'
-import { defaultMatchPattern } from './constants'
+import { DEFAULT_MATCH_PATTERN } from './constants'
 import type { InputMatchResults, MatchFunction, ParseMatchOption } from './types'
 
 export function createMatcher(match: ParseMatchOption): MatchFunction {
@@ -32,7 +32,7 @@ export function createMatcher(match: ParseMatchOption): MatchFunction {
 
   // create regular expression based on option
   const re = isNullish(match)
-    ? defaultMatchPattern
+    ? DEFAULT_MATCH_PATTERN
     : new RegExp(match)
 
   // return input match function
